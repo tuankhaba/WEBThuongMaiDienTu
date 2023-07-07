@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "DangKyCuaHang";
+    Layout = "~/Views/Home/Layout.cshtml";
+}
+@{
+    List<Tinh_ThanhPho> Tinhs = ViewBag.Tinh as List<Tinh_ThanhPho>;
+    List<Quan_Huyen> Quans = ViewBag.Quan as List<Quan_Huyen>;
+    List<Xa_Phuong> Xas = ViewBag.Xa as List<Xa_Phuong>;
+}
+@model ThuongMaiDienTu.Models.NguoiDung
+@using ThuongMaiDienTu.Models
+<style>
+    .btn {
+        border: 1px solid #000000;
+        font-size:20px;
+    }
+
+    .item {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+    .form-select:hover,
+    .btn:hover {
+        border-color: #AAAAAA;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+    .form-select:focus,
+    .btn:focus {
+        border-color: #0dcaf0;
+        box-shadow: 1px 4px 10px #0dcaf0;
+    }
+
+    .khung {
+        margin-bottom: 60px;
+        text-align: center;
+       
+    }
+    input, .form-select {
+        height: 45px;
+    }
+
+    .khunglon {
+        margin-top: 20px;
+        padding:10px;
+    }
+</style>
+<div class="container-lg item khunglon">
+    <center><h3>Đăng ký để trở thành người bán bán hàng trên Crustea</h3></center>
+    @using (Html.BeginForm())
+    {
+    <div class="row" style="margin:50px;">
+        <div class="col-lg-3 col-12 khung">
+            Tên của hàng
+        </div>
+        <div class="col-lg-9 col-12 khung">
+            <input class="btn w-100 tencuahang" name="TenCuaHang" type="text" maxlength="50" />
+            <div class="w-100" style="position:relative;">
+                <center><span class="tch" style="color:red; display:none; font-size:15px; position:absolute; left:5px;">Tên của hàng không được để trống</span></center>
+            </div>
+        </div>
+        <div class="col-lg-3 col-12 khung">
+            Đia chỉ lấy hàng
+        </div>
+        <div class="col-lg-9 col-12 khung">
+            <div class="row bomtom">
+                <div class="col-lg-4 col-12">
+                    <select name="TinhTP" onchange="CapNhatQuan(this)" id="ChonTinh" class=" form-select" aria-label="Default select example">
+                        <option selected>Chọn Tỉnh/Thành Phố</option>
+                        @foreach (var item in Tinhs)
+                        {
+                            <option value="@item.MaTinh">@item.TenTinh</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <select name="QuanHuyen" id="ChonQuan" disabled onchange="CapNhatXa(this)" class="form-select" aria-label="Default select example">
+                        <option selected>Chọn Quận/Huyện</option>
+                        @foreach (var item in Quans)
+                        {
+                            <option class="@("Tinh"+item.MaTinh)" style="display:none" value="@item.MaQH">@item.TenHuyen</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <select name="XaPhuong" id="ChonXa" onchange="HienDiaChiCuThe(this)" disabled class="form-select" aria-label="Default select example">
+                        <option value="-1" selected>Chọn Xã/Phường</option>
+                        @foreach (var item in Xas)
+                        {
+                            <option class="@("Quan"+item.MaQH)" style="display:none" value="@item.MaXP">@item.TenXa</option>
+                        }
+                    </select>
+                </div>
+                <div class="w-100" style="position:relative;">
+                    <center><span class="dc" style="color:red; display:none; font-size:15px; position:absolute; left:18px;">Vui lòng nhập đầy đủ địa chỉ</span></center>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-12 khung">
+            Email
+        </div>
+        <div class="col-lg-9 col-12 khung">
+            <input class="btn w-100 disabled" style="cursor:no-drop" value="@Model.Email" disabled type="email" maxlength="32" />
+        </div>
+        <div class="col-lg-3 col-12 khung">
+            Số điện thoại
+        </div>
+        <div class="col-lg-9 col-12 khung">
+            <input class="btn w-100 disabled" style="cursor:no-drop" value="@Model.SoDienThoai" disabled type="text" maxlength="32" />
+            <center><span style="color:#808080">Thông tin này, bạn vui lòng chỉnh sửa sau khi hoàn tất quá trình đăng ký!!!</span></center>
+        </div>
+        <a class="btn btn-info" id="dk"><b style="font-size:20px;">ĐĂNG KÝ BÁN HÀNG</b></a>
+        <button type="submit" id="LuuDangKy" hidden></button>
+    </div>
+    }
+</div>
+
+<script src="~/js/Checkfromm.js"></script>
+<script src="~/js/ThemDiaChiMoii.js"></script>
+<script>
+    let tencuahang = document.querySelector('.tencuahang');
+    let dc = document.querySelector('.dc');
+    let tch = document.querySelector('.tch');
+    let xa = document.getElementById('ChonXa');
+    let dk = document.getElementById('dk');
+    let LuuDangKy = document.getElementById('LuuDangKy');
+    dk.addEventListener("click", function () {
+        let check = true;
+        if (tencuahang.value == null || tencuahang.value.trim() == "") {
+            tch.style.display = 'block';
+            check = false;
+        }
+        else
+            tch.style.display = 'none';
+        if (xa.value == null || xa.value == -1) {
+            dc.style.display = 'block';
+            check = false;
+        }
+        else
+            dc.style.display = 'none';
+        if (check)
+            LuuDangKy.click();
+    })
+
+</script>

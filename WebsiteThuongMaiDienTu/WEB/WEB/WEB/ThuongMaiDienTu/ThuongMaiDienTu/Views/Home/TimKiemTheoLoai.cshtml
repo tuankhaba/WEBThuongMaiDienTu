@@ -1,0 +1,156 @@
+﻿@model IEnumerable<ThuongMaiDienTu.Models.SanPham>
+
+@{
+    ViewBag.Title = "TimKiemTheoLoai";
+    Layout = "~/Views/Home/Layout.cshtml";
+}
+@using ThuongMaiDienTu.Models
+@{
+    List<LoaiSanPham> LoaiSP = ViewBag.LoaiSP as List<LoaiSanPham>;
+}
+<style>
+    .bc {
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+    .bi-star-fill {
+        color: gold !important;
+    }
+</style>
+<link rel="stylesheet" href="~/Content/dichChuyen.css" />
+<link rel="stylesheet" href="~/Content/TheSanPhamm.css" />
+<style>
+    ul {
+        list-style: none outside none;
+        padding-left: 0;
+    }
+
+    .content-slider li {
+        text-align: center;
+        color: black;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 1px 2px 4px #AAAAAA;
+        margin: -9px;
+        min-height: 40px;
+        padding: 10px;
+    }
+
+    .content-slider h5 {
+        margin: 0;
+        padding-top: 15px 0;
+    }
+
+    .demo {
+        width: 800px;
+    }
+
+    .thanhLoai {
+        position: relative;
+        margin-top: -13px;
+        margin-bottom: -20px;
+        min-height: 60px;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+</style>
+
+<div class="thanhLoai">
+    <ul id="content-slider" class="content-slider">
+        @foreach (var item in LoaiSP)
+        {
+
+            <li>
+                @if (item.TenLoai.Length > 8)
+                {
+                    <a href="@Url.Action("TimKiemTheoLoai",new {MaLoai = item.MaLoai })" title="@item.TenLoai">@item.TenLoai.Substring(0, 8).Trim()...</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("TimKiemTheoLoai",new {MaLoai = item.MaLoai })">@item.TenLoai</a>
+                }
+            </li>
+        }
+    </ul>
+</div>
+<div class="row">
+    @if (Model.Count() == 0)
+    {
+        <div class="item" style="padding:300px 0px; ">
+
+            <center><h2>Không tìm thấy sản phẩm theo yêu cầu!!!!</h2></center>
+
+        </div>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-6 col-lg-3 col-sm-6 col-md-4 col-xl-3 col-xxl-2 cardsp">
+                <a title="@item.TenSP" href="@Url.Action("ThongTinSanPham", "SanPham", new { MaSP = item.MaSP })">
+                    <div class="sanpham-item">
+                        <div class="aaa">
+                            <img class="image" src="@item.AnhBia">
+                        </div>
+                        <div class="sanpham-item-text">
+
+                            <ul>
+                                <li>
+                                    @if (item.TenSP.Length > 20)
+                                    {
+                                        <span class="ten">@item.TenSP.Substring(0, 20).Trim()...</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="ten">@item.TenSP</span>
+                                    }
+                                </li>
+                                <li class="giakm"> <b class="gia">@HoTro.TinhTienGiaGiam(item)</b><sup>đ</sup></li>
+                                <li>
+                                    @if (item.GiamGia > 0)
+                                    {
+                                        <span class="giagoc"> @HoTro.LayGiaMin(item) <sup>đ</sup></span><span> -@(item.GiamGia)%</span>
+                                    }
+                                </li>
+                            </ul>
+                            <div class="daban">
+                                Đã bán @HoTro.XuatDoanhSo(item)
+                            </div>
+                            <div class="saoo">
+                                @item.DanhGia <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <button class="btn_giohang" title="Thêm vào yêu thích">
+                    <i class="bi bi-suit-heart-fill" style="font-size:70px; color:white"></i>
+                </button>
+            </div>
+        }
+    }
+</div>
+<script src="~/js/dc.js"></script>
+<script src="~/js/dichChuyen.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#content-slider").lightSlider({
+                loop: true,
+            keyPress: true,
+            item: 10,
+        });
+        $('#image-gallery').lightSlider({
+                gallery: true,
+            item: 1,
+            thumbItem: 9,
+            slideMargin: 0,
+            speed: 500,
+            auto: true,
+            loop: true,
+            onSliderLoad: function () {
+                $('#image-gallery').removeClass('cS-hidden');
+                }
+            });
+        });
+</script>

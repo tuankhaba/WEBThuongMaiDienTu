@@ -1,0 +1,139 @@
+﻿<style>
+    ul{
+        list-style:none;
+    }
+    .sp:hover .ten{
+        color:#0dcaf0;
+    }
+    .giakm{
+        color:red;
+    }
+    .giagoc{
+        color:#888888;
+        text-decoration:line-through;
+    }
+    .btn-gh{
+        color:black;
+        margin-top:20px;
+        float:right;
+    }
+    .btn-gh:hover{
+        color:white;
+    }
+    .dlt-tym{
+        background-color:white;
+        border:0px;
+    }
+    .the_a{
+        margin-bottom: 5px;
+        text-decoration: none;
+    }
+    .dlt-tym:hover{
+        color:red;
+    }
+    .bi-star-fill{
+        color:gold;
+        margin-bottom:5px;
+    }
+    .ten{
+        font-size:25px;
+    }
+</style>
+<div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#shopyeuthich" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Shop yêu thích</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#spyeuthich" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Sản phẩm yêu thích</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="shopyeuthich" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="row" style="padding:20px;">
+                <div class="col-12 col-lg-6">
+                    <div class="itemm" style="padding:20px;">
+                        <div class="row">
+                            <div class="col-lg-8 col-12">
+                                <a class="row the_a sp" href="#">
+                                    <div class="col-5">
+                                        <img src="~/a1.png" class="w-100 h-100" />
+                                    </div>
+                                    <div class="col-7">
+                                        <span class="ten">Shop hihi</span><br />
+                                        <span>
+                                            5
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                            </svg>
+                                        </span><br />
+                                        <span style="color:#888888;">2387 sản phẩm</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4 col-12">
+                                <div class="row">
+                                    <div class="col-5 col-lg-12">
+                                        <button class="btn btn-outline-info w-100" style="float:right;">Xem shop</button>
+                                    </div>
+                                    <div class="col-7 col-lg-12">
+                                        <a href="#" class="dlt-tym" style="margin-top:20px; float:right;">
+                                            <i class="bi bi-trash3"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="padding:30px;" class="tab-pane fade" id="spyeuthich" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <div class="row itemm" style="padding:15px; padding-bottom:20px;">
+                <span>Shop hihi</span>
+                <hr />
+                <div class="row">
+                    <div class="col-lg-7 col-12">
+                        <div class="row">
+                            <a href="#" class="col-11 the_a sp">
+                                <div class="row">
+                                    <div class="col-lg-4 col-5">
+                                        <img class="w-100" src="~/a1.png" />
+                                    </div>
+                                    <div class="col-lg-8 col-7">
+                                        <span class="ten">Kính mất bảo vệt mắt</span><br />
+                                        <span style="color:#888888">Loại: đen, 32</span><br />
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="col-1">
+                                <a href="#" class="dlt-tym" style="margin-top:20px;">
+                                    <i class="bi bi-trash3"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-12">
+                        <div class="row">
+                            <div class="col-lg-8 col-6">
+                                <ul>
+                                    <li class="giakm"> <span>900000</span><sup>đ</sup></li>
+                                    <li><span class="giagoc"> 1000000 <sup>đ</sup></span><span> -67%</span></li>
+
+                                </ul>
+
+                            </div>
+                            <div class="col-lg-4 col-6">
+                                <button class="btn btn-outline-info btn-gh">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

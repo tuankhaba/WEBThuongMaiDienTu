@@ -1,0 +1,176 @@
+﻿@model ThuongMaiDienTu.Models.DonHang
+@using ThuongMaiDienTu.Models;
+@{
+    ThuongMaiDienTuEntities db = new ThuongMaiDienTuEntities();
+    ViewBag.Title = "XemChiTietDonHang";
+    Layout = "~/Views/TaiKhoanCaNhan/TrangCaNhan.cshtml";
+
+}
+<style>
+    .item-tieude {
+        background-color: #d7f8ff;
+        border-bottom: 1px solid #AAAAAA;
+    }
+    .cl-08 {
+        color: #808080;
+    }
+</style>
+<div class="container" style="position:relative;">
+    <div style=" z-index:10; float:right;">
+        <div style="padding:10px; font-size:20px;" class="btn btn-warning">@Model.TrangThai</div>
+    </div>
+    <div class="row" style=" margin-bottom: 10px;">
+        <h2>Thông tin đơn hàng: <span style="color:red">@Model.MaDonHang</span></h2>
+    </div>
+    <div class="itemm">
+        <div class="w-100 hver item-tieude" style="text-align: center; padding: 2px; padding-top: 5px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+            <h4>Thông tin đơn hàng</h4>
+        </div>
+        <div class="row" style="padding:20px;">
+            <div class="col-lg-6 col-12">
+                <span style="font-size:21px;"><b>@Model.ThongTinLienHe.TenNguoiNhan</b> </span><br />
+                <div style="background-color:orange; text-align:center; width: 120px; border-radius: 5px; color: #FFf;margin-right: 10px;">
+                    <b id="ldchi">@Model.ThongTinLienHe.LoaiDiaChi</b>
+                </div>
+                <span class="cl-08" style="color:#808080">(@Model.ThongTinLienHe.DiaChiCuThe)</span>,
+                <span>@HoTro.LayDiaChi(Model.ThongTinLienHe.MaXP)</span><br />
+                <span><span style="color:#808080">Số điện thoại: </span><b>@Model.ThongTinLienHe.SoDienThoai</b></span><br />
+                <span  style="color:#808080" class="cl-08">Ngày: </span><span>@Model.NgayMua</span><br />
+                <span  style="color:#808080" >Lời nhắn: </span><span>@Model.LoiNhan</span>
+            </div>
+            <div class="col-lg-6 col-12" style="align-items:center;">
+                <div class="row">
+                    <div class="col-lg-4 col-12">
+
+                    </div>
+                    <div class="col-lg-8 col-12">
+                        <span class="cl-08">Shop: </span><a href="@Url.Action("TrangCuaHang", "CuaHang", new {MaCH = Model.MaCuaHang})"><b>@Model.CuaHang.TenCuaHang</b><br /></a>
+                        <span class="cl-08">Áp dụng Voucher: </span>
+                        @if (Model.MaVoucher == null)
+                        {
+                            <span>Không</span>
+                        }
+                        else
+                        {
+                            <span>@Model.MaVoucher</span>
+                            <span>(-@(string.Format("{0:0,0}",HoTro.TinhTongTien(Model.ChiTietDonHangs.ToList()) - Model.ThanhTien))đ)</span>
+                        }
+                        <br />
+                        <span class="cl-08">Phương thức giao hàng: </span><span>@Model.PhuongThucGiao</span><br />
+                        <span class="cl-08">Phương thức thanh toán: </span><span>@Model.PhuongThucGiao</span><br />
+                        <br /><b style="font-size:20px;"><span class="cl-08">Tổng thành tiền: </span><span style="color:crimson;">@string.Format("{0:0,0}", Model.ThanhTien)đ</span></b>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="w-100 hver item-tieude " style="text-align: center; padding: 2px; padding-top: 5px;">
+            <h4>Chi tiết đơn hàng</h4>
+        </div>
+        <div style="padding:20px;">
+            <div>
+                <span class="cl-08">Tổng sản phẩm: </span><b>@Model.ChiTietDonHangs.Count()</b>
+                <span style="float:right;"><span class="cl-08">Tổng số lượng: </span><b>@Model.ChiTietDonHangs.Sum(d => d.SoLuong)</b></span>
+            </div>
+            <table class="table table-hover table-light table-striped table-bordered" border="1" style=" align-content:center;text-align:center;justify-content:center;align-items:center;">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Loại</th>
+                        <th>Giá</th>
+                        <th>Giảm giá</th>
+                        <th>Số lượng</th>
+                        <th>Tổng tiền</th>
+                        @if (Model.TrangThai.Equals("Đã giao"))
+                        {
+                            <th></th>
+                        }
+                    </tr>
+                </thead>
+                @foreach (var item in Model.ChiTietDonHangs)
+                {
+                    item.ChiTietKichCo = db.ChiTietKichCoes.Single(ct => ct.MaCTKichCo.Equals(item.MaCTKichCo));
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-3 col-5">
+                                    <img class="border border-2" style="width:60px; height:80px" src="@item.SanPham.AnhBia" /><br />
+                                </div>
+                                <div class="col-lg-9 col-7" style="position:relative;">
+                                    <b class="CanGiuaY">@item.SanPham.TenSP</b>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td style="position:relative; ">
+                            <span class="CanGiuaXY">@item.ChiTietKichCo.ChiTietPhanLoai.TenPhanLoai - @item.ChiTietKichCo.KichCo</span>
+                        </td>
+                        <td style="position:relative; width:10% ">
+                            <span class="CanGiuaXY">@string.Format("{0:0,0}", item.ChiTietKichCo.ChiTietPhanLoai.Gia)đ</span>
+                        </td>
+                        @if (HoTro.XetGiamGiaConHan(item.ChiTietKichCo.ChiTietPhanLoai.SanPham))
+                        {
+                            <td style="position: relative; width: 7%">
+                                <span class="CanGiuaXY">
+                                    @(item.ChiTietKichCo.ChiTietPhanLoai.SanPham.GiamGia)%
+                                </span>
+                            </td>
+                            <td style="position: relative; width:7%">
+                                <span class="CanGiuaXY">@Html.DisplayFor(modelItem => item.SoLuong)</span>
+                            </td>
+                            <td style="position: relative;">
+                                <span class="CanGiuaXY">@string.Format("{0:0,0}", ((item.ChiTietKichCo.ChiTietPhanLoai.Gia - (item.ChiTietKichCo.ChiTietPhanLoai.Gia * item.ChiTietKichCo.ChiTietPhanLoai.SanPham.GiamGia / 100)) * item.SoLuong))đ</span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="position: relative; width: 5%">
+                                <span class="CanGiuaXY">
+                                    Không
+                                </span>
+                            </td>
+                            <td style="position: relative; width: 5%">
+                                <span class="CanGiuaXY">@Html.DisplayFor(modelItem => item.SoLuong)</span>
+                            </td>
+                            <td style="position: relative; width: 15%">
+                                <span class="CanGiuaXY">@(string.Format("{0:0,0}", item.ChiTietKichCo.ChiTietPhanLoai.Gia * item.SoLuong))đ</span>
+                            </td>
+                        }
+                        @if (Model.TrangThai.Equals("Đã giao") &&db.DanhGias.Count(d=>d.MaSP.Equals(item.MaSP) && d.ID.Equals(Model.ThongTinLienHe.ID))==0)
+                        {
+                        <td style="position: relative; width: 12%">
+                            <a href="@Url.Action("DanhGiaSanPham","SanPham",new {MaSP = item.MaSP })" class="btn btn-warning CanGiuaXY">Đánh giá</a>
+                        </td>
+                        }
+
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+    @if (Model.TrangThai.Equals("Chờ xác nhận")|| Model.TrangThai.Equals("Đang xử lý"))
+    {
+    <div>
+        <center><button  data-bs-toggle="modal" data-bs-target="#HuyDonHang" class="btn btn-danger" style="font-size:20px; padding:10px 100px; margin-top:20px;">Hủy đơn hàng</button></center>
+    </div>
+    <div class="modal fade" id="HuyDonHang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" style="color:red" id="exampleModalLabel"><i class="bi bi-bug-fill"></i>Bạn đang muốn hủy một đơn hàng?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắn chắn muốn hủy đơn hàng "@Model.MaDonHang" ???
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <a href="@Url.Action("HuyDonHang", "TaiKhoanCaNhan", new { MaDH = Model.MaDonHang, url = Request.Url.ToString() })" class="btn btn-outline-danger">Đồng ý</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+

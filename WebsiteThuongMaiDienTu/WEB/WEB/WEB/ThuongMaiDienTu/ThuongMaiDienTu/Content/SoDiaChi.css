@@ -1,0 +1,49 @@
+﻿.btn_dc {
+    border: 1px dashed #0dcaf0;
+}
+
+.btn_dc:hover {
+    border: 1px dashed white;
+    color: white;
+}
+
+.mo {
+    color: #777777;
+}
+
+.tt_lh {
+    border: 1px solid black;
+    height: 45px;
+}
+
+    .tt_lh:hover {
+        border: 1px solid #0dcaf0;
+    }
+
+    .tt_lh:focus {
+        border: 1px solid #0dcaf0;
+        box-shadow: 1px 2px 10px #AAAAAA;
+    }
+
+.form-select {
+    height: 45px;
+    border: 1px solid black;
+}
+
+    .form-select:focus {
+        border: 1px solid #0dcaf0;
+        box-shadow: 1px 2px 10px #AAAAAA;
+    }
+
+.macdinh {
+    padding: 5px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15%;
+    background-color: red;
+    border-radius: 0px 5px;
+}
+

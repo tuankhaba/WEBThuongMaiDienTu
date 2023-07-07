@@ -1,0 +1,918 @@
+﻿@using ThuongMaiDienTu.Models
+@model ThuongMaiDienTu.Models.SanPham
+@{
+    ViewBag.Title = "TrangCuaHang";
+    Layout = "~/Views/Home/Layout.cshtml";
+    ThuongMaiDienTuEntities db = new ThuongMaiDienTuEntities();
+    List<DanhGia> dg = db.DanhGias.Where(d => d.MaSP.Equals(Model.MaSP)).ToList();
+    int sl5ao = dg.Count(d => d.MucDanhGia == 5);
+    int sl4ao = dg.Count(d => d.MucDanhGia == 4);
+    int sl3ao = dg.Count(d => d.MucDanhGia == 3);
+    int sl2ao = dg.Count(d => d.MucDanhGia == 2);
+    int sl1ao = dg.Count(d => d.MucDanhGia == 1);
+}
+<meta charset="UTF-8">
+<script src="~/js/moment.js"></script>
+<link href="~/Content/ThongTinSanPham.css" rel="stylesheet">
+<link rel="stylesheet" href="~/Content/nut_dc_trangSP.css" />
+<link rel="stylesheet" href="~/Content/dichChuyen.css" />
+<link rel="stylesheet" href="~/Content/ListBox.css" />
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hv {
+            opacity: 0.5;
+        }
+
+            .hv:hover {
+                opacity: 1;
+            }
+
+        .icon {
+            color: red;
+            margin-top: 20px;
+            margin-left: -10px;
+        }
+
+        .km {
+            margin-left: 10px;
+        }
+
+        .ts {
+            width: 35%;
+            padding-left: 5px;
+        }
+
+        .dam {
+            background-color: #CBCBCB;
+            height: 50px;
+        }
+
+        .mau {
+            width: 17%;
+        }
+
+        .loai {
+            width: 34%;
+        }
+
+        .sale {
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            position: relative;
+            padding-top: 7px;
+            float: right;
+            background-color: #ffc107 !important;
+            color: black;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+            .sale:hover {
+                box-shadow: 1px 2px 10px #ffc107;
+            }
+
+        .bi-lightning-fill {
+            font-size: 50px;
+            color: #ffc107;
+        }
+
+        .s {
+            padding-top: 10px;
+            float: right;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .item {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 1px 4px 7px #AAAAAA;
+        }
+
+        .check_kc:hover {
+            box-shadow: 1px 2px 2px #ffc107;
+        }
+
+        .btn_check_loai:hover {
+            box-shadow: 1px 2px 2px #0dcaf0;
+        }
+
+        .check_kc {
+            color: black;
+        }
+
+        .be {
+            width: 20%;
+            border: 1px solid #BCBCBC;
+            border-radius: 10px;
+            float: left;
+            margin: 5px;
+            padding: 1px;
+        }
+
+        #hienthi_sl {
+            margin-left: -6px;
+            margin-right: -6px;
+            height: 38px;
+            width: 60px;
+            border: 1px solid #CBCBCB;
+            text-align: center;
+            border-radius: 0px;
+        }
+
+        .dropdown:hover .gg {
+            background-color: red;
+            color: white;
+        }
+
+        #cong {
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-top-right-radius: 0px !important;
+            border-bottom-right-radius: 0px !important;
+        }
+
+        #tru {
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-top-left-radius: 0px !important;
+            border-bottom-left-radius: 0px !important;
+        }
+
+        .temkm_nd {
+            margin-top: 4px;
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            padding: 5px 10px;
+            min-width: 300px;
+            background-color: white;
+        }
+
+            .temkm_nd hr {
+                margin-top: -10px;
+            }
+
+        .mgg {
+            text-decoration: none;
+            color: black;
+        }
+
+        .kmkm {
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        #hethang {
+            min-height: 60px;
+            font-size: 20px;
+            box-shadow: 1px 4px 5px #AAAAAA;
+            display: none;
+        }
+
+        .mat {
+            padding: 20px;
+            position: relative;
+        }
+
+        .bi-star-fill {
+            color: gold;
+        }
+
+        #danhgia b {
+            font-size: 40px;
+            color: crimson;
+        }
+
+        #danhgia {
+            margin-right: 5px;
+        }
+
+        .sao_den {
+            color: #aaaaaa;
+        }
+
+        .loi {
+            display: none;
+            color: crimson;
+            font-size: 13px;
+        }
+
+        #loi_loaisp {
+            margin-right: 55px;
+        }
+
+        progress {
+            color: black;
+        }
+    </style>
+    <style>
+        .hi {
+            list-style: none outside none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .demo {
+            padding: 40px;
+        }
+
+        .content-slider li {
+            background-color: #ed3020;
+            text-align: center;
+            color: #FFF;
+        }
+
+        .content-slider h3 {
+            margin: 0;
+            padding: 70px 0;
+        }
+
+        li img {
+            width: 100% !important;
+        }
+
+        #giagoc {
+            float: left;
+            margin-left: 10px;
+            margin-top: -3px;
+            font-size: 17px;
+            text-decoration: line-through;
+            color: #888888
+        }
+
+        .rdo_loai {
+            margin-bottom: 5px;
+        }
+
+        .btn_check_loai {
+            color: black;
+        }
+
+        .gr_kc {
+            display: none;
+            align-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .check_kc {
+            margin-bottom: 5px;
+        }
+    </style>
+    @*Style cho các card sản phẩm*@
+    <link rel="stylesheet" href="~/Content/TheSanPhamm.css" />
+    <link rel="stylesheet" href="~/Content/SlideShow.css" />
+    <script src="~/js/dc.js"></script>
+    <script src="~/js/dichChuyen.js"></script>
+</head>
+<div class="container-lg">
+    <hr>
+    <div class="row">
+        <div class="col-lg-6 col-12" style="margin-bottom: 5px; margin-top: 10px;">
+            <div id="flashsale" style=" float: left; margin-bottom:10px;">
+                <div id="giay" class="sale item"></div><h5 class="s">:</h5><div id="phut" class="sale item"></div><h5 class="s">:</h5><div id="gio" class="sale item"></div><h5 class="s">:</h5><div id="ngay" class="sale item "></div>
+                <i class="bi bi-lightning-fill"></i>
+            </div>
+
+            <div class="demo row item" style="clear:both; position:sticky; top:100px; min-height:400px;">
+                <div class="main">
+                    <span class="control prev">
+                        <i class="bi bi-arrow-left-square-fill"></i>
+                    </span>
+                    <span class="control next">
+                        <i class="bi bi-arrow-right-square-fill"></i>
+                    </span>
+                    <div class="img-wrap">
+                        <img src="@Model.AnhBia" alt="" />
+                    </div>
+                </div>
+                <div class="list-img">
+                    <div>
+                        <img style="width:100%; height:100%;" src="@Model.AnhBia" alt="@Model.AnhBia" />
+                    </div>                    
+                    @foreach (var item in Model.AnhSanPhams.ToList())
+                    {
+                        <div>
+                            <img src="@item.DuongDanAnh" alt="" />
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-6 col-12" style="margin-bottom: 5px; z-index:9">
+            <form action="/GioHang/ThemSanPhamVaoGioHang">
+                <div style="padding-left:13px;">
+                    <h3>
+                        @Model.TenSP
+                    </h3>
+                    <div>
+                        @Model.DanhGia
+                        <svg style="color:gold" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                        </svg> | @Model.SoLuongDanhGia Đánh giá | @HoTro.XuatDoanhSo(Model) Đã Bán
+                    </div>
+                    <h2 id="gb" style="color: crimson; margin-top: 20px; float: left;">
+                        @HoTro.TinhTienGiaGiam(Model) đ
+                    </h2>
+                    <div id="MucKM">
+                        <div class="item" style="border: 1px solid #FF0004; padding: 2px 0px; clear: both; font-size: 13px; width: 60px; border-radius: 5px; background-color: crimson; float: left;">
+                            <b style="margin-left: 7px; color: white">
+                                -<span id="mucgiam">
+                                    @Model.GiamGia
+                                </span>%
+                            </b>
+                        </div>
+                        <p id="giagoc">
+                            @HoTro.LayGiaMin(Model) đ
+                        </p>
+                    </div>
+                    <div style="clear: both;"></div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <b style="float: left; margin-bottom: 5px;">Loại</b><br />
+                            <center>
+                                <div style="position: relative; margin-top:-20px;">
+                                    <span class="loi" id="loi_loaisp"> Vui lòng chọn loại sản phẩm</span>
+                                </div>
+                            </center>
+                        </div>
+                        <div class="col-12">
+                            @{List<ChiTietPhanLoai> ctpls = Model.ChiTietPhanLoais.Where(p => !p.Xoa).ToList();}
+                            <div style="align-content:center; align-items:center; text-align:center;" role="group" aria-label="Basic radio toggle button group">
+
+                                @for (int i = 0; i < ctpls.Count(); i++)
+                                {
+                                    string id = "btnradio" + i.ToString();
+                                    <input type="radio" value="@ctpls[i].TenPhanLoai" onclick="DoiGia(this,@i,@ctpls[i].Gia)" class="btn-check btn_check_loai" id="@id" name="PhanLoai" autocomplete="off">
+                                    if (ctpls[i].TenPhanLoai.Length > 15)
+                                    {
+                                        <label class="btn item btn-outline-primary rdo_loai btn-outline-info btn_check_loai" title="@ctpls[i].TenPhanLoai" for="@id">@ctpls[i].TenPhanLoai.Substring(0, 15)...</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="btn item btn-outline-primary rdo_loai  btn-outline-info btn_check_loai" title="@ctpls[i].TenPhanLoai" for="@id">@ctpls[i].TenPhanLoai</label>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <b style="float:left; margin-bottom:5px;">Kích cở</b>
+                            <center>
+                                <div style="position: relative; margin-top:-27px;">
+                                    <span class="loi" id="loi_kichcosp"> Vui lòng chọn kích cở sản phẩm</span>
+                                </div>
+                            </center>
+                        </div>
+                        <div style="min-height:40px;">
+                            @for (int i = 0; i < ctpls.Count(); i++)
+                            {
+                                string idlist = "listkc" + i.ToString();
+                                List<ChiTietKichCo> ctkc = ctpls[i].ChiTietKichCoes.Where(k => !k.Xoa).ToList();
+                                <div class="gr_kc" id="@idlist" title="@ctkc.Sum(s => s.SoLuong)" role="group" aria-label="Basic radio toggle button group">
+                                    @for (int j = 0; j < ctkc.Count(); j++)
+                                    {
+                                        string gt = "loai" + i.ToString() + "kc" + j.ToString();
+                                        <input type="radio" class="btn-check nhom_kichco " value="@ctkc[j].MaCTKichCo" onclick="DoiSoLuong(@ctkc[j].SoLuong)" name="MaKichCo" id="@gt" autocomplete="off">
+                                        if (ctkc[j].KichCo.Length > 15)
+                                        {
+                                            <label class="btn item btn-outline-warning check_kc" title="@ctkc[j].KichCo" for="@gt">@ctkc[j].KichCo.Substring(0, 15)...</label>
+                                        }
+                                        else
+                                        {
+                                            <label class="btn item btn-outline-warning check_kc" title="@ctkc[j].KichCo" for="@gt">@ctkc[j].KichCo</label>
+
+                                        }
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <input type="text" hidden name="url" value="@Request.Url.ToString()" />
+                <div style="margin-top: 30px; margin-left:-5px; width:100%; padding: 20px;" class="item">
+
+                    <div style="min-height:350px; padding-top:30px;">
+
+                        <span style="padding-right:50px; float:left;">Số lượng</span>
+                        <div style="float:left;">
+                            <a class="sl btn btn-outline-info" id="cong">+</a>
+                            <input type="text" name="Sl" id="hienthi_sl" class="btn" value="1" />
+                            <a class="sl btn btn-outline-info" id="tru">-</a>
+                            <a style="padding-left:10px;"><span id="sluong">@HoTro.LayTongSoLuongTonKho(Model)</span> sản phẩm có sẳn</a>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div style="position: relative; margin-bottom:20px;">
+                            <span class="loi" style=" position:absolute; left:50%; transform:translateX(-54%)" id="loi_sluongsp"> Vui lòng chọn số lượng</span>
+                        </div>
+                        <hr />
+                        <div>
+                            <p>Mã giảm giá của shop</p>
+                            @{ List<KhuyenMai> kms = Model.CuaHang.KhuyenMais.ToList();
+                                foreach (var item in kms)
+                                {
+                                    <div class="dropdown kmkm">
+                                        <a class="mgg" aria-current="page">
+                                            <div class="gg" style=" border:1px solid #ff0000; border-radius:5px;padding:0px 3px 0px 3px;">
+                                                @item.MaVoucher
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-content temkm_nd">
+                                            <p><b>@item.TenKhuyenMai</b></p>
+                                            <hr />
+                                            <p>Giảm @(item.TyLeGiamGia * 100)%, tối đa @string.Format("{0:0,0}", item.MucGiamToiDa) cho đơn hàng có giá trị từ @string.Format("{0:0,0}", item.DonHangToiThieu)đ</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            <hr />
+                        </div>                        
+                        <div id="conhang">
+                            <div class="row">
+                                <div class="col-md-6 offset-md-1 col-sm-6">
+                                    <a id="ThemVaoGioHang" class="btn btn-outline-info " style=" width: 100%; min-height:60px; font-size: 100%; padding-top:15px; margin-top: 10px;box-shadow: 1px 4px 10px #AAAAAA; color:black;">
+                                        <div style="float:left">
+                                            <svg style="margin-top:auto;" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
+                                                <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z" />
+                                                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                                            </svg>
+                                        </div>
+                                        <div style="font-size:20px;">
+                                            THÊM VÀO GIỎ HÀNG
+                                        </div>
+                                    </a>
+                                </div>
+                                <button name="YeuCau" value="1" hidden id="Click_thiet" type="submit">Them</button>
+                                <div class="col-md-4 col-sm-6" style="margin-top: 10px;">
+                                    <a id="MuaNgay" class="btn btn-info" style="width: 100%; min-height: 60px; font-size: 20px; padding-top: 15px; box-shadow: 1px 4px 10px #AAAAAA;"> MUA NGAY</a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <center><button id="hethang" class="btn btn-secondary w-75 disabled">HẾT HÀNG</button></center>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row" style="padding:8px; padding-top:1px; padding-bottom:6px; margin:0px; margin-left:-8.2px;">
+            <div class="item" style="background-color: #0dcaf0">
+                <div class="wrapper">
+                    @{List<SanPham> Sp = ViewBag.SanPhams as List<SanPham>; }
+                    @foreach (var item in Model.CuaHang.SanPhams)
+                    {
+                        <div class="box ">
+                            <a draggable="false" title="@item.TenSP" href="@Url.Action("ThongTinSanPham","SanPham",new { MaSP = item.MaSP })">
+                                <div class="sanpham-item-card">
+                                    <div class="aaa">
+                                        <img class="image w-100 h-100" draggable="false" src="@item.AnhBia">
+                                        @*<div class="img_list" style=" background-image:url(@item.AnhBia); background-repeat:no-repeat;"></div>*@
+                                    </div>
+                                    <div class="sanpham-item-text" style="margin-top:15px;">
+
+                                        <ul>
+                                            <li>
+                                                @if (item.TenSP.Length > 20)
+                                                {
+                                                    <span class="ten">@item.TenSP.Substring(0, 20).Trim()...</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="ten">@item.TenSP</span>
+                                                }
+                                            </li>
+                                            <li class="giakm"> <b class="gia">@HoTro.TinhTienGiaGiam(item)</b><sup>đ</sup></li>
+                                            <li>
+                                                @if (item.GiamGia > 0)
+                                                {
+                                                    <span class="giagoc"> @HoTro.LayGiaMin(item) <sup>đ</sup></span><span> -@(item.GiamGia)%</span>
+                                                }
+                                            </li>
+                                        </ul>
+                                        <div class="daban">
+                                            Đã bán @HoTro.XuatDoanhSo(item)
+                                        </div>
+                                        <div class="saoo">
+                                            @item.DanhGia <i class="bi bi-star-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div style="padding:0px;">
+            <div class="row item" style=" width:98.75%; padding: 0; margin: 0; margin-bottom: 6px;">
+                <div class="col-lg-6 col-sm-12">
+                    <div style="padding:20px;">
+                        <a href="@Url.Action("TrangCuaHang","CuaHang",new {MaCH = Model.MaCuaHang})"><img src="https://cf.shopee.vn/file/19e4c5aba5aa62728ac86f6d6be73af0_tn" style="border-radius:50%; padding-right:20px; height:80px; width:80px; float:left" /></a>
+                        <div>
+                            <a href="@Url.Action("TrangCuaHang","CuaHang",new {MaCH = Model.MaCuaHang})" style="margin-bottom:-5px;">
+                                <b>@Model.CuaHang.TenCuaHang</b>
+                            </a>
+                            <span style="color:#303030; font-size:14px;">@Model.CuaHang.Xa_Phuong.Quan_Huyen.Tinh_ThanhPho.TenTinh | @HoTro.LayDanhGiaShop(Model.CuaHang) </span>
+                            <svg style="color:gold; margin-top:-5px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                            </svg>
+                            <br />
+                            <span style="color:#808080;">Online 3 phút trước</span><br />
+                            <button class="btn btn-outline-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+                                    <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                                    <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
+                                </svg>
+                                Chat ngay
+                            </button>
+                            <a href="@Url.Action("TrangCuaHang","CuaHang",new {MaCH = Model.MaCuaHang})" class="btn btn-outline-info">
+                                <svg style="margin-top:-5px" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop-window" viewBox="0 0 16 16">
+                                    <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.371 2.371 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976l2.61-3.045zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0zM1.5 8.5A.5.5 0 0 1 2 9v6h12V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5zm2 .5a.5.5 0 0 1 .5.5V13h8V9.5a.5.5 0 0 1 1 0V13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a.5.5 0 0 1 .5-.5z" />
+                                </svg>
+                                Xem Shop
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <div style="padding:20px; padding-top:40px;">
+                        <center>
+                            <div style="width:300px;">
+                                <p style="float:left;">Đánh Giá <span style="color:red">@Model.CuaHang.SanPhams.Sum(s => s.SoLuongDanhGia)</span></p>
+                                <p style="float:right">
+                                    Tham Gia
+                                    <span style="color:red" id="ThamGia">
+                                        <script>
+                                            document.getElementById("ThamGia").innerHTML = moment("@String.Format("{0:MM/dd/yyyy}", Model.CuaHang.NgayDangKy)").fromNow();
+                                        </script>
+                                    </span>
+                                </p>
+                            </div>
+
+                        </center>
+                        <center>
+                            <div style="width:300px">
+                                <p style="float:left;">Sản Phẩm <span style="color:red">@Model.CuaHang.SanPhams.Count()</span></p>
+                                <p style="float:right">Người Theo Dõi <span style="color:red">26,2k</span></p>
+                            </div>
+                        </center>
+                        <div style="clear:both"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12" style="padding:0;">
+                <div class="item" style="padding:20px; width:102%; min-height:500px;">
+                    <div style="position: sticky; top: 60px; background-color:white; z-index:8;">
+                        <b><i class="bi bi-bookmark-star"></i> Đánh giá sản phẩm</b>
+                        <hr style="margin-bottom: 10px; margin-top: 5px;">
+                        <div class="row">
+                            <div class="col-6" style="height:125px; text-align:center; align-items:center; justify-items:center; border-right:1px solid #aaaaaa">
+                                <a id="danhgia"><b>@Model.DanhGia</b>/5</a><br />
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i><br />
+                                <span style="color:#888888;">@Model.SoLuongDanhGia đánh giá</span>
+                            </div>
+                            <div class="col-6" style=" height: 125px; padding-left: 80px; ">
+                                <div>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>&nbsp @sl5ao</span>
+                                </div>
+                                <div>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <span>&nbsp @sl4ao</span>
+                                </div>
+                                <div>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <span>&nbsp @sl3ao</span>
+                                </div>
+                                <div>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <span>&nbsp @sl2ao</span>
+                                </div>
+                                <div>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <i class="bi bi-star-fill sao_den"></i>
+                                    <span>&nbsp @sl1ao </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress">
+                            @*<div class="progress-bar bg-info" role="progressbar" style="width: @(Convert.ToInt32(100.0/Model.SoLuongDanhGia*sl5ao))%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: @(Convert.ToInt32(100.0/Model.SoLuongDanhGia*sl4ao))%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-info" role="progressbar" style="width: @(Convert.ToInt32(100.0/Model.SoLuongDanhGia*sl3ao))%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: @(Convert.ToInt32(100.0/Model.SoLuongDanhGia*sl2ao))%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-info" role="progressbar" style="width: @(Convert.ToInt32(100.0/Model.SoLuongDanhGia*sl1ao))%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>*@
+                        </div>
+                        <hr style="margin-bottom: 10px; margin-top: 5px;">
+                        <div>
+                            <input type="radio" checked class="btn-check loc_danhgia" name="options" id="tatca" autocomplete="off">
+                            <label class="btn btn-outline-info" for="tatca">Tất cả <i class="sao bi bi-star-fill  "></i></label>
+
+                            <input type="radio" class="btn-check loc_danhgia" name="options" id="option1" autocomplete="off">
+                            <label class="btn btn-outline-info" for="option1">1 <i class="sao bi bi-star  "></i></label>
+
+                            <input type="radio" class="btn-check loc_danhgia" name="options" id="option2" autocomplete="off">
+                            <label class="btn  btn-outline-info" for="option2">2 <i class="sao bi bi-star "></i></label>
+
+                            <input type="radio" class="btn-check loc_danhgia" name="options" id="option3" autocomplete="off">
+                            <label class="btn  btn-outline-info" for="option3">3 <i class="sao bi bi-star "></i></label>
+
+                            <input type="radio" class="btn-check loc_danhgia" name="options" id="option4" autocomplete="off">
+                            <label class="btn  btn-outline-info" for="option4">4 <i class="sao bi bi-star "></i></label>
+
+                            <input type="radio" class="btn-check loc_danhgia" name="options" id="option5" autocomplete="off">
+                            <label class="btn  btn-outline-info" for="option5">5 <i class="sao bi bi-star "></i></label>
+                        </div>
+                        <hr />
+                    </div>
+                    <div>
+                        @foreach (var item in dg)
+                        {
+                            item.NguoiDung = db.NguoiDungs.Single(nd => nd.ID.Equals(item.ID));
+                            <div class="row tatcaDG @("DG"+item.MucDanhGia.ToString())">
+                                <div class="col-1" style=" float:left;">
+                                    @if (item.AnDanh)
+                                    {
+                                        <img src="\Image\AVT_error.jpg" style="border:1px solid #888888; position:relative; height:45px; width:45px; border-radius:50%; margin-right:10px;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="@item.NguoiDung.AnhDaiDien" onerror="this.src='\Image\AVT_error.jpg'" style="border:1px solid #888888; position:relative; height:45px; width:45px; border-radius:50%; margin-right:10px;" />
+                                    }
+                                </div>
+                                <div class="col-11">
+                                    @for (var i = 0; i < item.MucDanhGia; i++)
+                                    {
+                                        <i class="bi bi-star-fill"></i>
+                                    }
+                                    &nbsp @HoTro.LayNDCamThanDanhGia(item.MucDanhGia)<br />
+                                    @if (item.AnDanh)
+                                    {
+                                        <b>@item.NguoiDung.TenNguoiDung.Substring(0, 3)************</b>
+                                    }
+                                    else
+                                    {
+                                        <b>@item.NguoiDung.TenNguoiDung</b>
+                                    }
+                                    <br />
+                                    <p style="color: #888888;position:relative; margin-bottom:10px; margin-top:-5px; font-size: 12px;">@item.NgayDanhGia</p>
+                                    <span>@item.NoiDung</span><br />
+                                </div>
+                            </div>
+                            <hr />
+                        }
+                        @*<div class="row">
+                                <div class="col-1" style=" float:left;">
+                                    <img style="border:1px solid #888888; position:relative; height:45px; width:45px; border-radius:50%; margin-right:10px;" />
+                                </div>
+                                <div class="col-11">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    &nbsp Rất hài lòng<br />
+                                    <b>Lê Phát Đạt</b><br />
+                                    <p style="color: #888888;position:relative; margin-bottom:10px; margin-top:-5px; font-size: 12px;">24/04/2002 02:26</p>
+                                    <span>Đồ dùng rất tốt, nên mua ngay avf luôn</span><br />
+                                    <span style="color:#888888; font-size:12px;">Mẫu: đen-32 </span>
+                                </div>
+                            </div>*@
+
+
+
+                        <hr />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12" style="padding:0; padding-left:10px;">
+                <div class="item" style="width:99.8%; margin-left:9px; padding: 20px; min-height: 500px; position:sticky; top:100px;">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Thông Tin Chi Tiết</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Mô Tả Sản Phẩm</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                            <table class="table table-hover table-striped table-bordered">
+                                @foreach (var item in Model.ChiTietThongTinSPs)
+                                {
+                                    <tr>
+                                        <td> <b>@item.ThuocTinh</b></td>
+                                        <td> @item.NoiDung</td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+                        <div style="white-space: pre-wrap; text-align:justify;" class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                            @Model.MoTaSP
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="silder-product-one-content col-md-12 col-sm-12" style="padding: 0px;">
+
+                <div class="silder-product-one-content-container" style="margin-top:10px;">
+                    <div >
+                        <div class="w-100" style="margin:0; padding-top:15px; margin-bottom:10px; padding-bottom:10px; background-color:#0dcaf0;">
+                            <center><h3 style="font-weight:bolder">Sản Phẩm Liên Quan</h3></center>
+                        </div>
+                        <div class="row">                 
+                            @foreach (var item in Sp)
+                            {
+                                <div class="col-6 col-lg-3 col-sm-6 col-md-4 col-xl-3 col-xxl-2 cardsp" >
+                                    <a title="@item.TenSP" href="@Url.Action("ThongTinSanPham","SanPham",new { MaSP = item.MaSP })">
+                                        <div class="sanpham-item"  >
+                                            <div class="aaa">
+                                                <img class="image" src="@item.AnhBia">
+                                            </div>
+                                            <div class="sanpham-item-text">
+
+                                                <ul>
+                                                    <li>                                                       
+                                                        @if (item.TenSP.Length > 20)
+                                                        {
+                                                            <span class="ten">@item.TenSP.Substring(0, 20).Trim()...</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="ten">@item.TenSP</span>
+                                                        }
+                                                    </li>
+                                                    <li class="giakm"> <b class="gia">@HoTro.TinhTienGiaGiam(item)</b><sup>đ</sup></li>
+                                                    
+                                                </ul>
+                                                <div class="daban">
+                                                    Đã bán @HoTro.XuatDoanhSo(item)
+                                                </div>
+                                                <div class="saoo">
+                                                    @item.DanhGia <i class="bi bi-star-fill"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <button class="btn_giohang" title="Thêm vào yêu thích">
+                                        <i class="bi bi-suit-heart-fill" style="font-size:70px; color:white"></i>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="button" hidden id="liveToastBtn">Quá số lượng</button>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="top:-15px;">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header" style="color:red;">
+                <i class="bi bi-envelope-exclamation-fill rounded me-2"></i>
+                <strong class="me-auto">Thông báo</strong>
+                <small>Thao tác không thành công</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="ThongBao"></div>
+        </div>
+    </div>
+    <script type="text/javascript" src="~/js/ThemVaoGioHangMuaNgay.js"></script>
+    <script type="text/javascript" src="~/js/ListBox.js"></script>
+</div>
+@if (Model.GiamGia == 0)
+{
+    <script>
+        document.getElementById('MucKM').style.display = 'none'
+        document.getElementById('flashsale').style.display = 'none';
+
+    </script>
+}
+else
+{
+    if (Model.ThoiHan.HasValue)
+    {
+        DateTime han = Model.ThoiHan.Value;
+        <script>
+
+        var fulltime = new Date(@han.Year,@han.Month-1,@han.Day);
+        setInterval(function () {
+            var now = new Date().getTime();
+            var conlai = fulltime - now;
+            var days = Math.floor(conlai / (1000 * 60 * 60 * 24));
+            var hours = Math.floor(conlai / (1000 * 60 * 60));
+            var mnt = Math.floor(conlai / (1000 * 60));
+            var sc = Math.floor(conlai / (1000));
+            hours %= 24;
+            mnt %= 60;
+            sc %= 60;
+
+            if (days <= 0 && hours <= 0 && mnt <= 0 && sc <= 0) {
+                document.getElementById("ngay").innerHTML = 0;
+                document.getElementById("gio").innerHTML = 0;
+                document.getElementById("phut").innerHTML = 0;
+                document.getElementById("giay").innerHTML = 0;
+            }
+            else {
+                document.getElementById("ngay").innerHTML = days;
+                document.getElementById("gio").innerHTML = hours;
+                document.getElementById("phut").innerHTML = mnt;
+                document.getElementById("giay").innerHTML = sc;
+            }
+
+        })
+        </script>
+    }
+    else
+    {
+        <script>
+            document.getElementById('flashsale').style.display = 'none';
+            mucgiam.innerText = 0;
+        </script>
+    }
+}
+@if (Session["LoiThemGH"] != null)
+{
+    Session["LoiThemGH"] = null;
+    <script>
+        ThongBao.innerText = "Số lượng sản phẩm này trong giỏ hàng của bạn đã vượt mức số lượng hiện có của shop!!!";
+        liveToastBtn.click();
+    </script>
+}
+<script>
+
+    const tatcaDG = document.querySelectorAll('.tatcaDG')
+    console.log(tatcaDG)
+    let DGtruoc = tatcaDG;
+    for (var i = 0; i < loc_danhgia.length; i++) {
+        let muc = i;
+        loc_danhgia[i].addEventListener("click", function () {
+            if (muc == 0)
+                tatcaDG.forEach(item => item.style.display = 'block');
+            else {
+                DGtruoc.forEach(item => item.style.display = 'none');
+                let dgs = document.querySelectorAll(".DG" + muc.toString());
+                dgs.forEach(item => item.style.display = 'block');
+                DGtruoc = dgs;
+            }
+
+        })
+    }
+</script>
+<script src="~/js/XuLySanPhamm.js"></script>
+<script src="~/js/SlideShow.js"></script>

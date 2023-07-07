@@ -1,0 +1,151 @@
+﻿
+.tabss {
+    display: flex;
+    position: relative;
+}
+
+.tabss .line {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 6px;
+    border-radius: 15px;
+    background-color: #0dcaf0;
+    transition: all 0.2s ease;
+}
+
+.tab-itemm {
+    min-width: 80px;
+    padding: 16px 20px 11px 20px;
+    font-size: 20px;
+    text-align: center;
+    color: #00758d;
+    background-color: #fff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 5px solid transparent;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.tab-iconn {
+    font-size: 24px;
+    width: 32px;
+    position: relative;
+    top: 2px;
+}
+
+.tab-itemm:hover {
+    opacity: 1;
+    background-color: #dcf9ff;
+    border-color: #0dcaf0;
+}
+
+.tab-itemm.activee {
+    opacity: 1;
+}
+
+.tab-contentt {
+    padding: 28px 0;
+}
+
+.tab-panee {
+    color: #333;
+    display: none;
+}
+
+    .tab-panee.activee {
+        display: block;
+    }
+
+    .tab-panee h2 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+.line_tinh {
+    border-top: 2px solid #333;
+}
+
+.goi_hang {
+    padding: 20px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.trangThai_goihang {
+    background-color: lightgrey;
+    color: black;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    float: right;
+    border-radius: 6px;
+}
+
+.hh_anh {
+    padding-left: 15px;
+}
+
+    .hh_anh img {
+        border-radius: 5px;
+    }
+
+.hh_nd {
+    padding-left: 0px;
+}
+
+.hh_loai {
+    color: #777777;
+}
+
+.hh_shop {
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 18px;
+    float: right;
+}
+
+.hh_gia {
+    font-size: 18px;
+    color: red;
+}
+
+.hh_h5 {
+    font-size: 18px;
+}
+
+    .hh_h5 span {
+        color: crimson;
+    }
+
+.ct_hang {
+    margin-bottom: 0px;
+    padding: 5px;
+}
+
+    .ct_hang:hover {
+        border-radius: 5px;
+        box-shadow: 1px 2px 4px #AAAAAA;
+    }
+
+.hr {
+    width: 95%;
+}
+
+.dg_ml {
+    min-height: 40px;
+}
+
+body {
+    background-color: #f5f5fa;
+}
+.itemm {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 4px 10px #AAAAAA;
+}
+
+

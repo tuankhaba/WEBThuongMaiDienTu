@@ -1,0 +1,240 @@
+﻿@model ThuongMaiDienTu.Models.KhuyenMai
+
+
+@{
+    ViewBag.Title = "Sửa đia chỉ";
+    Layout = "~/Views/KenhBanHang/KenhBanHang.cshtml";
+}
+
+<style>
+    .item {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+
+    body {
+        background-color: #f5f5fa;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .btn:hover,
+    .btn:focus,
+    .btn {
+        border: 1px solid black;
+    }
+
+        .btn:hover,
+        .btn:focus {
+            border-radius: 5px;
+            box-shadow: 1px 4px 10px #AAAAAA;
+        }
+
+    .item div {
+        margin-bottom: 15px;
+    }
+
+    .loinhap {
+        color: red;
+        left: 2px;
+        font-size: 13px;
+        margin-top: 5px;
+        position: absolute;
+        top: -5px;
+        display: none;
+    }
+
+    #NgayBatDau:hover,
+    #NgayKetThuc:hover {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+
+    .tieude {
+        background-color: #0dcaf0;
+        padding: 5px;
+        width: 105%;
+        margin-left: -2.5%;
+    }
+
+    .loinhap2 {
+        top: -20px;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="~/Content/Date.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+@using (Html.BeginForm("SuaKhuyenMai", "KenhBanHang", new { Ma = Model.MaGiamGia }))
+{
+    <div class="container-lg">
+        <center>
+            <div class="item " style="position:relative; padding:20px; max-width:850px;">
+                <div class="row tieude">
+                    <center><h5>Thông tin cơ bản</h5></center>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>
+                            Tên chương trình giảm giá
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="btn w-100" name="TenCT" id="tenkm" value="@Model.TenKhuyenMai" oninput="check_trong(this,'loi_trongten','loi_slkt_ten',8)" placeholder="Nhập tên chương trình giảm giá" title="Nhập tên chương trình giảm giá" type="text" maxlength="70" />
+                        <div class="w-100" style="position:relative;">
+                            <span id="loi_trongten" class="loinhap">Tên chương trình không được để trống</span>
+                        </div>
+                        <div class="w-100" style="position:relative;">
+                            <span id="loi_slkt_ten" class="loinhap loinhap2">Tên chương trình phải có tối thiểu 8 chữ cái</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>
+                            Mã giảm giá
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="btn w-100" id="makm" name="MaKM" value="@Model.MaVoucher" oninput="check_khoangtrang(this,'loi_trongma')" placeholder="Nhập mã giảm giá" title="Nhập mã giảm giá" type="text" maxlength="30" />
+                        <div class="w-100" style="position:relative;">
+                            <span id="loi_trongma" class="loinhap">Mã giảm giá không được để trống</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>
+                            Thời gian
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input class="btn w-100" name="NgayBatDau" id="NgayBatDau" value="@Model.NgayBatDau" alt="Chọn ngày bắt đầu" title="Nếu không chọn ngày bắt đầu, hệ thống sẽ tự động lấy ngày hiện tại" placeholder="Ngày bắt đầu" style="text-align:center; height:40px; border-radius:5px; border:1px solid #808080;" />
+                                <div class="w-100" style="position:relative;">
+                                    <span id="loi_ngay" style=" display: none;" class="loinhap">Ngày kết thúc không được để trống</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="btn w-100" name="NgayKetThuc" id="NgayKetThuc" value="@Model.NgayKetThuc" alt="Chọn ngày kết thúc" title="Chọn ngày kết thúc" placeholder="Ngày kết thúc" style="text-align:center; height:40px; border-radius:5px; border:1px solid #808080;" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row tieude" style="margin-top:-30px;">
+                    <center><h5>Thiết lập mã giảm giá</h5></center>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>
+                            Tỷ lệ giảm giá
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="btn w-100" id="tylegg" name="TyLeGiamGia" value="@((int)(Model.TyLeGiamGia*100))" placeholder="Tỷ lệ giảm giá(1-100)" title="Nhập tỷ lệ giảm giá" type="text" oninput="check_gg(this)" maxlength="3" min="1" max="100" />
+                        <div class="w-100" style="position:relative;">
+                            <span id="loi_gg" style=" display: none;" class="loinhap">Tỷ lệ giảm giá không được để trống</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>
+                            Giá trị đơn hàng tối thiểu
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="btn w-100" id="donhangTT" name="ToiThieu" value="@Model.DonHangToiThieu" placeholder="Giá trị đơn hàng tối thiểu" oninput="check_number(this,'loi_gt')" title="Nhập giá trị đơn hàng tối thiểu" type="text" maxlength="10" />
+                        <div class="w-100" style="position:relative;">
+                            <span id="loi_gt" style=" display: none;" class="loinhap">Không được để trống</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>
+                            Hạn mức giảm tối đa
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="btn w-100" id="muctoida" name="MuaGiamToiDa" value="@Model.MucGiamToiDa" oninput="check_number(this,'loi_hanmuc')" placeholder="Mức giảm tối đa" title="Nhập mức giảm tối đa" type="text" maxlength="10" />
+                        <div class="w-100" style="position:relative;">
+                            <span id="loi_hanmuc" style=" display: none;" class="loinhap">Hạn mức không được để trống</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>
+                            Lượt sử dụng
+                        </span>
+                    </div>
+                    <div class="col-md-8">
+                        <input class="btn w-100" id="luot" name="LuotSuDung" value="@Model.LuotSuDung" oninput="check_number(this,'loi_luotdung')" placeholder="Số lần mã giảm giá còn hiệu lực" title="Nhập lượt sử dụng" type="text" maxlength="10" />
+                        <div class="w-100" style="position:relative;">
+                            <span id="loi_luotdung" style=" display: none;" class="loinhap">Lượt sử dụng không được để trống</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:-10px;">
+                    <div class="col-lg-6">
+
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div>
+                            <a id="KTDuLieu" style="margin-right:10px; float:right;" class="btn btn-info">Xác nhận</a>
+                            <a style="margin-right:10px; float:right;" class="btn btn-outline-danger ">Hủy</a>
+                            <button type="submit" hidden id="XacNhan">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </center>
+    </div>
+}
+<a hidden id="liveToastBtn">Quá số lượng</a>
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="top:50px;">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header" style="color:red;">
+            <i class="bi bi-envelope-exclamation-fill rounded me-2"></i>
+            <strong class="me-auto">Thông báo</strong>
+            <small>Thao tác không thành công</small>
+            <a class="btn-close" data-bs-dismiss="toast" aria-label="Close"></a>
+        </div>
+        <div class="toast-body" id="ThongBao"></div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="~/js/Checkfrom.js"></script>
+<script src="~/js/ThemKhuyenMaii.js"></script>
+<script>
+    flatpickr("#NgayBatDau", {
+        dateFormat: "m/d/Y"
+    })
+    flatpickr("#NgayKetThuc", {
+        dateFormat: "m/d/Y"
+    })
+    document.getElementById('TrangLoad').innerText = "Chỉnh sửa thông tin khuyến mãi"
+</script>
+
+@if (ViewBag.thaotac != null)
+{
+    <script>
+        ThongBao.innerText = "Bạn chưa thực hiện thay đổi gì, vui lòng kiểm tra lại!!!"
+        liveToastBtn.click();
+    </script>
+}
+@if (ViewBag.kq != null)
+{
+    ViewBag.kq = null;
+    <script>
+        ThongBao.innerText = "Mã voucher đã tồn tại trong shop của bạn, vui lòng tạo một mã khác!!!"
+        liveToastBtn.click();
+    </script>
+
+}

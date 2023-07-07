@@ -1,0 +1,871 @@
+﻿@model ThuongMaiDienTu.Models.SanPham
+@using ThuongMaiDienTu.Models
+@{
+    List<LoaiSanPham> loais = ViewBag.LoaiSP as List<LoaiSanPham>;
+    List<ChiTietLoaiSanPham> ctloais = ViewBag.CTLoaiSP as List<ChiTietLoaiSanPham>;
+    List<AnhSanPham> dsAnh = Model.AnhSanPhams.ToList();
+    List<ChiTietPhanLoai> ctpls = Model.ChiTietPhanLoais.Where(p => !p.Xoa).ToList();
+    List<ChiTietThongTinSP> ttsps = Model.ChiTietThongTinSPs.ToList();
+}
+@{
+    ViewBag.Title = "Sửa đia chỉ";
+    Layout = "~/Views/KenhBanHang/KenhBanHang.cshtml";
+}
+
+<script src="~/js/moment.js"></script>
+<link href="~/Content/ThongTinSanPham.css" rel="stylesheet">
+<link rel="stylesheet" href="~/Content/nut_dc_trangSP.css" />
+<link rel="stylesheet" href="~/Content/dichChuyen.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="~/Content/Date.css">
+<style>
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .hv {
+        opacity: 0.5;
+    }
+
+        .hv:hover {
+            opacity: 1;
+        }
+
+    .icon {
+        color: red;
+        margin-top: 20px;
+        margin-left: -10px;
+    }
+
+    .km {
+        margin-left: 10px;
+    }
+
+    .ts {
+        width: 35%;
+        padding-left: 5px;
+    }
+
+    .dam {
+        background-color: #CBCBCB;
+        height: 50px;
+    }
+
+    .mau {
+        width: 17%;
+    }
+
+    .sale {
+        border: 1px solid;
+        width: 40px;
+        height: 30px;
+        padding-top: 1px;
+        float: right;
+        background-color: #000000;
+        color: white;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .s {
+        float: right;
+    }
+
+
+    .item {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+
+    .be {
+        width: 20%;
+        border: 1px solid #BCBCBC;
+        border-radius: 10px;
+        float: left;
+        margin: 5px;
+        padding: 1px;
+    }
+
+    .hv2 {
+        height: 500px;
+        padding-top: 30px;
+    }
+
+        .hv2:hover {
+            padding-top: 80px;
+            height: 550px;
+        }
+
+    .ft-l {
+        float: left;
+        margin-left: 16px;
+        font-size: 13px;
+    }
+
+    .sanpham-item {
+        width: 40%;
+        padding-right: 2px;
+    }
+
+    .silder-product-one-content-title {
+        padding-top: 10px;
+        padding-left: 20px;
+        margin-bottom: -15px;
+    }
+
+    .bong {
+        border-radius: 20px;
+    }
+
+    .sanpham-item button {
+        margin-left: -131px;
+        margin-top: -146px;
+        width: 265px;
+    }
+
+    .linkkk {
+        text-decoration: none;
+    }
+
+    .sl {
+        border: 1px solid #CBCBCB;
+        outline: none;
+        background-color: white;
+    }
+
+    #hienthi_sl {
+        margin-left: -6px;
+        margin-right: -6px;
+        height: 28px;
+        width: 45px;
+        border: 1px solid #CBCBCB;
+        text-align: center;
+    }
+
+    .sl:hover {
+        background-color: #ececec;
+    }
+
+    .dropdown:hover .gg {
+        background-color: red;
+        color: white;
+    }
+
+    .them_nhap {
+        border: 1px solid #888888;
+        width: 100%;
+    }
+
+        .them_nhap:focus {
+            border-color: #0dcaf0;
+            border-radius: 10px;
+            box-shadow: 1px 4px 10px #AAAAAA;
+        }
+
+        .them_nhap:hover {
+            border-color: #0dcaf0;
+        }
+
+    .dayContainer {
+        background-color: white !important;
+    }
+
+    .flatpickr-day {
+        color: black;
+    }
+
+        .flatpickr-day.flatpickr-disabled,
+        .flatpickr-day.flatpickr-disabled:hover,
+        .flatpickr-day.prevMonthDay,
+        .flatpickr-day.nextMonthDay,
+        .flatpickr-day.notAllowed,
+        .flatpickr-day.notAllowed.prevMonthDay,
+        .flatpickr-day.notAllowed.nextMonthDay {
+            color: black;
+            opacity: 0.5;
+        }
+</style>
+<style>
+    .toast-header {
+        border-color: red;
+    }
+
+    .loai {
+        width: 31.5%;
+        margin: 5px;
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 7px;
+        padding-top: 10px;
+        padding-bottom: 20px;
+        float: left;
+        margin-top: 10px;
+    }
+
+    .loai_sp {
+        width: 100px;
+    }
+
+    .loai:hover,
+    .option:focus,
+    .option:hover {
+        border-color: #0dcaf0;
+        box-shadow: 1px 4px 10px #0dcaf0;
+    }
+
+    .loai:focus {
+        box-shadow: 1px 4px 10px #0dcaf0;
+    }
+
+    .btn_kichco:hover,
+    .btn_loai:hover {
+        border-color: #0dcaf0;
+    }
+
+    .loai:hover .bi-x-circle-fill {
+        opacity: 1;
+    }
+
+    .option {
+        margin: 0px;
+        margin-bottom: 20px;
+        font-size: 18px;
+    }
+
+        .option:hover {
+            color: crimson;
+            border-color: #0dcaf0;
+        }
+
+    .thuoctinh,
+    .noidung {
+        margin: 5px;
+        border: 1px solid #000000;
+        padding: 9px;
+    }
+
+        .btn_loai:focus,
+        .thuoctinh:focus,
+        .noidung:focus,
+        .mota:focus,
+        .btn_kichco:focus {
+            box-shadow: 1px 2px 7px #0dcaf0;
+        }
+
+        .thuoctinh:focus,
+        .noidung:focus {
+            border: 1px solid #0dcaf0;
+        }
+
+        .thuoctinh:hover,
+        .mota:hover,
+        .noidung:hover {
+            box-shadow: 1px 2px 7px #AAAAAA;
+            border: 1px solid #0dcaf0;
+        }
+
+    #themthuoctinh {
+        font-size: 22px;
+    }
+
+    .bi_xoa_loai {
+        background-color: white;
+        position: absolute;
+        margin-top: -15px;
+        margin-left: -15px;
+        cursor: pointer;
+        color: crimson;
+        opacity: 0;
+    }
+
+    .hi {
+        list-style: none outside none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .form-select {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .demo {
+        padding: 20px;
+    }
+
+    .img_them {
+        padding: 5px;
+        float: left;
+        width: 25%;
+        height: 120px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        z-index: 2;
+    }
+
+        .img_them img {
+            border-radius: 5%;
+        }
+
+    .img_xoa {
+        position: relative;
+        width: 100%;
+        height: 40px;
+        z-index: 3;
+        margin-top: -40px;
+        text-align: center;
+        padding-top: 10px;
+        font-size: 25px !important;
+        color: white;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+        .img_xoa:hover {
+            opacity: 0.8;
+        }
+
+    .nd_ct {
+        position: relative;
+        font-weight: bold;
+        overflow: hidden;
+        padding-bottom: 5px;
+    }
+
+    .bi-x-square {
+        position: absolute;
+        cursor: pointer;
+        font-size: 20px;
+        color: crimson !important;
+        width: 30px;
+        height: 20px;
+        opacity: 0;
+        z-index: 2;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .nd_ct:hover .bi-x-square {
+        opacity: 1;
+    }
+
+    .bi-x-square::before {
+        content: "nhấn vào đây để xóa";
+        font-family: Arial;
+        padding-top: 8px;
+        text-align: center;
+        color: black;
+        position: absolute;
+        border-radius: 5px;
+        top: 5px;
+        margin-left: 55%;
+        left: 4200%;
+        width: 4050%;
+        height: 45px;
+        background-color: crimson;
+        transition: all 0.2s ease-in-out;
+        z-index: -1;
+    }
+
+    .bi-x-square:hover .bi-x-square-fill {
+        color: black
+    }
+
+    .bi-x-square:hover .nd_ct {
+        opacity: 0.5;
+    }
+
+    .bi-x-square:hover::before {
+        left: 0;
+        opacity: 0.4;
+        box-shadow: 1px 2px 10px crimson;
+    }
+
+    .mota {
+        border: 1px solid #000000;
+        padding: 10px;
+        min-height: 500px;
+        max-height: 1000px;
+    }
+
+    .btn_luusp {
+        font-size: 25px;
+        margin: 10px 0px;
+    }
+
+    .cailuu {
+        margin-top: 20px;
+        margin-left: 0px;
+        width: 100%;
+        z-index: 9;
+        position: sticky;
+        bottom: 0px;
+    }
+
+    .loi_nganh {
+        color: red;
+        position: absolute;
+        margin-left: 3px;
+        font-size: 13px;
+    }
+
+    .loi_loai {
+        position: absolute;
+        width: 100px;
+    }
+
+        .loi_loai span {
+            font-size: 12px;
+            color: red;
+            position: absolute;
+            left: 0;
+            width: 100%;
+        }
+
+    .loianh {
+        position: relative;
+        margin-bottom: 10px;
+    }
+
+    #loi_anh {
+        position: absolute;
+        color: red;
+        left: 0;
+        font-size: 13px;
+    }
+
+    #ChiTiet, #NganhHang {
+        height: 40px;
+        padding: 0px;
+    }
+
+    #loi_ten {
+        position: absolute;
+        color: red;
+        font-size: 13px;
+        margin-left: 2px;
+    }
+
+    #loi_gg {
+        position: absolute;
+        color: red;
+        font-size: 13px;
+        margin-top: -15px;
+        margin-left: 3px;
+    }
+
+    .loi_tt {
+        position: absolute;
+        color: red;
+        font-size: 13px;
+        margin-top: -8px;
+        margin-left: 7px;
+        text-decoration-line: none;
+        font-weight: normal;
+    }
+
+    #loi_mota {
+        position: absolute;
+        color: red;
+        font-size: 13px;
+        margin-top: 0px;
+        margin-left: 7px;
+    }
+
+    .demloi {
+        display: none;
+    }
+
+    body {
+        background-color: #f5f5fa;
+    }
+</style>
+<script src="~/js/dc.js"></script>
+<script src="~/js/dichChuyen.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#content-slider").lightSlider({
+            loop: true,
+            keyPress: true
+        });
+        $('#image-gallery').lightSlider({
+            gallery: true,
+            item: 1,
+            thumbItem: 9,
+            slideMargin: 0,
+            speed: 500,
+            auto: true,
+            loop: true,
+            onSliderLoad: function () {
+                $('#image-gallery').removeClass('cS-hidden');
+            }
+        });
+    });
+</script>
+
+@using (Html.BeginForm("SuaSanPham", "KenhBanHang", new { Masp = Model.MaSP }))
+{
+    <div class="container-lg" style="padding-bottom:80px;">
+        <hr>
+        <div class="row " style="position:relative;">
+            <div class="col-lg-6 col-12 zoom" style="margin-bottom: 20px;">
+                @*<div style=" float: left; margin-bottom:10px;">
+                        <div id="giay" class="sale"></div><h5 class="s">:</h5><div id="phut" class="sale"></div><h5 class="s">:</h5><div id="gio" class="sale"></div><h5 class="s">:</h5><div id="ngay" class="sale "></div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-lightning-fill" viewBox="0 0 16 16">
+                            <path d="M5.52.359A.5.5 0 0 1 6 0h4a.5.5 0 0 1 .474.658L8.694 6H12.5a.5.5 0 0 1 .395.807l-7 9a.5.5 0 0 1-.873-.454L6.823 9.5H3.5a.5.5 0 0 1-.48-.641l2.5-8.5z" />
+                        </svg>
+                    </div>*@
+
+                <div class="demo row w-100 item" style="clear: both; margin-left: 0px; position: sticky; top: 20px; min-height: 320px; ">
+                    <center>
+                        <h5>Thêm ảnh(mặc định ảnh đầu tiên sẽ là ảnh bìa)</h5>
+                        <div class="modal-body w-100">
+                            <div class="drag-area border-info" style="border-radius: 20px; padding-top: 85px; height: 300px; padding-bottom: 65px; border: dashed">
+                                <div>
+                                    <span style="font-size:20px; font-family:Arial;" class="keotha">Kéo và thả để tải ảnh lên</span>
+                                    <br />
+                                    <span>hoặc</span>
+                                    <br />
+                                    <a class="chonfile btn btn-outline-info w-25">Chọn ảnh</a>
+                                    <input class="ip" type="file" hidden />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="loianh">
+                            <span id="loi_anh" style="display:none" class="demloi">Sản phẩm phải có ít nhất 1 ảnh</span>
+                        </div>
+                    </center>
+                    <div class="thaotac_load w-100">
+                        <div class="img_them col-4" id="anh_mh1">
+                            <img draggable="true" ondragover="f_dragover(event)" ondrag="f_drag(this)" ondrop="f_drop(this)" class="w-100 h-100 anhsp" src="@Model.AnhBia" />
+                            <div class="img_xoa bg-info" onclick="Xoa(1)">
+                                <i class="bi bi-trash-fill"></i>
+                            </div>
+                        </div>
+                        @for (var i = 1; i <= dsAnh.Count(); i++)
+                        {
+                            string id = "anh_mh" + (i + 1).ToString();
+                            <div class="img_them col-4" id="@id">
+                                <img draggable="true" ondragover="f_dragover(event)" ondrag="f_drag(this)" ondrop="f_drop(this)" class="w-100 h-100 anhsp" src="@dsAnh[i - 1].DuongDanAnh" />
+                                <div class="img_xoa bg-info" onclick="Xoa(@(i + 1))">
+                                    <i class="bi bi-trash-fill"></i>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12" style="margin-bottom: 20px; z-index:9">
+                <div class="tt item" style="padding: 30px; padding-bottom:40px; position: relative;">
+                    <span>Tên sản phẩm:</span>
+                    <input type="text" id="tensp" value="@Model.TenSP" oninput="KTTen()" name="TenSP" title="Nhập tên sản phẩm" class="btn them_nhap" placeholder="Nhập tên sản phẩm" /><br />
+                    <div class="loianh">
+                        <span id="loi_ten" class="demloi"></span>
+                    </div>
+                    <div class="row">
+                        <p id="gb" style="color:  blue; margin-top: 40px;">
+                            Ngành hàng:
+                            <div class="col-6" style="margin-top:-15px;">
+                                <select name="NganhHang" id="NganhHang" onchange="CapNhatChiTietNganhHang(this)" class="form-select them_nhap" aria-label="Default select example">
+                                    <option> Chọn ngành hàng </option>
+                                    @foreach (var item in loais)
+                                    {
+                                        if (item.MaLoai.Equals(Model.ChiTietLoaiSanPham.MaLoai))
+                                        {
+                                            <option selected value="@item.MaLoai">@item.TenLoai</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.MaLoai">@item.TenLoai</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-6" style="margin-top:-15px;">
+                                <select name="ChiTietNganhHang" onchange="KTCT(this)" id="ChiTiet" class="form-select them_nhap" aria-label="Default select example">
+                                    <option value="-1"> Chọn mặt hàng cụ thể</option>
+                                    @foreach (var item in ctloais)
+                                    {
+                                        if (item.MaChiTietLoai.Equals(Model.MaChiTietLoai))
+                                        {
+                                            <option selected class="@item.MaLoai" style="display:none" value="@item.MaChiTietLoai">@item.TenChiTiet</option>
+
+                                        }
+                                        else
+                                        {
+                                            <option class="@item.MaLoai" style="display:none" value="@item.MaChiTietLoai">@item.TenChiTiet</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class=" col-12 ViewLoi">
+                                <span class="loi_nganh demloi">Vui lòng chọn đầy đủ loại mặt hàng</span>
+                            </div>
+                        </p>
+                    </div>
+                    <hr />
+                    <div class="row" style=" margin-bottom:20px">
+                        <div class="w-100">
+                            <center>
+                                <a class="btn btn-outline-info" style="color:black; font-size:20px; width:100%;" onclick="ThemLoai()">
+                                    Thêm loại sản phẩm
+                                </a>
+                            </center>
+                            <div class=" row w-100" style="margin-left:2px;">
+                                <div class="list_loai row w-100">
+                                    @for (var i = 1; i <= ctpls.Count(); i++)
+                                    {
+                                        string l = "loai" + i.ToString();
+                                        string tenloai = "TenLoai" + i.ToString();
+                                        string gialoai = "gialoai" + i.ToString();
+                                        string Loiloai = "Loiloai" + i.ToString();
+                                        <div class="loai" id="@l">
+                                            <i class="bi bi-x-circle-fill bi_xoa_loai" title="Nhấn vào đây để xóa" onclick="XoaLoai(@i)"></i>
+                                            <input class=" w-100 btn btn_loai" id="@tenloai" oninput="DoiTenLoai(@i)" placeholder="Nhập loại" value="@ctpls[i - 1].TenPhanLoai" type="text" title="Nhập tên loại" maxlength="32" />
+                                            <input title="Nhập giá bán" value="@ctpls[i - 1].Gia" class=" them_nhap btn hienthi_sl2" id="@gialoai" oninput="checknumber(@i)" type="text" placeholder="Nhập giá bán" min="1" max="1000000000" />
+                                            <div class="loi_loai">
+                                                <span id="@Loiloai" style="display:none" class="demloi">Không để trống!</span>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height:80px;">
+                        <div class="row bg-info" style="padding:10px; position:absolute; width:100%; margin-left:-30px;">
+                            <center><h6>Chọn phân loại để chỉnh sửa kích cở và số lượng mỗi loại:</h6></center>
+                        </div>
+                    </div>
+                    <select class="form-select option" onchange="ChuyenTrangKichCo()" aria-label="Default select example">
+                        @for (var i = 0; i < ctpls.Count(); i++)
+                        {
+                            <option class="loai_giatri" id="@(i + 1)" value="@ctpls[i].Gia">@ctpls[i].TenPhanLoai</option>
+                        }
+                    </select>
+                    <div class="row" id="list_loai_kich_co" style=" margin:0px; margin-left:-2.3%; width:105%;">
+                        @for (var i = 1; i <= ctpls.Count; i++)
+                        {
+                            string nutthem_loai = "nutthem_loai" + i.ToString();
+                            string list_kich_co_loai = "list_kich_co_loai" + i.ToString();
+                            <div class="w-100" id="@("kichcoloai" + i.ToString())" style="display:none;">
+                                <a class="btn btn-outline-info" style="width: 100%; color: black; font-size: 20px;" onclick="ThemKichCo(@i)">
+                                    Thêm kích cỡ cho loại "<span id="@nutthem_loai">@ctpls[i - 1].TenPhanLoai</span>"
+                                </a>
+                                <div class=" row w-100" style="margin-left:2px;">
+                                    <center class="@list_kich_co_loai">
+                                        @{ List<ChiTietKichCo> ctkcs = ctpls[i - 1].ChiTietKichCoes.Where(kc => !kc.Xoa).ToList();
+                                            for (var j = 1; j <= ctkcs.Count(); j++)
+                                            {
+                                                string loai_kichco = "loai" + i.ToString() + "_kichco" + j.ToString();
+                                                string loai_ten_kc = "loai_" + i.ToString() + "ten_kc" + j.ToString();
+                                                string loai_sl_kc = "loai_" + i.ToString() + "sl_kc" + j.ToString();
+                                                string loiloai_sl_kc = "loiloai_" + i.ToString() + "sl_kc" + j.ToString();
+                                                <div class="loai" id="@loai_kichco">
+                                                    <i class="bi bi-x-circle-fill bi_xoa_loai" title="Nhấn vào đây để xóa" onclick="XoaKichCo(@i,@j,@(j - 1))"></i>
+                                                    <input class=" w-100 btn btn_kichco" id="@loai_ten_kc" value="@ctkcs[j - 1].KichCo" placeholder="Nhập kích cỡ" type="text" oninput="DoiTenKichCo(@i, @(j - 1), this)" title="Nhập tên kích cỡ" maxlength="32" />
+                                                    <input title="Nhập số lượng" value="@ctkcs[j - 1].SoLuong" id="@loai_sl_kc" oninput="checknumber_sl(@j,@i,@(j - 1),this)" class="them_nhap btn hienthi_sl2" type="text" placeholder="Nhập số lượng" min="1" max="1000000000" />
+                                                    <div class="loi_loai">
+                                                        <span id="@loiloai_sl_kc" style="display:none" class="demloi">Không để trống!</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </center>
+                                </div>
+                            </div>
+                        }
+                        <script>
+                            document.getElementById('kichcoloai1').style.display = 'block';
+                        </script>
+                    </div>
+                    @* Thông báo quá số lượng loại *@
+                    <button type="button" hidden id="liveToastBtn">Quá số lượng</button>
+                    <div class="toast-container position-fixed bottom-0 end-0 p-3" style="top:50px;">
+                        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header" style="color:red;">
+                                <i class="bi bi-envelope-exclamation-fill rounded me-2"></i>
+                                <strong class="me-auto">Thông báo</strong>
+                                <small>Thao tác không thành công</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body" id="ThongBao"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="text_gg">
+                            <p style="color: red; margin-top: 20px;">
+                                Giảm giá: <span style="float:right;">(đơn vị: %)</span>
+                                <input name="GiamGia" type="text" value="@Model.GiamGia" title="Nhập tỷ lệ giảm giá (bỏ qua hoặc nhập 0 nếu bạn không giảm giá)" class="them_nhap btn" id="hienthi_giamgia" placeholder="từ 0 đến 100%" maxlength="3" />
+                            </p>
+                        </div>
+                        <div class="col-6 lich" style="display:none;">
+                            <p style="color: red; margin-top: 20px;">
+                                Thời hạn:
+                                <input class="them_nhap" value="@Model.ThoiHan" name="ThoiHan" title="Chọn ngày hết hạn giảm giá" id="timegg" alt="Chọn ngày hết hạn giảm giá" placeholder="Chọn ngày hết hạn giảm giá" style="text-align:center; height:40px; border-radius:5px; border:1px solid #808080;" />
+                                <div class="loianh">
+                                    <span id="loi_gg" style="display:none" class="demloi"></span>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div style=" width:100%; display:none; margin-top: 30px; padding: 20px;" class="item">
+                    <div>
+                        <span style="padding-right:50px; float:left;">Số lượng</span>
+                        <div style="float:left;">
+                            <button class="sl" id="cong">+</button>
+                            <input type="text" id="hienthi_sl" value="1" />
+                            <button class="sl" id="tru">-</button>
+                            <span style="padding-left:10px;">32940 sản phẩm có sẳn</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="item w-100" style=" padding: 40px; margin-left:12px; min-height: 700px; font-size:18px; ">
+                    <h4>CẬP NHẬT THÔNG TIN SẢN PHẨM</h4>
+                    <hr />
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Thông Tin Chi Tiết</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Mô Tả Sản Phẩm</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent" style="padding-top:20px;">
+                        <div class="tab-pane fade show active" style="min-height:500px;" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                            <div class="row text_tt_nd">
+                                <div class="col-5">
+                                    <center><h5>THUỘC TÍNH</h5></center>
+                                </div>
+                                <div class="col-7">
+                                    <center> <h5>NỘI DUNG</h5></center>
+                                </div>
+                            </div>
+                            <div class="thongtinchitiet">
+                                @for (var i = 1; i <= ttsps.Count; i++)
+                                {
+                                    string nd = "nd" + i.ToString();
+                                    string thuoctinh = "thuoctinh" + i.ToString();
+                                    string noidung = "noidung" + i.ToString();
+                                    string loi_tt = "loi_tt" + i.ToString();
+                                    <div class="row nd_ct" id="@nd">
+                                        <div class=" bi-x-square " onclick="XoaThuocTinh(@i)">
+                                            <i class="bi bi-x-square-fill"></i>
+                                        </div>
+                                        <div class=" col-5">
+                                            <input id="@thuoctinh" value="@ttsps[i-1].ThuocTinh" oninput="DoiTenThuocTinh(@i,this)" title="Nhập thuộc tính" placeholder="Nhập thuộc tính" class=" btn thuoctinh w-100" type="text" />
+                                        </div>
+                                        <div class="col-7">
+                                            <input id="@noidung" value="@ttsps[i-1].NoiDung" oninput="DoiNoiDung(@i,this)" title="Nhập nội dung cho thuộc tính" placeholder="Nhập nội dung cho thuộc tính" class=" btn noidung w-100" type="text" />
+                                        </div>
+                                        <div class="loianh">
+                                            <span id="@loi_tt" style="display:none" class="loi_tt demloi">Không được để trống nội dung và thuộc tính</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <hr />
+                            <a class="btn btn-outline-info w-100" id="themthuoctinh">Thêm thuộc tính</a>
+                        </div>
+                        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                            <textarea maxlength="50000" name="MoTa" placeholder="Nhập nội dung mô tả sản phẩm vào đây nè!!!" class=" mota w-100" title="Nhập nội dung mô tả sản phẩm">@Model.MoTaSP</textarea>
+                            <div class="loianh">
+                                <span id="loi_mota" style="display:none" class=" demloi"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <hr />
+                </div>
+            </div>
+        </div>
+        <div id="DataSanPham">
+
+        </div>
+        <div class="row cailuu item container-lg">
+            <div class="col-lg-6 col-12">
+                <a onclick="KTDuLieu()" class="btn w-100 btn_luusp btn-outline-info">LƯU THAY ĐỔI</a>
+                <button id="LuuSanPham" hidden type="submit">Lưu</button>
+            </div>
+            <div class="col-lg-6 col-12">
+                <a href="ThemSanPham" class="btn w-100 btn_luusp btn-outline-danger">HỦY THAY ĐỔI</a>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/js/ThaoTacThemAnhSP.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="~/js/XuLySanPhamm.js"></script>
+<script>
+    flatpickr("#timegg", {
+        dateFormat: "m/d/Y"
+    });
+    document.getElementById('TrangLoad').innerText = "Chỉnh sửa thông tin sản phẩm"
+</script>
+<script>
+    noiDung.pop();
+    thuocTinh.pop();
+    box_vt_ten_tt.pop();
+
+    sl_thuoctinh = @ttsps.Count();
+    sl_box_tt = @ttsps.Count()+1;
+
+    check_gg(sl3);
+    sl_anh = @dsAnh.Count()+1;
+    id_auto = sl_anh + 1;
+    sl_loai = @ctpls.Count();
+    sl_box_loai = sl_loai + 1;
+
+    list_sl_kich_co.pop();
+    list_ten_loai.pop();
+    list_box_kc.pop();
+
+    list_kc_ten.pop();
+    list_loai_kc_vt.pop();
+    list_kc_loai_sl.pop();
+    list_kc_loai_ten_box.pop();
+
+</script>
+@{ for (var i = 1; i <= ctpls.Count; i++)
+    {
+        List<ChiTietKichCo> ctkcs = ctpls[i - 1].ChiTietKichCoes.ToList();
+        <script>
+        list_kc_ten.push(new Array());
+        list_kc_loai_sl.push([]);
+        list_loai_kc_vt.push([]);
+        list_kc_loai_ten_box.push([]);
+        list_sl_kich_co.push(@ctkcs.Count());
+        list_ten_loai.push(@i);
+        list_box_kc.push(@ctkcs.Count());
+        </script>
+        for (var j = 1; j <= ctkcs.Count(); j++)
+        {
+            <script>
+                list_kc_ten[@(i - 1)].push("@ctkcs[j-1].KichCo");
+                list_kc_loai_sl[@(i - 1)].push(@ctkcs[j - 1].SoLuong);
+                list_kc_loai_ten_box[@(i - 1)].push(@(j));
+                list_loai_kc_vt[@(i - 1)].push(@(j-1));
+            </script>
+        }
+    } }
+@for (var i = 0; i < ttsps.Count; i++)
+{
+    <script>
+        thuocTinh.push("@ttsps[i].ThuocTinh");
+        noiDung.push("@ttsps[i].NoiDung");
+        box_vt_ten_tt.push(@(i+1));
+    </script>
+}
+@*<script>
+        console.log("-------------------------------------------------------------------------");
+        console.log("số lượng kích cở của mỗi loại: ", list_sl_kich_co)
+        console.log("Tên mỗi loại: ", list_ten_loai)
+        console.log("Tên: ", list_box_kc)
+        console.log("Tên của từng kích cở: ", list_kc_ten)
+        console.log("Vị trí: ", list_loai_kc_vt)
+        console.log("Số lượng mỗi loại: ", list_kc_loai_sl)
+        console.log("Lấy tên cho kích cở của box: ", list_kc_loai_ten_box)
+    </script>*@

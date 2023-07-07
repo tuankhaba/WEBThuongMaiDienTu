@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "Sửa đia chỉ";
+    Layout = "~/Views/KenhBanHang/KenhBanHang.cshtml";
+}
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+<title>Quản lý đơn hàng</title>
+@using ThuongMaiDienTu.Models
+@model IEnumerable<ThuongMaiDienTu.Models.DonHang>
+<link href="~/Content/QuanLyDonHang.css" rel="stylesheet" />
+<style>
+    .trangThai_goihang{
+        margin-bottom:10px;
+        margin-top:-5px;
+    }
+</style>
+<div class="container-lg" style="min-height:900px;">
+    <h4>
+        <i class="bi bi-box-seam-fill"></i>
+        Quản lí đơn hàng
+    </h4>
+    <div class="item"  style="padding: 20px; min-height: 800px;">
+        <!-- Tab items -->
+        <div class="tabss">
+            <div class="tab-itemm activee">
+                <i class="tab-icon fas fa-code"></i>
+                Tất cả
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-cog"></i>
+                Chờ xác nhận
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-plus-circle"></i>
+                Đang xử lý
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-pen-nib"></i>
+                Đang giao
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-pen-nib"></i>
+                Đã giao
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-pen-nib"></i>
+                Đã bị hủy
+            </div>
+            <div class="line"></div>
+        </div>
+
+        <!-- Tab content -->
+        <div>
+            <div class="tab-contentt">
+                <div class="row" style="padding-left: 20px; padding-right: 20px; ">                    
+                    <div class="tab-panee activee">                        
+                        <div>
+                            <div class="row">
+                                <div class="col-lg-5 col-12" style="padding:5px;">
+                                    <a href="@Url.Action("XacNhanHangLoat", new {url = Request.Url.ToString()})" class="btn btn-warning hver">Xác nhận hàng loạt</a>
+                                </div>
+                                <div class="col-lg-7 col-12" style="padding:5px">
+                                    <form class="d-flex" action="/KenhBanHang/QuanLyDonHang" method="post" role="search">
+                                        <input value="@ViewBag.txt" class="form-control me-2 hver" type="search" id="TimKiem" name="txt_search" placeholder="Nhập mã đơn hàng bạn muốn tìm kiếm" aria-label="Search">
+                                        <button class="btn btn-outline-info hver" type="submit"><i class="bi bi-search"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <hr />
+                            @if (Model.Count() == 0)
+                            {
+                <span>Không có sản phẩm</span>
+                            }
+                            else
+                            {
+                            <table class="hver table table-hover table-light table-striped table-bordered" border="1" style=" margin-top:20px; align-content:center;text-align:center;justify-content:center;align-items:center;">
+                                <thead>
+                                    <tr>
+                                        <th>Đơn hàng</th>
+                                        <th>Số sản phẩm</th>
+                                        <th>Tổng số lượng</th>
+                                        <th>Thành Tiền</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thao tác</th>
+
+                                    </tr>
+                                </thead>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="DonHang" title="Đơn hàng @item.MaDonHang">
+                                        <td style="width: 25%" class="MaDon">@item.MaDonHang</td>
+                                        <td style="width: 10%" >@item.ChiTietDonHangs.Count()</td>
+                                        <td style="width: 10%" >@item.ChiTietDonHangs.Sum(t => t.SoLuong) </td>
+                                        <td style="width: 20%" >@string.Format("{0:0,0}", item.ThanhTien)đ</td>
+                                        <td style="width: 20%" >@item.TrangThai</td>
+                                        <td style="width: 15%" >
+                                            <a href="@Url.Action("ShowChiTietDonHang", new { maDH = item.MaDonHang })" class="btn btn-outline-danger">Xem chi tiết</a>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </table>
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-panee">
+                        <table class=" hver table table-hover table-light table-striped table-bordered" border="1" style=" margin-top:20px; align-content:center;text-align:center;justify-content:center;align-items:center;">
+                            <thead>
+                                <tr>
+                                    <th>Đơn hàng</th>
+                                    <th>Số sản phẩm</th>
+                                    <th>Tổng số lượng</th>
+                                    <th>Thành Tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+
+                                </tr>
+                            </thead>
+                            @{ List<DonHang> ChoXacNhan = Model.Where(t => t.TrangThai.Equals("Chờ xác nhận")).ToList(); }
+                            @foreach (var item in ChoXacNhan)
+                            {
+                                <tr title="Đơn hàng @item.MaDonHang">
+                                    <td>@item.MaDonHang</td>
+                                    <td>@item.ChiTietDonHangs.Count()</td>
+                                    <td>@item.ChiTietDonHangs.Sum(t => t.SoLuong) </td>
+                                    <td>@string.Format("{0:0,0}", item.ThanhTien)đ</td>
+                                    <td>@item.TrangThai</td>
+                                    <td>
+                                        <a href="@Url.Action("ShowChiTietDonHang",new {maDH = item.MaDonHang})" class="btn btn-outline-danger">Chi tiết</a>
+                                        <a href="@Url.Action("XacNhanDonHang",new {maDH = item.MaDonHang, url = Request.Url.ToString()})"class="btn btn-warning hver" >Xác nhận</a>
+                                    </td>
+                                </tr>
+
+                            }
+                        </table>
+                    </div>
+                    <div class="tab-panee ">
+                        <table class="table hver table-hover table-light table-striped table-bordered" border="1" style=" margin-top:20px; align-content:center;text-align:center;justify-content:center;align-items:center;">
+                            <thead>
+                                <tr>
+                                    <th>Đơn hàng</th>
+                                    <th>Số sản phẩm</th>
+                                    <th>Tổng số lượng</th>
+                                    <th>Thành Tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+
+                                </tr>
+                            </thead>
+                            @{ List<DonHang> DangXuLy = Model.Where(t => t.TrangThai.Equals("Đang xử lý")).ToList(); }
+                            @foreach (var item in DangXuLy)
+                            {
+                                <tr title="Đơn hàng @item.MaDonHang">
+                                    <td>@item.MaDonHang</td>
+                                    <td>@item.ChiTietDonHangs.Count()</td>
+                                    <td>@item.ChiTietDonHangs.Sum(t => t.SoLuong) </td>
+                                    <td>@string.Format("{0:0,0}", item.ThanhTien)đ</td>
+                                    <td>@item.TrangThai</td>
+                                    <td><a href="@Url.Action("ShowChiTietDonHang", new { maDH = item.MaDonHang })" class="btn btn-outline-danger">Xem chi tiết</a></td>
+                                </tr>
+
+                            }
+                        </table>
+                    </div>
+                    <div class="tab-panee ">
+                        <table class="table hver table-hover table-light table-striped table-bordered" border="1" style=" margin-top:20px; align-content:center;text-align:center;justify-content:center;align-items:center;">
+                            <thead>
+                                <tr>
+                                    <th>Đơn hàng</th>
+                                    <th>Số sản phẩm</th>
+                                    <th>Tổng số lượng</th>
+                                    <th>Thành Tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+
+                                </tr>
+                            </thead>
+                            @{ List<DonHang> DangGiao = Model.Where(t => t.TrangThai.Equals("Đang giao")).ToList(); }
+                            @foreach (var item in DangGiao)
+                            {
+                                <tr title="Đơn hàng @item.MaDonHang">
+                                    <td>@item.MaDonHang</td>
+                                    <td>@item.ChiTietDonHangs.Count()</td>
+                                    <td>@item.ChiTietDonHangs.Sum(t => t.SoLuong) </td>
+                                    <td>@string.Format("{0:0,0}", item.ThanhTien)đ</td>
+                                    <td>@item.TrangThai</td>
+                                    <td><a href="@Url.Action("ShowChiTietDonHang", new { maDH = item.MaDonHang })" class="btn btn-outline-danger">Xem chi tiết</a></td>
+                                </tr>
+
+                            }
+                        </table>
+                    </div>
+                    <div class="tab-panee ">
+                        <table class="table hver table-hover table-light table-striped table-bordered" border="1" style=" margin-top:20px; align-content:center;text-align:center;justify-content:center;align-items:center;">
+                            <thead>
+                                <tr>
+                                    <th>Đơn hàng</th>
+                                    <th>Số sản phẩm</th>
+                                    <th>Tổng số lượng</th>
+                                    <th>Thành Tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+
+                                </tr>
+                            </thead>
+                            @{ List<DonHang> DaGiap = Model.Where(t => t.TrangThai.Equals("Đã giao")).ToList(); }
+                            @foreach (var item in DaGiap)
+                            {
+                                <tr title="Đơn hàng @item.MaDonHang">
+                                    <td>@item.MaDonHang</td>
+                                    <td>@item.ChiTietDonHangs.Count()</td>
+                                    <td>@item.ChiTietDonHangs.Sum(t => t.SoLuong) </td>
+                                    <td>@string.Format("{0:0,0}", item.ThanhTien)đ</td>
+                                    <td>@item.TrangThai</td>
+                                    <td><a href="@Url.Action("ShowChiTietDonHang", new { maDH = item.MaDonHang })" class="btn btn-outline-danger">Xem chi tiết</a></td>
+                                </tr>
+
+                            }
+                        </table>
+                    </div>
+                    <div class="tab-panee ">
+                        <table class="table hver table-hover table-light table-striped table-bordered" border="1" style=" margin-top:20px; align-content:center;text-align:center;justify-content:center;align-items:center;">
+                            <thead>
+                                <tr>
+                                    <th>Đơn hàng</th>
+                                    <th>Số sản phẩm</th>
+                                    <th>Tổng số lượng</th>
+                                    <th>Thành Tiền</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+
+                                </tr>
+                            </thead>
+                            @{ List<DonHang> DaHuy = Model.Where(t => t.TrangThai.Equals("Đã hủy")).ToList(); }
+                            @foreach (var item in DaHuy)
+                            {
+                                <tr title="Đơn hàng @item.MaDonHang">
+                                    <td>@item.MaDonHang</td>
+                                    <td>@item.ChiTietDonHangs.Count()</td>
+                                    <td>@item.ChiTietDonHangs.Sum(t => t.SoLuong) </td>
+                                    <td>@string.Format("{0:0,0}", item.ThanhTien)đ</td>
+                                    <td>@item.TrangThai</td>
+                                    <td><a href="@Url.Action("ShowChiTietDonHang", new { maDH = item.MaDonHang })" class="btn btn-outline-danger">Xem chi tiết</a></td>
+                                </tr>
+
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Tab_TuyBien.js"></script>

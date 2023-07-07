@@ -1,0 +1,280 @@
+﻿@using ThuongMaiDienTu.Models;
+@{
+    ViewBag.Title = "Sửa đia chỉ";
+    Layout = "~/Views/KenhBanHang/KenhBanHang.cshtml";
+    DataThongKe ThongKe = ViewBag.DL as DataThongKe;
+    CuaHang ch = ViewBag.Ch as CuaHang;
+
+}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/Date.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    #dothi {
+        width: 100%;
+        border: 1px solid #000000;
+    }
+
+    .mr-bt {
+        margin-top: 20px;
+    }
+
+    #NgayBatDau,
+    #NgayKetThuc {
+        margin-bottom: 10px;
+    }
+
+    .option {
+        text-align: left;
+        background-color: #a5f0ff;
+    }
+
+    .hver:hover {
+        background-color: white;
+        box-shadow: 1px 4px 5px #0dcaf0;
+    }
+    body{
+        background-color:#f5f5fa;
+    }
+</style>
+<div class="container item" style="padding:20px;">
+    <div>
+        <center><h4>Thống kê doanh thu</h4></center>
+    </div>
+    @using (Html.BeginForm())
+    {
+    <div class="row ">
+        <div class="col-lg-6 mr-bt col-12">
+            <div class="row">
+                <div class="col-lg-9 col-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <center><input name="NgayBatDau" class="hver" id="NgayBatDau" alt="Chọn ngày bắt đầu" placeholder="Chọn ngày bắt đầu" style="text-align:center;  width:95%; height:40px; border-radius:5px; border:1px solid #808080;" /></center>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <center><input name="NgayKetThuc" class="hver" id="NgayKetThuc" alt="Chọn ngày kết thúc" placeholder="Chọn ngày kết thúc" style="text-align:center;  width:95%; height:40px; border-radius:5px; border:1px solid #808080;" /></center>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:-7px; margin-bottom:2px; margin-left:-4px; font-size:14px; color:crimson;">
+                        <span>@ViewBag.Loi</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-12">
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-6 mr-bt col-12">
+            <div class="row">
+                <div id="Loc" class="">
+                    <div class="row">
+                        <div class="col-4">
+                            Doanh thu theo:
+                        </div>
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-check ">
+                                        <input class="form-check-input hver bg-info" checked type="checkbox" name="LoaiThongKe" value="0" id="TatCa">
+                                        <label class="form-check-label" for="TatCa">
+                                            Tất cả
+                                        </label>
+                                    </div>
+                                    <div class="form-check ">
+                                        <input class="form-check-input hver " type="checkbox" name="LoaiThongKe" value="1" id="LuotTruyCap">
+                                        <label class="form-check-label" for="LuotTruyCap">
+                                            Lượt truy cập
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check ">
+                                        <input class="form-check-input hver" name="LoaiThongKe" type="checkbox" value="2" id="CuaHang">
+                                        <label class="form-check-label" for="CuaHang">
+                                            Cửa hàng
+                                        </label>
+                                    </div>
+                                    <div class="form-check ">
+                                        <input class="form-check-input hver" type="checkbox" name="LoaiThongKe" value="3" id="SanPham">
+                                        <label class="form-check-label" for="SanPham">
+                                            Sản phẩm
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="listSanPham" style="display:none" class="col-4">
+                    <select id="select-sp" class="form-select btn hver btn-outline-info" name="MaSP" aria-label="Default select example">
+                        <option class="option" value="0" selected>Chọn sản phẩm</option>
+                        @foreach (var item in ch.SanPhams)
+                        {
+                            if (item.TenSP.Length > 30)
+                            {
+                                <option title="@item.TenSP" class="option" value="@item.MaSP">@item.TenSP.Substring(0, 30)...</option>
+                            }
+                            else
+                            {
+                                <option title="@item.TenSP" class="option" value="@item.MaSP">@item.TenSP</option>
+                            }
+
+                        }                        
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="col-lg-2 col-12">
+                    <center><button type="submit" class="btn hver btn-info">Thống kê</button></center>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+            </div>
+        </div>
+    </div>
+    }
+    <div class="row" style="margin:20px 0px; padding: 0px 10px;">
+        <div></div>
+        <center><div id="myfirstchart" style="height: 400px; width:100%; border:1px solid #000000"></div></center>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-12">
+            <center><h5>Tổng theo quãng thời gian đã chọn</h5></center>
+            <div class="row">
+                <div class="col-6">
+                    <center>
+                        <div>
+                            <br />
+                            <span style="color:#808080">Lượt truy cập: </span><span>123821</span><br /><br />
+                            <span style="color:#808080">Đang truy cập: </span><span>12</span>
+                        </div>
+                    </center>
+                </div>
+                <div class="col-6">
+                    <center>
+                        <div>
+                            <br />
+                            <span style="color:#808080">Cửa hàng: </span><span>@(string.Format("{0:0,0}",Convert.ToInt32(ViewBag.tongCH)))đ</span><br /><br />
+                            <span style="color:#808080">Sản phẩm: </span><span>@(string.Format("{0:0,0}",Convert.ToInt32(ViewBag.tongSP)))đ</span><br />
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-12">
+            <center><h5>Toàn bộ</h5></center>
+            <div class="row">
+                <div class="col-6">
+                    <center>
+                        <div>
+                            <br />
+                            <span style="color:#808080">Lượt truy cập: </span><span>@ch.LuotTruyCap</span><br /><br />
+                            <span style="color:#808080">Đang truy cập: </span><span>12</span>
+                        </div>
+                    </center>
+                </div>
+                <div class="col-6">
+                    <center>
+                        <div>
+                            <br />
+                            <span style="color:#808080">Cửa hàng: </span><span>@(string.Format("{0:0,0}",Convert.ToInt32(ViewBag.TongDT)))đ</span><br /><br />
+                            <span style="color:#808080">Sản phẩm: </span><span>@(string.Format("{0:0,0}",Convert.ToInt32(ViewBag.tongALLSP)))đ</span><br />
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("#NgayBatDau", {
+        dateFormat: "m/d/Y"
+    })
+    flatpickr("#NgayKetThuc", {
+        dateFormat: "m/d/Y"
+    })
+    let ChuoiDoThis = [];
+</script>
+@if (ThongKe != null)
+{
+    foreach (var item in ThongKe.Datas)
+    {
+     <script>
+         ChuoiDoThis.push({@(ThongKe.LoaiMoc + ": ")' @item.CotMoc', 'Lượt truy cập': @ThongKe.HashValue(item.LuotTruyCap) , 'Sản phẩm': @ThongKe.HashValue(item.SanPham) , 'Cửa hàng': @ThongKe.HashValue(item.CuaHang)});
+     </script>
+        }
+    }
+<script>
+    console.log(ChuoiDoThis);
+    const Loc = document.getElementById('Loc')
+    const SelectSp = document.getElementById('select-sp')
+    const listSanPham = document.getElementById('listSanPham')
+    const formCheckInput = document.querySelectorAll('.form-check-input');
+    for (var i = 0; i < formCheckInput.length; i++) {
+        formCheckInput[i].addEventListener('click', function () {
+            let uncheck = document.querySelector('.form-check-input.bg-info');
+            if (this.checked == true) {
+        this.classList.add('bg-info')
+                if (this.value == 3) {
+            listSanPham.style.display = 'block'
+                    Loc.classList.add('col-8');
+        }
+        else {
+            listSanPham.style.display = 'none'
+                    Loc.classList.remove('col-8');
+            SelectSp.selectedIndex = 0;
+        }
+        uncheck.checked = false;
+        uncheck.classList.remove('bg-info')
+            }
+            else
+                if (uncheck == this) {
+            this.checked = true;
+            return;
+            }
+        });
+    }
+    new Morris.Line({
+        element: 'myfirstchart',
+        // tô màu cho line
+        lineColors: ['#ffc107', '#0dcaf0', '#dc3545'],
+        /*        goalLineColors: ['#dc3545', '#0dcaf0'],*/
+        //tô màu cho điểm
+        //pointFillColors: ['#0dcaf0', '#ffc107','#dc3545'],
+        //màu sắc điểm chuỗi
+        /*pointStrokeColors: ['#212529', '#ffc107','#dc3545'],*/
+        fillOpacity: 0.3,
+        hideHover: 'auto',
+        gridTextSize: 15,
+        barColors: ['#0dcaf0', '#212529', '#ffc107', '#dc3545'],
+        praseTime: false,
+        resize: true,
+        colors: ['#0dcaf0', '#212529', '#ffc107', '#dc3545'],
+        data: ChuoiDoThis,
+        //data: [
+        //    { day: '2008', 'Lượt truy cập': 32, 'Sản phẩm': 20, 'Cửa hàng': 12 },
+        //    { day: '2009', 'Lượt truy cập': 32, 'Sản phẩm': 10, 'Cửa hàng': 23 },
+        //    { day: '2010', 'Lượt truy cập': 1, 'Sản phẩm': 19, 'Cửa hàng': 9 },
+        //    { day: '2011', 'Lượt truy cập': 3, 'Sản phẩm': 5, 'Cửa hàng': 12 },
+        //    { day: '2012', 'Lượt truy cập': 39, 'Sản phẩm': 20, 'Cửa hàng': 11 }
+        //],
+        xkey: '@ThongKe.LoaiMoc',
+        ykeys: ['Lượt truy cập', 'Sản phẩm', 'Cửa hàng'],
+        labels: ['Lượt truy cập', 'Sản phẩm', 'Cửa hàng']
+    });
+</script>
+<style>
+    .dsfhf {
+        color: #000000;
+    }
+</style>

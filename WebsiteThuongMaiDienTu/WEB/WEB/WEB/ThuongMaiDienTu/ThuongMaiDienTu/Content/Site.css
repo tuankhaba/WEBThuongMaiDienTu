@@ -1,0 +1,227 @@
+﻿.silder-product-one-content {
+    background-color: gold;
+    padding: 12px;
+    margin-top: 150px;
+}
+
+.silder-product-one-content-title h2 {
+    font: italic;
+}
+
+.silder-product-one-content-items {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.silder-product-one-content-item {
+    width: 19%;
+    background-color: #fff;
+    padding: 50px 12px 50px;
+    border-radius: 5px;
+}
+
+    .silder-product-one-content-item > img {
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+.silder-product-one-content-item-text {
+    padding-top: 20px;
+}
+
+    .silder-product-one-content-item-text li {
+        margin-bottom: 6px;
+    }
+
+        .silder-product-one-content-item-text li:nth-child(3) a {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .silder-product-one-content-item-text li:last-child i {
+            color: coral;
+        }
+
+li {
+    list-style: none;
+}
+
+.silder-product-one-content-item:hover img {
+    transform: translateY(-10px);
+}
+
+.silder-product-one-content-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.silder-product-one-content-btn {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+    .silder-product-one-content-btn i {
+        color: darkgray;
+        font-size: 32px;
+        height: 50px;
+        width: 25px;
+        background-color: rgba(253, 242,242);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translateY(-50%);
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+.silder-product-one-content-items-content {
+    position: relative;
+    height: 550px;
+    transition: all 0.3s ease;
+}
+
+.silder-product-one-content-items {
+    position: absolute;
+}
+
+    .silder-product-one-content-items:nth-child(2) {
+        transform: translateX(100%);
+    }
+/*---------------------------sider------------------*/
+.slider {
+    padding: 20px 0;
+    height: 350px;
+}
+
+.slider-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.slider-content-left {
+    width: 65%;
+}
+
+.slider-content-left-top {
+    width: 100%;
+    height: 430px;
+    position: relative;
+}
+
+    .slider-content-left-top img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.slider-content-left-bottom {
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid #ddd;
+    border-top: none;
+    height: 50px;
+}
+
+    .slider-content-left-bottom li {
+        width: 20%;
+        text-align: center;
+        cursor: pointer;
+        padding: 6px 0;
+        height: 100%;
+        line-height: 38px;
+        position: relative;
+    }
+
+        .slider-content-left-bottom li::before {
+            display: block;
+            content: " ";
+            position: absolute;
+            height: 70%;
+            width: 1px;
+            background-color: #ddd;
+            right: 0;
+        }
+
+        .slider-content-left-bottom li.active {
+            border-top: 4px solid yellow;
+        }
+
+.slider-content-right {
+    width: 35%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 10px;
+    margin-left: 8px;
+}
+
+    .slider-content-right li {
+        width: 50%;
+        height: 50%;
+        text-align: center;
+        margin-bottom: 6px;
+    }
+
+.slider-content-left-top-btn {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+    .slider-content-left-top-btn i {
+        color: #333;
+        font-size: 32px;
+        height: 50px;
+        width: 25px;
+        background-color: #ddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translateY(-50%);
+        border-radius: 5px;
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+/*----------------dử lý code của slider left top----------*/
+.slider-content-left-top img {
+    position: absolute;
+}
+
+.slider-content-left-top a:nth-child(2) img {
+    transform: translateX( 100%);
+}
+
+.slider-content-left-top a:nth-child(3) img {
+    transform: translateX( 200%);
+}
+
+.slider-content-left-top a:nth-child(4) img {
+    transform: translateX( 300%);
+}
+
+.slider-content-left-top a:nth-child(5) img {
+    transform: translateX( 400%);
+}
+
+.slider-content-left-top-container {
+    position: relative;
+    overflow: hidden;
+}
+
+    .slider-content-left-top-container:hover i {
+        opacity: 1;
+    }
+
+.slider-content-left-top {
+    transition: all 0.3s ease;
+}
+
+.slider-content-left-bottom li.active {
+    border-top: 4px solid yellow;
+    font-weight: bold;
+}

@@ -1,0 +1,128 @@
+﻿@{
+    ViewBag.Title = "SuaDiaChi";
+    Layout = "~/Views/TaiKhoanCaNhan/TrangCaNhan.cshtml";
+}
+<style>
+    .mk:hover {
+        background-color: azure;
+    }
+
+    .mk:focus {
+        background-color: white;
+    }
+
+    .mk {
+        width: 100%;
+        height: 40px;
+        text-align: left;
+        margin-bottom: 30px;
+        cursor: text;
+    }
+
+    .td_mk {
+        float: left;
+        margin-bottom: 5px;
+    }
+
+    .ltd {
+        margin-top: 20px;
+        height: 50px;
+        font-size: 18px;
+    }
+
+        .ltd:hover {
+            background-color: aqua;
+        }
+
+    .eye {
+        cursor: pointer;
+        position: sticky;
+        margin-top: -60px;
+        margin-bottom: 40px;
+        float: right;
+        margin-right: 15px;
+    }
+
+    .bi-eye-slash {
+        display: none;
+    }
+    .mkhientai{
+        color:red;
+        left:3px;
+        top:0;
+        font-size:13px;
+        margin-top:-29px;
+    }
+    .mkmoinhaplai {
+        color: red;
+        margin-top: -29px;
+        font-size: 13px;
+        margin-left: -183px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+
+<div id="list-item-4" style="min-height:600px;">
+    <h4>
+        <i class="bi bi-gear-fill"></i>
+        Đổi mật khẩu
+    </h4>
+    <hr />
+    <div class="row">
+        @using (Html.BeginForm())
+        {
+        <center>
+            <div class="itemm" style="width:465px; height:450px; padding:30px; padding-top:40px; margin-top:60px;">
+                <p class="td_mk">Mật khẩu hiện tại</p>
+                <input placeholder="Nhập mật khẩu hiện tại" required="required" title="Nhập mật khẩu hiện tại" name="MKHienTai" class=" pass1 btn btn-outline-info mk" type="password" maxlength="32" />
+                <div class="eye" onclick="showPass('1')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye show1" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash ushow1" viewBox="0 0 16 16">
+                        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z" />
+                        <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z" />
+                        <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z" />
+                    </svg>
+                </div>
+                <div style="position: relative;">
+                    <span style="position:absolute" class="mkhientai">@ViewData["MKHienTai"]</span>
+                </div>
+                <p class="td_mk">Mật khẩu mới</p>
+                <input placeholder="Nhập mật khẩu mới" required="required" title="Nhập mật khẩu mới" name="MKMoi" class="pass2 btn btn-outline-info mk" type="password" maxlength="32" />
+                <div class="eye" onclick="showPass('2')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye show2" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash ushow2" viewBox="0 0 16 16">
+                        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z" />
+                        <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z" />
+                        <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z" />
+                    </svg>
+                </div>
+                <span class="loinhacmk" style="font-size:13px; margin-top:-28px; margin-left:-283px; position:absolute; margin-bottom:15px; color:#888888;">Mật khẩu phải dài từ 8 đến 32 kí tự</span>
+                <p class="td_mk">Nhập lại mật khẩu mới</p>
+                <input placeholder="Nhập lại mật khẩu mới" title="Nhập lại mật khẩu mới" name="MKMoi2" class=" pass3 btn btn-outline-info mk" required="required" type="password" maxlength="32" />
+                <div style="position:relative; float:left;" class="w-100">
+                    <span style="position:absolute;" class=" w-100 mkmoinhaplai"></span>
+                </div>
+                <div class="eye" onclick="showPass('3')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye show3" viewBox="0 0 16 16">
+                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash ushow3" viewBox="0 0 16 16">
+                        <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z" />
+                        <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z" />
+                        <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z" />
+                    </svg>
+                </div>
+                <button type="submit" disabled class=" ltd w-100 btn btn-info">Lưu thay đổi</button>
+            </div>
+        </center>
+        }
+    </div>
+</div>
+<script src="~/js/FromDangKyDangNhap.js"></script>

@@ -1,0 +1,130 @@
+﻿a{
+    text-decoration:none;
+    color:black;
+}
+.none_gc {
+    text-decoration: none;
+}
+
+.item {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 1px 4px 10px #AAAAAA;
+}
+
+.sanpham-item {
+    width: 107.5%;
+    height: 370px;
+    background-color: #f3f3f3;
+    padding: 20px 0px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 1px 4px 6px #AAAAAA;
+    margin: 5px;
+}
+
+    .sanpham-item img {
+        width: 100%;
+        animation-delay: 4s;
+        height: 90%;
+    }
+
+.aaa {
+    height: 240px;
+    margin-bottom: -20px;
+}
+
+.sanpham-item img:hover {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.sanpham-item-text {
+    display: flex;
+    padding: 0px 10px;
+    height: 140px;
+    position: relative;
+}
+
+    .sanpham-item-text ul {
+        position: relative;
+    }
+
+.giagoc {
+    text-decoration: line-through;
+    color: #828282;
+}
+
+.giakm {
+    color: red;
+}
+
+.ten {
+    font-size: 18px;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.btn_giohang {
+    width: 109.5%;
+    height: 168px;
+    position: relative;
+    cursor: pointer;
+    margin-top: -171px;
+    left: 3px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #0dcaf0;
+    opacity: 0;
+    color: white;
+    transition: 0.25s ease-in-out;
+    border: 0px;
+}
+
+    .btn_giohang:hover {
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+
+.cardsp:hover .sanpham-item {
+    box-shadow: 1px 2px 5px #0dcaf0;
+}
+
+.sanpham-item-text ul {
+    width: 100%;
+}
+
+.sanpham-item:hover {
+    box-shadow: 1px 2px 5px #0dcaf0;
+}
+
+.sider-product-one-content-item {
+    width: 17.5%;
+}
+
+.daban {
+    color: #808080;
+    font-size: 14px;
+    position: absolute;
+    bottom: 18px;
+    right: 10px;
+}
+
+.saoo {
+    color: #808080;
+    font-size: 14px;
+    position: absolute;
+    bottom: 18px;
+    left: 10px;
+}
+.sanpham-item-card .sanpham-item-text .saoo,
+.sanpham-item-card .sanpham-item-text .daban {
+    bottom: 50px;
+}

@@ -1,0 +1,248 @@
+﻿@using ThuongMaiDienTu.Models
+@model ThuongMaiDienTu.Models.NguoiDung
+@{
+    ViewBag.Title = Model.TenNguoiDung;
+    Layout = "~/Views/TaiKhoanCaNhan/TrangCaNhan.cshtml";
+}
+<style>
+    .taianh:hover {
+        margin-top: -5px;
+        margin-bottom: 5px;
+    }
+
+    .loi {
+        color: crimson;
+        margin-top: 0px;
+        position: absolute;
+        font-size: 13px;
+        padding-left: 3px;
+    }
+
+    .asl {
+        position: relative;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="~/Content/Date.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@if (ViewBag.thanhcong == 1)
+{
+    ViewBag.thanhcong = 0;
+    <script>
+        setTimeout(function () {
+            alert("Cập nhật thông tin thành công");
+        }, 400);
+    </script>
+}
+@if (ViewBag.Loi == 1)
+{
+    <script>
+        setTimeout(function () {
+            alert("Đã xảy ra lỗi, vui lòng thử lại!!!");
+        }, 400);
+    </script>
+}
+<div id="list-item-1" style="height:980px;">
+    <h4>
+        <i class="bi bi-person-square"></i>
+        Thông tin cá nhân
+    </h4>
+    <hr />
+    <div>
+        @using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="itemm col-xl-7 col-lg-12 col-md-12 col-12" style="padding:30px;">
+                    <div class="row" style="padding-bottom:10px;">
+                        <div class="col-3">
+                            <div style="border: 4px solid #c2e1ff; border-radius: 50%; width: 110px; position:inherit; height: 110px; padding: 11px; z-index: 1;">
+                                <div class="dropdown">
+                                    <!-- Nút load Avatar -->
+                                    <div title="Nhấn vào đây để cập nhật ảnh đại diện" style=" width:100px; height:100px; border-radius:50%" class="btn taianh" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        <img id="avt" onerror="this.src='\Image\AVT_error.jpg'" class="w-100 h-100" style=" top:-10px;left:-10px;  border-radius: 50%; position:absolute;" src="@Model.AnhDaiDien" />
+                                        Update
+                                        Avatar
+                                    </div>
+                                    <input type="text" hidden id="AnhMoi" value="@Model.AnhDaiDien" name="AnhMoi" />
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Cập nhật ảnh đại diện</h1>
+                                                    <button style="color:black;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body" style="height:600px;">
+                                                    <div class="container">
+                                                        <div class="drag-area justify-content-center mx-auto text-center border-2 border-info w-100 h-100 flex align-content-center" style="border-radius:20px; padding:15px; border:dashed">
+                                                            <div class="thaotac_load" style="margin-top:210px; ">
+                                                                <h1 style="font-size:20px; font-family:Arial;" class="keotha">Kéo và thả để tải ảnh lên</h1>
+                                                                <p>hoặc</p>
+                                                                <a class="chonfile btn btn-outline-info w-25">Chọn ảnh</a>
+                                                                <input class="ip" type="file" hidden />
+                                                            </div>
+                                                            <img class="w-100 h-100 anh_load" src="#" style="display:none">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <div class="huyluu" style="display:none;">
+                                                        <button type="button" class="btn btn-outline-danger" onclick="resett()" data-bs-dismiss="modal">Hủy Lưu</button>
+                                                    </div>
+                                                    <div class="luu">
+
+                                                    </div>
+                                                    @*<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Understood</button>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="position:relative;">
+                                <span onclick="XoaAnh()" title="Nhấn vào đây để xóa ảnh này" style="width:0px; height:0px; border:none; margin-top:-20px; margin-left:10px; cursor:pointer; position:absolute; z-index:2; background-color:white;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        @*Thêm họ và tên*@
+                        <div class="col-8" style="margin-left:10px;">
+                            <table class="w-100" cellpadding="5">
+                                <tr>
+                                    <td>
+                                        Họ & Tên
+                                    </td>
+                                    <td class="asl">
+                                        <input class="form-control me-2 " name="HoVaTen" type="text" placeholder="Họ và tên" aria-label="Họ và tên" value="@Model.TenNguoiDung">
+                                        <span class="loi">@ViewData["HoVaTen"]</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height:30px;"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Nickname
+                                    </td>
+                                    <td class="asl">
+                                        <input class="form-control me-2 " name="NickName" type="text" placeholder="Thêm nickname" aria-label="Nickname" value="@Model.NickName">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <hr style="margin-bottom:40px; margin-top:26px;" />
+                    <div class="row" style="margin-top:30px;">
+                        <div class="col-5 " style="margin-top:6px;">
+                            <center>
+                                Ngày sinh
+                            </center>
+                        </div>
+                        <div class=" col-7">
+                            <div class="w-100">
+                                <input value="@Model.NgaySinh " name="NgaySinh" id="myID" alt="Chọn ngày sinh" placeholder="Chọn ngày sinh" style="text-align:center;  width:80%; margin-left:17px; height:40px; border-radius:5px; border:1px solid #808080;" />
+                                <br />
+                                <span class="loi" style="margin-left:17px;">@ViewData["NgaySinh"]</span>
+                                <div style="margin-top:-28px; margin-bottom:30px; margin-left:30px; z-index:5;">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="color:#0dcaf0;" width="18" height="18" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                                        <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z" />
+                                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:30px;"></div>
+                        <div class="col-5 ">
+                            <center>
+                                Giới tính
+                            </center>
+                        </div>
+
+                        <div class="col-7 " style="padding-left:30px;">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" id="Nam" type="radio" name="GioiTinh" value="Nam">
+                                <label class="form-check-label" for="Nam">Nam</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" id="Nu" type="radio" name="GioiTinh" value="Nữ">
+                                <label class="form-check-label" for="Nu">Nữ</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" id="Khac" type="radio" name="GioiTinh" value="Khác">
+                                <label class="form-check-label" for="Khac">Khác</label>
+                            </div>
+                        </div>
+                        @if (Model.GioiTinh != null)
+                        {
+                            <script>
+                    document.getElementById("@HoTro.RemoveUnicode(Model.GioiTinh)").checked = true;
+                            </script>
+                        }
+                    </div>
+
+
+
+                </div>
+                <div class="itemm col-xl-5 col-lg-12 col-md-12 col-12" style="padding:30px;">
+                    <div class="row">
+                        <div class="col-5" style="padding-top:10px;">
+                            Số điện thoại
+                        </div>
+                        <div class="col-7 asl" style="padding-left:25px;">
+                            <input type="text" name="SoDienThoai" placeholder="Nhập số điện thoại" class="phone btn w-100 form-control me-2 kytuso" maxlength="11" oninput="CheckPhone(this)" style="cursor: text; height: 40px; border: 1px solid #808080; border-radius: 5px;" value="@Model.SoDienThoai" />
+                            <span class="loi">@ViewData["SoDienThoai"]</span>
+                        </div>
+                        <div style="margin-top:40px;">
+
+                        </div>
+                        <div class="col-5 asl" style="padding-top:10px;">
+                            Email
+                        </div>
+                        <div class="col-7" style="padding-left:25px;">
+                            <input type="email" name="Email" placeholder="vidu@email.com" class="phone btn w-100 form-control me-2" maxlength="50" style="cursor:text; height:40px; border:1px solid #808080; border-radius:5px;" value="@Model.Email" />
+                            <span class="loi">@ViewData["Email"]</span>
+
+                        </div>
+                    </div>
+                    <hr style="margin-top:42px;" />
+                    <div class="row">
+                        <h5 style="margin-bottom:20px;">Liên kết mạng xã hội</h5>
+                        <div class="col-6">
+                            <svg style="margin-bottom:5px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                            </svg>
+                            <span style="font-size:20px;"> Facebook</span>
+                        </div>
+                        <div class="col-6">
+                            <button style="float:right" class="btn btn-outline-info">Đã liên kết</button>
+                        </div>
+                        <div style="margin-top:27px;"></div>
+                        <div class="col-6">
+                            <svg style="margin-bottom:5px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                            </svg>
+                            <span style="font-size:20px;"> Google</span>
+                        </div>
+                        <div class="col-6">
+                            <button style="float:right" class="btn btn-outline-info">Đã liên kết</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center" style="margin-top:50px;">
+                    <center><button type="submit" class="btn itemm btn-info" style="height:50px; width:400px;">Lưu thay đổi</button></center>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/js/ThaoTacUpdateAnh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("#myID", {
+        dateFormat: "m/d/Y"
+    })
+</script>
+<script src="~/js/Checkfromm.js"></script>

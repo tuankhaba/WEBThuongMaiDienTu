@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "TaoDonHangThanhCong";
+    Layout = "~/Views/Home/Layout.cshtml";
+}
+<style>
+    .bi-patch-check-fill{
+        font-size:120px;
+        color:crimson;
+    }
+    .item {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+
+    .star_dg {
+        color: #AAAAAA;
+        font-size: 70px;
+    }
+
+    .focus:focus {
+        box-shadow: 1px 4px 10px #0dcaf0;
+    }
+
+    .hver:hover {
+        box-shadow: 1px 2px 5px #0dcaf0;
+    }
+    .hver{
+        margin: 20px;
+        padding: 10px 30px;
+    }
+</style>
+<div class="item" style=" padding:200px 0px; text-align:center; align-items:center;">
+    <div>
+        <i class="bi bi-patch-check-fill"></i><br />
+        <h4>Đặt hàng thàng công</h4>
+        <span>Cảm ơn bạn đã tin dùng website của chúng tôi</span><br />
+        <a href="@Url.Action("TrangChu", "Home")" class="btn hver btn-outline-info">Trang chủ</a>
+        <a href="@Url.Action("XemChiTietDonHang","TaiKhoanCaNhan",new {maDH = ViewBag.maDH})" class="btn hver btn-warning">Đơn hàng</a>
+    </div>
+</div>
+
+

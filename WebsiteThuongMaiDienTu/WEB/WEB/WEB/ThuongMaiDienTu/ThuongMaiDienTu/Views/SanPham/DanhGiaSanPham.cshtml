@@ -1,0 +1,127 @@
+﻿@using ThuongMaiDienTu.Models
+@model ThuongMaiDienTu.Models.SanPham
+@{
+    ViewBag.Title = "TrangChu";
+    Layout = "~/Views/Home/Layout.cshtml";
+}
+<link href="~/css/Bootstrap.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.1/font/bootstrap-icons.css">
+<style>
+    .item {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+
+    body {
+        background-color: #AAAAAA;
+    }
+
+    .star_dg {
+        color: #AAAAAA;
+        font-size: 70px;
+    }
+
+    .focus:focus {
+        box-shadow: 1px 4px 10px #0dcaf0;
+    }
+
+    .hver:hover {
+        box-shadow: 1px 2px 5px #0dcaf0;
+    }
+
+    .nd_mau {
+        border-radius: 20px;
+        margin-top: 5px;
+    }    
+</style>
+<div class="container">
+    @using (Html.BeginForm("DanhGiaSanPham","SanPham",new {MaSP = Model.MaSP },method:FormMethod.Post))
+    {
+        <div class="row" style="display:flex; text-align:center; align-items:center; justify-content:center;">
+            <div class="item" style="width:1000px; height:780px; position:relative; background-color:white;">
+                <div style="padding: 10px; position: relative; margin: 0; background-color: #0dcaf0; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; ">
+                    <h4>Đánh giá sản phẩm</h4>
+                </div>
+                <div style=" margin-top: 20px;">
+                    <center><img style="height:120px; width:100px" src="@Model.AnhBia" /></center>
+                    <center><b>@Model.TenSP</b></center>
+                </div>
+
+                <a class="star_dg"><i class="bi bi-star-fill"></i></a>
+                <a class="star_dg"><i class="bi bi-star-fill"></i></a>
+                <a class="star_dg"><i class="bi bi-star-fill"></i></a>
+                <a class="star_dg"><i class="bi bi-star-fill"></i></a>
+                <a class="star_dg"><i class="bi bi-star-fill"></i></a><br />
+                <span style="color:crimson; font-size:14px;">@ViewBag.LoiSao</span>
+                <input hidden name="MucDG" id="MucDG" value="0"  />
+                <div class="row" style="margin-top:10px;">
+                    <center><textarea class="item focus" maxlength="100" name="NoiDung" style="width:75%; min-height:150px; max-height:150px; margin:20px; padding:5px; height:150px;" placeholder="Bạn cảm thấy sản phẩm như thế nào"></textarea></center>
+                </div>
+                <input type="checkbox" class="btn-check" id="chatluong" name="mau0" value="Chất lượng sản phẩm tuyệt vời" autocomplete="off">
+                <label class="btn nd_mau hver  btn-outline-info" for="chatluong">Chất lượng sản phẩm tuyệt vời</label>
+                <input type="checkbox" class="btn-check" id="phucvutot" name="mau1" value="Shop phục vụ rất tốt"  autocomplete="off">
+                <label class="nd_mau hver btn btn-outline-info" for="phucvutot">Shop phục vụ rất tốt</label><br>
+                <input type="checkbox" class="btn-check" id="kyluong" name="mau2" value="Đóng gói sản phẩm rất đẹp kỷ lưỡng" autocomplete="off">
+                <label class="nd_mau hver btn btn-outline-info" for="kyluong">Đóng gói sản phẩm rất đẹp kỷ lưỡng</label>
+                <div style="margin-left:70px; margin-top:20px; font-size:19px;" class="form-check form-switch">
+                    <input style="height:20px; width:40px" class="form-check-input btn-outline-info btn" name="AnDanh" value="1" type="checkbox" id="AnDanh">
+                    <label class=" form-check-label" for="AnDanh" style="float:left; margin-left:5px; margin-top:-2px;">Đánh giá ẩn danh</label>
+                </div>
+                <div style="position:absolute; background-color:#0dcaf0; border-bottom-left-radius:5px; border-bottom-right-radius:5px; border-top:1px solid #AAAAAA; bottom:0px; width:100%; right:0; padding:13px 20px; ">
+                    <button type="submit" class="btn btn-outline-danger item" style="float:right; margin-left:20px;">Xác nhận</button>
+                    <a class="btn btn-dark" id="HuyLuuDiaChi" data-bs-toggle="modal" data-bs-target="#HuyThaoTac"  style="float:right">Hủy bỏ</a>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="HuyThaoTac" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Bạn đang muốn hủy lưu?</h1>
+                        <a class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc chắn không muốn lưu lại ???
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <a href="/TaiKhoanCaNhan/QuanLyDonHang" class="btn btn-outline-danger">Đồng ý</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/js/Bootstrap.js"></script>
+<script>
+    const MucDG = document.getElementById("MucDG")
+    const star_dg = document.querySelectorAll('.star_dg')
+    let check_click = -1
+    for (var i = 0; i < star_dg.length; i++) {
+        let vt = i;
+        star_dg[i].addEventListener("mouseover", () => {
+            if (check_click > vt)
+                for (var k = vt + 1; k <= check_click; k++)
+                    star_dg[k].style.color = '#AAAAAA';
+            else
+                for (var j = 0; j <= vt; j++)
+                    star_dg[j].style.color = 'gold';
+        })
+        star_dg[i].addEventListener("click", () => {
+            check_click = vt;
+            MucDG.value = check_click + 1;
+            star_dg.forEach(item => item.style.color = '#AAAAAA')
+            for (var j = 0; j <= vt; j++)
+                star_dg[j].style.color = 'gold';
+        })
+        star_dg[i].addEventListener("mouseout", () => {
+            if (check_click > vt)
+                for (var k = vt + 1; k <= check_click; k++)
+                    star_dg[k].style.color = 'gold';
+            for (var j = check_click + 1; j <= vt; j++)
+                star_dg[j].style.color = '#AAAAAA';
+        })
+    }
+</script>

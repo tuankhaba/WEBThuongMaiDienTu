@@ -1,0 +1,155 @@
+﻿@model ThuongMaiDienTu.Models.DonHang
+@using ThuongMaiDienTu.Models;
+@{
+    ThuongMaiDienTuEntities db = new ThuongMaiDienTuEntities();
+    ViewBag.Title = "ShowChiTietDonHang";
+    Layout = "~/Views/KenhBanHang/KenhBanHang.cshtml";
+
+}
+
+<div class="container" style="position:relative;">
+    @if (Model.TrangThai.Equals("Chờ xác nhận"))
+    {
+        <div style="position:sticky; z-index:10; float:right;top:60px;">
+            <a href="@Url.Action("XacNhanDonHang", new { maDH = Model.MaDonHang, url = Request.Url.ToString() })" style="padding:15px; font-size:20px;" class="item-shadow btn btn-warning">Xác nhận đơn hàng</a>
+        </div>
+        <div style="position:sticky; z-index:10; float:right;top:60px; margin-right:10px;">
+            <a href="@Url.Action("TuChoiDonHang", new { maDH = Model.MaDonHang, url = Request.Url.ToString() })" style="padding:15px; font-size:20px;" class="item-shadow btn btn-danger">Từ chối</a>
+        </div>
+    }
+    else if (Model.TrangThai.Equals("Đang xử lý"))
+    {
+        <div style="position:sticky; z-index:10; float:right;top:60px;">
+            <a href="@Url.Action("HoanTatXuLyDonHang", new { maDH = Model.MaDonHang, url = Request.Url.ToString() })" style="padding:15px; font-size:20px;" class="item-shadow btn btn-warning">Xác nhận hoàn tất đóng gói</a>
+        </div>
+    }
+    else if (Model.TrangThai.Equals("Đang giao"))
+    {
+        <div style="position:sticky; z-index:10; float:right;top:60px;">
+            <a href="@Url.Action("VanChuyenHoanTat", new { maDH = Model.MaDonHang, url = Request.Url.ToString() })" style="padding:15px; font-size:20px;" class="item-shadow btn btn-warning">Đang vận chuyển</a>
+        </div>
+    }
+    else if (Model.TrangThai.Equals("Bị từ chối"))
+    {
+        <div style="position:sticky; z-index:10; float:right;top:60px;">
+            <a style="padding:15px; font-size:20px;" class="btn btn-danger">Từ chối</a>
+        </div>
+    }
+    else
+    {
+        <div style="position:sticky; z-index:10; float:right;top:60px;">
+            <a style="padding:15px; font-size:20px;" class="btn btn-info">@Model.TrangThai</a>
+        </div>
+    }
+
+    <div class="row" style=" margin-bottom: 30px;">
+        <h2>Thông tin đơn hàng: <span style="color:red">@Model.MaDonHang</span></h2>
+    </div>
+    <div class="item">
+        <div class="w-100 hver" style="text-align: center; background-color: #0dcaf0; padding: 7px; padding-top: 15px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
+            <h4>Thông tin đơn hàng</h4>
+        </div>
+        <div class="row" style="padding:20px;">
+            <div class="col-lg-6 col-12">
+                <span style="font-size:21px;"><span>Khách hàng: </span><b>@Model.ThongTinLienHe.TenNguoiNhan</b></span> <br />
+                <div style="background-color:orange; text-align:center; width: 120px; border-radius: 5px; color: #FFf;margin-right: 10px;">
+                    <b id="ldchi">@Model.ThongTinLienHe.LoaiDiaChi</b>
+                </div>
+                <span class="cl-08">@Model.ThongTinLienHe.DiaChiCuThe</span>,
+                <span>@HoTro.LayDiaChi(Model.ThongTinLienHe.MaXP)</span><br />
+                <span><span>Số điện thoại: </span><b>@Model.ThongTinLienHe.SoDienThoai</b></span> <br /><br />
+            </div>
+            <div class="col-lg-6 col-12" style="align-items:center;">
+                <div>
+                    <span class="cl-08">Ngày mua: </span><span>@Model.NgayMua</span> <br />
+                    <span class="cl-08">Phương thức giao hàng: </span><span>@Model.PhuongThucGiao</span>
+                    <br /><span class="cl-08">Phương thức thanh toán: </span><span>@Model.PhuongThucGiao</span><br />
+                    <span class="cl-08">Áp dụng Voucher: </span>
+                    @if (Model.MaVoucher == null)
+                    {
+                        <span>Không</span>
+                    }
+                    else
+                    {
+                        <span>@Model.MaVoucher</span>
+                        <span>(-@(string.Format("{0:0,0}",HoTro.TinhTongTien(Model.ChiTietDonHangs.ToList()) - Model.ThanhTien))đ)</span>
+                    }
+                    <br /><b style="font-size:20px;"><span class="cl-08">Tổng thành tiền: </span><span style="color:crimson;">@string.Format("{0:0,0}", Model.ThanhTien)đ</span></b>
+                </div>
+            </div>
+        </div>
+        <div class="w-100 hver" style="text-align: center; background-color: #0dcaf0; padding: 7px; padding-top: 15px;">
+            <h4>Chi tiết đơn hàng</h4>
+        </div>
+        <div style="padding:20px;">
+            <div>
+                <span class="cl-08">Tổng sản phẩm: </span><b>@Model.ChiTietDonHangs.Count()</b>
+                <span style="float:right;"><span class="cl-08">Tổng số lượng: </span><b>@Model.ChiTietDonHangs.Sum(d => d.SoLuong)</b></span>
+            </div>
+            <table class="table table-hover table-light table-striped table-bordered" border="1" style=" align-content:center;text-align:center;justify-content:center;align-items:center;">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Loại</th>
+                        <th>Giá</th>
+                        <th>Giảm giá</th>
+                        <th>Số lượng</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.ChiTietDonHangs)
+                {
+                    item.ChiTietKichCo = db.ChiTietKichCoes.Single(ct => ct.MaCTKichCo.Equals(item.MaCTKichCo));
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-3 col-5">
+                                    <img class="border border-2" style="width:60px; height:80px" src="@item.SanPham.AnhBia" /><br />
+                                </div>
+                                <div class="col-lg-9 col-7" style="position:relative;">
+                                    <b class="CanGiuaY">@item.SanPham.TenSP</b>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td style="position:relative; ">
+                            <span class="CanGiuaXY">@item.ChiTietKichCo.ChiTietPhanLoai.TenPhanLoai - @item.ChiTietKichCo.KichCo</span>
+                        </td>
+                        <td style="position:relative; width:15% ">
+                            <span class="CanGiuaXY">@string.Format("{0:0,0}", item.ChiTietKichCo.ChiTietPhanLoai.Gia)đ</span>
+                        </td>
+                        @if (HoTro.XetGiamGiaConHan(item.ChiTietKichCo.ChiTietPhanLoai.SanPham))
+                        {
+                            <td style="position: relative; width: 7%">
+                                <span class="CanGiuaXY">
+                                    @(item.ChiTietKichCo.ChiTietPhanLoai.SanPham.GiamGia)%
+                                </span>
+                            </td>
+                            <td style="position: relative; width:7%">
+                                <span class="CanGiuaXY">@Html.DisplayFor(modelItem => item.SoLuong)</span>
+                            </td>
+                            <td style="position: relative;">
+                                <span class="CanGiuaXY">@string.Format("{0:0,0}", ((item.ChiTietKichCo.ChiTietPhanLoai.Gia - (item.ChiTietKichCo.ChiTietPhanLoai.Gia * item.ChiTietKichCo.ChiTietPhanLoai.SanPham.GiamGia / 100)) * item.SoLuong))đ</span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td style="position: relative; width: 9%">
+                                <span class="CanGiuaXY">
+                                    Không
+                                </span>
+                            </td>
+                            <td style="position: relative; width: 9%">
+                                <span class="CanGiuaXY">@Html.DisplayFor(modelItem => item.SoLuong)</span>
+                            </td>
+                            <td style="position: relative; width: 17%">
+                                <span class="CanGiuaXY">@(string.Format("{0:0,0}",item.ChiTietKichCo.ChiTietPhanLoai.Gia*item.SoLuong))đ</span>
+                            </td>
+                        }
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+</div>

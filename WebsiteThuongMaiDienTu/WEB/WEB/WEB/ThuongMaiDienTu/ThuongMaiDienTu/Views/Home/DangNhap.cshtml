@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Home/Layout.cshtml";
+}
+<link rel="stylesheet" href="~/Content/Style.css" />
+<body>
+    @using (Html.BeginForm())
+    {
+    <div class="box">
+        <div class="form">
+            <h2>Đăng nhập</h2>
+            <div class="inputBox">
+                <input name="TenTK" type="text" required="required" />
+                <span>Tên tài khoản</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input name="MatKhau" type="password" required="required" />
+                <span>Mật khẩu</span>
+                <i></i>
+            </div>
+            <div class="links">
+                <a href="#">Quên mật khẩu</a>
+                <a href="/Home/DangKy" style=" position:relative; margin-left:165px;">Đăng ký</a>
+            </div>
+            <span style="color:#ff3535; font-size:13px;">@ViewData["tk"]</span>
+            <input type="submit" value="Đăng nhập" />
+        </div>
+    </div>
+    }
+</body>
+

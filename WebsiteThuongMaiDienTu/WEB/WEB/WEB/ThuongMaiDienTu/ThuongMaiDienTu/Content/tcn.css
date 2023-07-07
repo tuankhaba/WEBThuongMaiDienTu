@@ -1,0 +1,14 @@
+﻿@media (min-width: 1320px) {
+    .menu_tcn {
+        max-width: 215px;
+    }
+}
+@media (max-width: 992px)
+{
+    .gd_tcn{
+        margin-top:-65px;
+    }
+    .nd{
+        margin-top:240px;
+    }
+}

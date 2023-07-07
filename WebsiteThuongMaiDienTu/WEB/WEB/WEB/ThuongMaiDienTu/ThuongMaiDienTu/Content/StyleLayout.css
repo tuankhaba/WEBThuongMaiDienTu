@@ -1,0 +1,129 @@
+﻿.search {
+    width: 100%;
+    padding-right: 10px
+}
+.icon
+{
+    width:1000px;
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+/*    background-color: #0dcaf0;*/
+    z-index: 1;
+    list-style: none;
+    background-color: white;
+    box-shadow: 1px 2px 5px #0dcaf0;
+}
+    .dropdown-content ul {
+        padding: 0px 0px;
+        width: 250px;
+        border: 1px solid #59d1e9;
+    }
+    .dropdown-content ul li {
+        border-bottom: 1px solid #6baebb;
+        padding: 5px 10px;
+    }
+    .dropdown-content ul li a{
+        position:relative;
+        padding:5px 0px;
+        cursor:pointer;
+        text-decoration:none;
+    }
+    .dropdown-content ul li:hover{
+        background-color:#6bdaf1;
+        border-bottom:1px solid #ffffff;
+    }
+        .dropdown-content ul li:hover>a{
+            font-weight:bold;
+        }
+a:hover {
+    color: black;
+}
+        .dropdown-content ul li .dropdown-content {
+            position:absolute;
+            top:0;
+            left: 250px;
+            /*min-height:632px;*/
+        }
+        .dropdown-content ul li .dropdown-content ul {
+            display: none;
+        }
+        .dropdown-content ul li:hover .dropdown-content ul {
+            display: block;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            cursor:pointer;
+        }
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+.banhang:hover {
+    border-color:black;
+    color:black;
+}
+.banhang {
+    text-decoration: none;
+    color: black;
+    margin: auto;
+    font-size: 15px;
+    text-align: center;
+    padding: 0px 5px 1px 3px;
+    border: 1px solid;
+    border-radius: 5px;
+    border-color: deepskyblue
+}
+.gio:hover {
+    opacity:0.8;
+}
+@media (max-width:768px)
+{
+    input[type="search"]
+    {
+        height:40px;
+    }
+    button[type="submit"] {
+        height: 40px;
+    }
+   
+}
+.taikhoan {
+    position: absolute;
+    margin-left: 40px;
+    border-radius: 3px;
+    padding: 0px;
+    margin-top: 80px;
+    background-color: white;
+    display: none;
+}
+.dt {
+    padding: 5px;
+    border-bottom: 1px solid #808080;
+    list-style: none;
+    cursor:pointer;
+}
+.dt:hover{
+    background-color:#059dd0;
+    color:white;
+}
+.user {
+    padding: 0px;
+    position: relative;
+    height: 52px;
+    padding-top: 5px;
+}
+.user:hover .taikhoan {
+    display: block;
+}
+.bi-chevron-double-right {
+    margin-top:5px;
+    float: right;
+}
+
+.gh {
+    left:55px;
+    top:5px;
+    color:black;
+}

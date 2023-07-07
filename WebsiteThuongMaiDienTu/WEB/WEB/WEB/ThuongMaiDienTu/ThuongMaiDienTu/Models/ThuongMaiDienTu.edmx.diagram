@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1f8d5994e9b04e85b51979464325744a" Name="Diagram1">
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.AnhSanPham" Width="1.5" PointX="13.5" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.ChiTietDonHang" Width="1.5" PointX="18" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.ChiTietGioHang" Width="1.5" PointX="3" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.ChiTietKichCo" Width="1.5" PointX="15.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.ChiTietLoaiSanPham" Width="1.5" PointX="9" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.ChiTietPhanLoai" Width="1.5" PointX="13.5" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.ChiTietThongTinSP" Width="1.5" PointX="13.5" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.CuaHang" Width="1.5" PointX="6" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.DanhGia" Width="1.5" PointX="16.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.DonHang" Width="1.5" PointX="8.25" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.KhuyenMai" Width="1.5" PointX="8.25" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.LoaiSanPham" Width="1.5" PointX="6.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.NguoiDung" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.Quan_Huyen" Width="1.5" PointX="1.5" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.SanPham" Width="1.5" PointX="11.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.TaiKhoan" Width="1.5" PointX="3" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.ThongTinLienHe" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.Tinh_ThanhPho" Width="1.5" PointX="1.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ThuongMaiDienTuModel.Xa_Phuong" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__AnhSanPham__MaSP__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietDo__MaCTK__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietDo__MaDon__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietDon__MaSP__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietGi__MaCTK__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietGioHa__ID__72C60C4A" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietKi__MaCTP__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietLo__MaLoa__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__SanPham__MaChiTi__01142BA1" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietPha__MaSP__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ChiTietTho__MaSP__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__CuaHang__DiaChiL__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__CuaHang__MaCuaHa__797309D9" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__DonHang__MaCuaHa__7D439ABD" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__KhuyenMai__MaCua__7E37BEF6" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__SanPham__MaCuaHa__00200768" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__DanhGia__ID__7A672E12" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__DanhGia__MaSP__7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__DonHang__MaLH__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__TaiKhoan__ID__02084FDA" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ThongTinLien__ID__02FC7413" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__Quan_Huye__MaTin__7F2BE32F" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__Xa_Phuong__MaQH__04E4BC85" ManuallyRouted="false" />
+        <AssociationConnector Association="ThuongMaiDienTuModel.FK__ThongTinLi__MaXP__03F0984C" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

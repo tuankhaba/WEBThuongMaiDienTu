@@ -1,0 +1,266 @@
+﻿@{
+    ViewBag.Title = "TrangChu";
+    Layout = "~/Views/Home/Layout.cshtml";
+}
+@using ThuongMaiDienTu.Models
+@model IEnumerable<ThuongMaiDienTu.Models.SanPham>
+@*@{
+        List<LoaiSanPham> LoaiSP = ViewBag.LoaiSP as List<LoaiSanPham>;
+    }*@
+<style>
+    .bc {
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+
+    .lSPager {
+        display: none !important;
+    }
+</style>
+<link rel="stylesheet" href="~/Content/dichChuyen.css" />
+<style>
+    ul {
+        list-style: none outside none;
+        padding-left: 0;
+    }
+
+    .content-slider li {
+        text-align: center;
+        color: black;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 1px 2px 4px #AAAAAA;
+        margin: -9px;
+        min-height: 40px;
+        padding: 10px;
+    }
+
+    .content-slider h5 {
+        margin: 0;
+        padding-top: 15px 0;
+    }
+
+    .demo {
+        width: 800px;
+    }
+
+    .thanhLoai {
+        position: relative;
+        margin-top: -13px;
+        margin-bottom: -20px;
+        min-height: 60px;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .bi-star-fill {
+        color: gold !important;
+    }
+</style>
+<link rel="stylesheet" href="~/Content/TheSanPhamm.css" />
+<link rel="stylesheet" href="~/Content/ListBox.css" />
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators" style="margin-bottom:300px;">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+            <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/13/82/c6/3332c97a58dfd117078b491b7f1ad729.png.webp" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+            <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/1a/c9/4b/1ef9a91ab447bbc1aa6003d2d3a8f7b8.png.webp" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/2e/3f/cc/8df745df7f0c41b93128832aa63e78a4.png.webp" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="row" style="z-index:3; margin-top:-30px;">
+    <div class="col-md-5 offset-md-1 " style="margin-right:20px;" data-bs-interval="4000">
+        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" style="margin-left:-20px;">
+            <div class="carousel-inner" style="border-radius:20px;">
+                <div class="carousel-item active ">
+                    <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/2e/3f/cc/8df745df7f0c41b93128832aa63e78a4.png.webp" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item ">
+                    <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/1a/c9/4b/1ef9a91ab447bbc1aa6003d2d3a8f7b8.png.webp" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item ">
+                    <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/13/82/c6/3332c97a58dfd117078b491b7f1ad729.png.webp" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div id="hi" class="carousel slide carousel-fade bc" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-inner" style="border-radius:20px;">
+                <div class="carousel-item active">
+                    <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/2e/3f/cc/8df745df7f0c41b93128832aa63e78a4.png.webp" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/1a/c9/4b/1ef9a91ab447bbc1aa6003d2d3a8f7b8.png.webp" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/13/82/c6/3332c97a58dfd117078b491b7f1ad729.png.webp" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/1a/c9/4b/1ef9a91ab447bbc1aa6003d2d3a8f7b8.png.webp" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://salt.tikicdn.com/cache/w1080/ts/banner/13/82/c6/3332c97a58dfd117078b491b7f1ad729.png.webp" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#hi" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#hi" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div><br />
+    <style>
+        .fs {
+            font-size: 30px;
+            color: crimson;
+        }
+    </style>
+    <div style="margin-top:20px;">
+        <a class="item" style="padding:20px; ">
+            <b class="fs">F<i class="bi bi-lightning-fill"></i>ASH SALE</b>
+        </a>
+        <div>
+            <div class="row" style="padding:8px; padding-top:1px; padding-bottom:6px; margin:0px; margin-left:-8.2px;">
+                <div class="item" style="background-color: #0dcaf0">
+                    <div class="wrapper">
+                        @foreach (var item in Model.Where(s => s.GiamGia > 25 && s.ThoiHan > DateTime.Now))
+{
+<div class="box ">
+    <a draggable="false" title="@item.TenSP" href="@Url.Action("ThongTinSanPham","SanPham",new { MaSP = item.MaSP })">
+        <div class="sanpham-item-card">
+            <div class="aaa">
+                <img class="image w-100 h-100" draggable="false" src="@item.AnhBia">
+                @*<div class="img_list" style=" background-image:url(@item.AnhBia); background-repeat:no-repeat;"></div>*@
+            </div>
+            <div class="sanpham-item-text" style="margin-top:15px;">
+
+                <ul>
+                    <li>
+                        @if (item.TenSP.Length > 20)
+                        {
+                            <span class="ten">@item.TenSP.Substring(0, 20).Trim()...</span>
+                        }
+                        else
+                        {
+                            <span class="ten">@item.TenSP</span>
+                        }
+                    </li>
+                    <li class="giakm"> <b class="gia">@HoTro.TinhTienGiaGiam(item)</b><sup>đ</sup></li>
+                    <li>
+                        @if (item.GiamGia > 0)
+                        {
+                            <span class="giagoc"> @HoTro.LayGiaMin(item) <sup>đ</sup></span><span> -@(item.GiamGia)%</span>
+                        }
+                    </li>
+                </ul>
+                <div class="daban">
+                    Đã bán @HoTro.XuatDoanhSo(item)
+                </div>
+                <div class="saoo">
+                    @item.DanhGia <i class="bi bi-star-fill"></i>
+                </div>
+            </div>
+        </div>
+    </a>
+</div>
+}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+    <div class="row">
+        @foreach (var item in Model.Take(18))
+        {
+            <div class="col-6 col-lg-3 col-sm-6 col-md-4 col-xl-3 col-xxl-2 cardsp">
+                <a title="@item.TenSP" href="@Url.Action("ThongTinSanPham","SanPham",new { MaSP = item.MaSP })">
+                    <div class="sanpham-item">
+                        <div class="aaa">
+                            <img class="image" src="@item.AnhBia">
+                        </div>
+                        <div class="sanpham-item-text">
+
+                            <ul>
+                                <li>
+                                    @if (item.TenSP.Length > 20)
+                                    {
+                                        <span class="ten">@item.TenSP.Substring(0, 20).Trim()...</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="ten">@item.TenSP</span>
+                                    }
+                                </li>
+                                <li class="giakm"> <b class="gia">@HoTro.TinhTienGiaGiam(item)</b><sup>đ</sup></li>
+                                <li>
+                                    @if (item.GiamGia > 0)
+                                    {
+                                        <span class="giagoc"> @HoTro.LayGiaMin(item) <sup>đ</sup></span><span> -@(item.GiamGia)%</span>
+                                    }
+                                </li>
+                            </ul>
+                            <div class="daban">
+                                Đã bán @HoTro.XuatDoanhSo(item)
+                            </div>
+                            <div class="saoo">
+                                @item.DanhGia <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <button class="btn_giohang" title="Thêm vào yêu thích">
+                    <i class="bi bi-suit-heart-fill" style="font-size:70px; color:white"></i>
+                </button>
+            </div>
+        }
+        <center>
+            <a href="/Home/TatCaSanPham" class="btn btn-info w-50" style="padding:10px 40px; font-size:20px; margin-top:20px;">
+                Xem tất cả
+            </a>
+        </center>
+    </div>
+
+</div>
+<script src="~/js/dc.js"></script>
+<script type="text/javascript" src="~/js/ListBox.js"></script>
+<script src="~/js/dichChuyen.js"></script>

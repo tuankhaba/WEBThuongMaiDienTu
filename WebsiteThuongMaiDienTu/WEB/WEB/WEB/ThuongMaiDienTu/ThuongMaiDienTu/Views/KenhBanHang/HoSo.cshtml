@@ -1,0 +1,182 @@
+﻿
+@{
+    ViewBag.Title = Model.TenCuaHang;
+    Layout = "~/Views/KenhBanHang/KenhBanHang.cshtml";
+}
+
+
+@using ThuongMaiDienTu.Models
+@model ThuongMaiDienTu.Models.CuaHang
+<style>
+    .taianh:hover {
+        margin-top: -5px;
+        margin-bottom: 5px;
+    }
+
+    .loi {
+        color: crimson;
+        margin-top: 0px;
+        position: absolute;
+        font-size: 13px;
+        padding-left: 3px;
+    }
+
+    .asl {
+        position: relative;
+    }
+    .xoaanh:hover{
+        color:red;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="~/Content/Date.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@if (ViewBag.thanhcong == 1)
+{
+    ViewBag.thanhcong = 0;
+    <script>
+        setTimeout(function () {
+            alert("Cập nhật thông tin thành công");
+        }, 400);
+    </script>
+}
+@if (ViewBag.Loi == 1)
+{
+    <script>
+        setTimeout(function () {
+            alert("Đã xảy ra lỗi, vui lòng thử lại!!!");
+        }, 400);
+    </script>
+}
+<div class="container" id="list-item-1" style="height:980px;">
+    <h4>
+        <i class="bi bi-person-square"></i>
+        Thông tin cửa hàng
+    </h4>
+    <hr />
+    <div>
+        @using (Html.BeginForm())
+        {
+            <div class="row ">
+                <div class="item">
+                    <div class=" row" style="padding:30px;">
+                        <div class="row" style="padding-bottom:10px;">
+                            <div class="col-3">
+                                <div style="border: 4px solid #c2e1ff; border-radius: 50%; width: 110px; position:inherit; height: 110px; padding: 11px; z-index: 1;">
+                                    <div class="dropdown">
+                                        <!-- Nút load Avatar -->
+                                        <div title="Nhấn vào đây để cập nhật ảnh đại diện" style=" width:100px; height:100px!important; border-radius:50%" class="btn taianh" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            <img id="avt" onerror="this.src='\Image\AVT_error.jpg'" style=" width:100px; top: -10px; left: -10px; height: 100px; border-radius: 50%; position: absolute;" src="@Model.AnhDaiDien" />
+                                            Update
+                                            Avatar
+                                        </div>
+                                        <input type="text" hidden id="AnhMoi" value="@Model.AnhDaiDien" name="AnhMoi" />
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Cập nhật ảnh đại diện</h1>
+                                                        <button style="color:black;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body" style="height:600px;">
+                                                        <div class="container">
+                                                            <div class="drag-area justify-content-center mx-auto text-center border-2 border-info w-100 h-100 flex align-content-center" style="border-radius:20px; padding:15px; border:dashed">
+                                                                <div class="thaotac_load" style="margin-top:210px; ">
+                                                                    <h1 style="font-size:20px; font-family:Arial;" class="keotha">Kéo và thả để tải ảnh lên</h1>
+                                                                    <p>hoặc</p>
+                                                                    <a class="chonfile btn btn-outline-info w-25">Chọn ảnh</a>
+                                                                    <input class="ip" type="file" hidden />
+                                                                </div>
+                                                                <img class="w-100 h-100 anh_load" src="#" style="display:none">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div class="huyluu" style="display:none;">
+                                                            <button type="button" class="btn btn-outline-danger" onclick="resett()" data-bs-dismiss="modal">Hủy Lưu</button>
+                                                        </div>
+                                                        <div class="luu">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="position:relative; margin-top:-20px;">
+                                    <span class="xoaanh" onclick="XoaAnh()" title="Nhấn vào đây để xóa ảnh này" style="width:0px; height:0px; border:none; margin-top:-20px; margin-left:10px; cursor:pointer; position:absolute; z-index:2; background-color:white;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                                        </svg>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-8" style="margin-left:10px;">
+                                <table class="w-100" cellpadding="5">
+                                    <tr>
+                                        <td>
+                                            Tên cửa hàng
+                                        </td>
+                                        <td class="asl">
+                                            <input style="float:right; width:80%;" class="form-control me-2" name="TenCuaHang" type="text" placeholder="Tên cửa hàng" aria-label="Họ và tên" value="@Model.TenCuaHang">
+                                            <span class="loi" style="margin-top:38px; margin-left:100px;">@ViewData["TenCuaHang"]</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height:30px;"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Chữ ký
+                                        </td>
+                                        <td class="asl">
+                                            <input style="float:right; width:80%;" class="form-control me-2" name="Chuky" type="text" placeholder="Thêm chữ ký" aria-label="Chuky" value="@Model.ChuKy">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class=" row" style="padding:30px;">
+                        <div class="col-3">
+                        </div>
+                        <div class="col-8 row">
+                            <div class="col-5" style="padding-top:10px;">
+                                Số điện thoại
+                            </div>
+                            <div class="col-7 asl" style="padding-left:25px;">
+                                <input type="text" name="SoDienThoai" placeholder="Nhập số điện thoại" class="phone btn w-100 form-control me-2 kytuso" maxlength="11" oninput="CheckPhone(this)" style="cursor: text; height: 40px; border: 1px solid #808080; border-radius: 5px;" value="@Model.SoDienThoai" />
+                                <span class="loi">@ViewData["SoDienThoai"]</span>
+                            </div>
+                            <div style="margin-top:40px;">
+
+                            </div>
+                            <div class="col-5 asl" style="padding-top:10px;">
+                                Email
+                            </div>
+                            <div class="col-7" style="padding-left:25px;">
+                                <input type="email" name="Email" placeholder="vidu@email.com" class="phone btn w-100 form-control me-2" maxlength="50" style="cursor:text; height:40px; border:1px solid #808080; border-radius:5px;" value="@Model.NguoiDung.Email" />
+                                <span class="loi">@ViewData["Email"]</span>
+
+                            </div>
+                        </div>
+                        <hr style="margin-top:42px;" />
+
+                    </div>
+                </div>
+                    <div class="row text-center" style="margin-top:50px;">
+                        <center><button type="submit" class="btn itemm btn-info" style="height:50px; width:400px;">Lưu thay đổi</button></center>
+                    </div>
+                </div>
+        }
+    </div>
+</div>
+<script src="~/js/ThaoTacUpdateAnh.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("#myID", {
+        dateFormat: "d/m/Y"
+    })
+</script>
+<script src="~/js/Checkfromm.js"></script>

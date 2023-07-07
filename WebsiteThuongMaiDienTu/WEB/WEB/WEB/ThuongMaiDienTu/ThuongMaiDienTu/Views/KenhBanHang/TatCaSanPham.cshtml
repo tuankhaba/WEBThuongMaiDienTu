@@ -1,0 +1,525 @@
+﻿@{
+    ViewBag.Title = "Sửa đia chỉ";
+    Layout = "~/Views/KenhBanHang/KenhBanHang.cshtml";
+}
+
+@model IPagedList<ThuongMaiDienTu.Models.SanPham>
+@using PagedList.Mvc;
+@using PagedList;
+@using ThuongMaiDienTu.Models
+<style>
+    .item {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+
+    .brd-right {
+        padding: 10px;
+        min-height: 50px;
+    }
+</style>
+<style>
+    .tabss {
+        display: flex;
+        position: relative;
+    }
+
+        .tabss .line {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 6px;
+            border-radius: 15px;
+            background-color: #0dcaf0;
+            transition: all 0.2s ease;
+        }
+
+    .tab-itemm {
+        padding: 16px 20px 11px 20px;
+        font-size: 20px;
+        text-align: center;
+        color: #00758d;
+        background-color: #fff;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        border-bottom: 5px solid transparent;
+        opacity: 0.7;
+        cursor: pointer;
+        transition: all 0.5s ease;
+    }
+
+    .tab-iconn {
+        font-size: 24px;
+        width: 32px;
+        position: relative;
+        top: 2px;
+    }
+
+    .tab-itemm:hover {
+        opacity: 1;
+        background-color: #dcf9ff;
+        border-color: #0dcaf0;
+    }
+
+    .tab-itemm.activee {
+        opacity: 1;
+    }
+
+    .tab-contentt {
+        padding: 10px 20px;
+    }
+
+    .tab-panee {
+        color: #333;
+        display: none;
+    }
+
+        .tab-panee.activee {
+            display: block;
+        }
+
+        .tab-panee h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+    .line_tinh {
+        border-top: 2px solid #333;
+    }
+</style>
+<style>
+    .tab-panee .row {
+        position: relative;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+<link rel="stylesheet" href="~/Content/PagedList.css" />
+<body style="background-color: #f5f5fa;">
+    <div class="container-lg">
+        <hr />
+        <div class="item" style="padding:20px; min-height:800px;">
+            <div class="row">
+                <div class="col-lg-6">
+                    <a href="@Url.Action("ThemSanPham")" class="btn btn-outline-danger">
+                        <svg style="margin-top:-17px!important; position:relative" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-square-dotted" viewBox="0 0 16 16">
+                            <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                        </svg>
+                        Thêm sản phẩm
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    @using (Html.BeginForm())
+                    {
+                        <div class="row" style="position:relative;">
+                            <div class="col-11">
+                                <input class="form-control me-2 " name="txt_search" type="search" placeholder="Nhập sản phẩm bạn muốn tìm kiếm" aria-label="Search">
+                            </div>
+                            <div class="col-1">
+                                <button style="margin-left:-23px; position:relative;" class="btn h-100 btn-outline-info" type="submit"><i class="bi bi-search"></i></button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            @if (Model.Count() == 0)
+            {
+                <div style="align-content:center; text-align:center; padding-top:160px; justify-content:center; align-items:center;">
+                    <img style="width:20%; position:relative; margin: auto auto;" src="/Image/CuaHangTrong.jpg" />
+                    <center><h4>Không có mặt hàng nào!!! <a style="text-decoration:none;" href="@Url.Action("ThemSanPham")">Tạo ngay</a></h4></center>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <div class="tabss row w-100">
+                        <div class="tab-itemm activee col-lg-2 col-3">
+                            <i class="tab-icon fas fa-code"></i>
+                            Tất cả
+                        </div>
+                        <div class="tab-itemm col-lg-2 col-3">
+                            <i class="tab-icon fas fa-cog"></i>
+                            Đang hoạt động
+                        </div>
+                        <div class="tab-itemm col-lg-2 col-3">
+                            <i class="tab-icon fas fa-plus-circle"></i>
+                            Hết hàng
+                        </div>
+                        <div class="tab-itemm col-lg-1 col-3">
+                            <i class="tab-icon fas fa-pen-nib"></i>
+                            Đã ẩn
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="w-100" style="border-bottom:1px solid #AAAAAA"></div>
+                </div>
+                <div class="tab-contentt w-100">
+                    <div class="tab-panee activee">
+
+
+
+                        <table class="table table-hover table-striped table-bordered" border="1" style="align-content:center;text-align:center;justify-content:center;align-items:center;">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Tên Sản Phẩm
+                                    </th>
+                                    <th>
+                                        Phân Loại
+                                    </th>
+                                    <th>
+                                        Số Lượng
+                                    </th>
+                                    <th>
+                                        Giá
+                                    </th>
+                                    <th>
+                                        Doanh Số
+                                    </th>
+                                    <th>
+                                        Thao Tác
+                                    </th>
+                                </tr>
+                            </thead>
+                            @{int i = 0; }
+                            @foreach (var item in Model)
+                            {
+                                i++;
+                                string id = "box" + i.ToString();
+                                <tr>
+                                    <td>
+                                        @if (item.TenSP.Length > 30)
+                                        {
+                                            <strong title="@item.TenSP">@item.TenSP.Substring(0, 30)...</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong title="@item.TenSP">@item.TenSP</strong>
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.ChiTietLoaiSanPham.TenChiTiet
+                                    </td>
+                                    <td>
+                                        @HoTro.LayTongSoLuongTonKho(item)
+                                    </td>
+                                    <td>
+                                        @HoTro.LayKhoanGia(item)
+                                    </td>
+                                    <td>
+                                        0
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("SuaSanPham", new { Masp = item.MaSP })" class="btn btn-outline-info">Sửa</a>
+                                        <a href="@Url.Action("AnSanPham", new { Masp = item.MaSP })" class="btn btn-outline-danger">Ẩn</a>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@id">
+                                            Xóa
+                                        </button>
+                                        <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Bạn đang muốn thực hiện một hành động xóa</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Bạn có chắn chắn muốn xóa sản phẩm "@item.TenSP" ???
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                        <a href="@Url.Action("XoaSanPham", new { Masp = item.MaSP })" class="btn btn-outline-danger">Đồng ý</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<a href="@Url.Action("XoaSanPham", new {Masp = item.MaSP })" class="btn btn-outline-danger">Xóa</a>*@
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                        <center>
+                            @Html.PagedListPager(Model, page => Url.Action("TatCaSanPham",
+                        new { page, pageSize = 2 }))
+                        </center>
+
+                    </div>
+
+                    <div class="tab-panee ">
+                        @{List<SanPham> DangHoatDong = Model.Where(s => s.TrangThai == true).ToList(); }
+                        @if (DangHoatDong.Count() == 0)
+                        {
+                            <center><h4>Bạn chưa có mặt hàng nào đang hoạt động!!! <a style="text-decoration:none;" href="@Url.Action("ThemSanPham")">Tạo ngay</a></h4></center>
+                        }
+                        else
+                        {
+                            <table class="table table-hover table-striped table-bordered" border="1" style="align-content:center;text-align:center;justify-content:center;align-items:center;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Tên Sản Phẩm
+                                        </th>
+                                        <th>
+                                            Phân Loại
+                                        </th>
+                                        <th>
+                                            Số Lượng
+                                        </th>
+                                        <th>
+                                            Giá
+                                        </th>
+                                        <th>
+                                            Doanh Số
+                                        </th>
+                                        <th>
+                                            Thao Tác
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in DangHoatDong)
+                                {
+                                    i++;
+                                    string id = "box" + i.ToString();
+                                    <tr>
+                                        <td>
+                                            @if (item.TenSP.Length > 30)
+                                            {
+                                                <strong title="@item.TenSP">@item.TenSP.Substring(0, 30)...</strong>
+                                            }
+                                            else
+                                            {
+                                                <strong title="@item.TenSP">@item.TenSP</strong>
+                                            }
+                                        </td>
+                                        <td>
+                                            @item.ChiTietLoaiSanPham.TenChiTiet
+                                        </td>
+                                        <td>
+                                            @HoTro.LayTongSoLuongTonKho(item)
+                                        </td>
+                                        <td>
+                                            @HoTro.LayKhoanGia(item)
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("SuaSanPham", new { Masp = item.MaSP })" class="btn btn-outline-info">Sửa</a>
+                                            <a href="@Url.Action("AnSanPham", new { Masp = item.MaSP })" class="btn btn-outline-danger">Ẩn</a>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@id">
+                                                Xóa
+                                            </button>
+                                            <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Bạn đang muốn thực hiện một hành động xóa</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Bạn có chắn chắn muốn xóa sản phẩm "@item.TenSP" ???
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                            <a href="@Url.Action("XoaSanPham", new { Masp = item.MaSP })" class="btn btn-outline-danger">Đồng ý</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<a href="@Url.Action("XoaSanPham", new {Masp = item.MaSP })" class="btn btn-outline-danger">Xóa</a>*@
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        }
+                    </div>
+                    <div class="tab-panee ">
+                        @{List<SanPham> HetHang = Model.Where(s => HoTro.LayTongSoLuongTonKho(s) == 0).ToList(); }
+                        @if (HetHang.Count() == 0)
+                        {
+                            <center><h4>Bạn chưa có sản phẩm nào hết hàng!!! </h4></center>
+                        }
+                        else
+                        {
+                            <table class="table table-hover table-striped table-bordered" border="1" style="align-content:center;text-align:center;justify-content:center;align-items:center;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Tên Sản Phẩm
+                                        </th>
+                                        <th>
+                                            Phân Loại
+                                        </th>
+                                        <th>
+                                            Số Lượng
+                                        </th>
+                                        <th>
+                                            Giá
+                                        </th>
+                                        <th>
+                                            Doanh Số
+                                        </th>
+                                        <th>
+                                            Thao Tác
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in HetHang)
+                                {
+                                    i++;
+                                    string id = "box" + i.ToString();
+                                    <tr>
+                                        <td>
+                                            @if (item.TenSP.Length > 30)
+                                            {
+                                                <strong title="@item.TenSP">@item.TenSP.Substring(0, 30)...</strong>
+                                            }
+                                            else
+                                            {
+                                                <strong title="@item.TenSP">@item.TenSP</strong>
+                                            }
+                                        </td>
+                                        <td>
+                                            @item.ChiTietLoaiSanPham.TenChiTiet
+                                        </td>
+                                        <td>
+                                            @HoTro.LayTongSoLuongTonKho(item)
+                                        </td>
+                                        <td>
+                                            @HoTro.LayKhoanGia(item)
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("SuaSanPham", new { Masp = item.MaSP })" class="btn btn-outline-info">Sửa</a>
+                                            <a href="@Url.Action("AnSanPham", new { Masp = item.MaSP })" class="btn btn-outline-danger">Ẩn</a>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@id">
+                                                Xóa
+                                            </button>
+                                            <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Bạn đang muốn thực hiện một hành động xóa</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Bạn có chắn chắn muốn xóa sản phẩm "@item.TenSP" ???
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                            <a href="@Url.Action("XoaSanPham", new { Masp = item.MaSP })" class="btn btn-outline-danger">Đồng ý</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<a href="@Url.Action("XoaSanPham", new {Masp = item.MaSP })" class="btn btn-outline-danger">Xóa</a>*@
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        }
+                    </div>
+                    <div class="tab-panee ">
+                        @{List<SanPham> SPAn = Model.Where(s => s.TrangThai == false).ToList(); }
+                        @if (SPAn.Count() == 0)
+                        {
+                            <center><h4>Bạn chưa ẩn mặt hàng nào!!! </h4></center>
+                        }
+                        else
+                        {
+                            <table class="table table-hover table-striped table-bordered" border="1" style="align-content:center;text-align:center;justify-content:center;align-items:center;">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Tên Sản Phẩm
+                                        </th>
+                                        <th>
+                                            Phân Loại
+                                        </th>
+                                        <th>
+                                            Số Lượng
+                                        </th>
+                                        <th>
+                                            Giá
+                                        </th>
+                                        <th>
+                                            Doanh Số
+                                        </th>
+                                        <th>
+                                            Thao Tác
+                                        </th>
+                                    </tr>
+                                </thead>
+                                @foreach (var item in SPAn)
+                                {
+                                    i++;
+                                    string id = "box" + i.ToString();
+                                    <tr>
+                                        <td>
+                                            @if (item.TenSP.Length > 30)
+                                            {
+                                                <strong title="@item.TenSP">@item.TenSP.Substring(0, 30)...</strong>
+                                            }
+                                            else
+                                            {
+                                                <strong title="@item.TenSP">@item.TenSP</strong>
+                                            }
+                                        </td>
+                                        <td>
+                                            @item.ChiTietLoaiSanPham.TenChiTiet
+                                        </td>
+                                        <td>
+                                            @HoTro.LayTongSoLuongTonKho(item)
+                                        </td>
+                                        <td>
+                                            @HoTro.LayKhoanGia(item)
+                                        </td>
+                                        <td>
+                                            0
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("SuaSanPham", new { Masp = item.MaSP })" class="btn btn-outline-info">Sửa</a>
+                                            <a href="@Url.Action("HienSanPham", new { Masp = item.MaSP })" class="btn btn-outline-danger">Hiện</a>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#@id">
+                                                Xóa
+                                            </button>
+                                            <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Bạn đang muốn thực hiện một hành động xóa</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Bạn có chắn chắn muốn xóa sản phẩm "@item.TenSP" ???
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                                            <a href="@Url.Action("XoaSanPham", new { Masp = item.MaSP })" class="btn btn-outline-danger">Đồng ý</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<a href="@Url.Action("XoaSanPham", new {Masp = item.MaSP })" class="btn btn-outline-danger">Xóa</a>*@
+                                        </td>
+                                    </tr>
+                                }
+
+                            </table>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+
+    </div>
+</body>
+<script src="~/js/Tab_TuyBien.js"></script>

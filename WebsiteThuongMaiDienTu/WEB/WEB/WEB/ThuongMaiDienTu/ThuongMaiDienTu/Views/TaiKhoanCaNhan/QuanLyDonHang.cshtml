@@ -1,0 +1,466 @@
+﻿@using ThuongMaiDienTu.Models
+@{
+    ViewBag.Title = "Quản lý đơn hàng";
+    Layout = "~/Views/TaiKhoanCaNhan/TrangCaNhan.cshtml";
+    ThuongMaiDienTuEntities db = new ThuongMaiDienTuEntities();
+}
+@model IEnumerable<ThuongMaiDienTu.Models.DonHang>
+<link rel="stylesheet" href="~/Content/QuanLyDonHang.css" />
+<div style="min-height:900px;">
+    <h4>
+        <i class="bi bi-box-seam-fill"></i>
+        Quản lí đơn hàng
+    </h4>
+    <div>
+        <!-- Tab items -->
+        <div class="tabss">
+            <div class="tab-itemm activee">
+                <i class="tab-icon fas fa-code"></i>
+                Tất cả
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-cog"></i>
+                Chờ xác nhận
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-plus-circle"></i>
+                Đang xử lý
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-pen-nib"></i>
+                Đang giao
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-pen-nib"></i>
+                Đã giao
+            </div>
+            <div class="tab-itemm">
+                <i class="tab-icon fas fa-pen-nib"></i>
+                Đã hủy
+            </div>
+            <div class="line"></div>
+        </div>
+        <!-- Tab content -->
+        <div>
+            <div class="tab-contentt">
+                <div class="row" style="padding-left: 20px; padding-right: 20px; ">
+                    <div class="tab-panee activee">
+                        @foreach (var item in Model)
+                        {
+                            <div class="row itemm goi_hang">
+                                <h5 class="col-6 hh_h5">
+                                    Đơn hàng <span>@item.MaDonHang </span>
+                                </h5>
+                                <div class="col-6">
+                                    <a class="trangThai_goihang hh_shop">
+                                        @item.TrangThai
+                                    </a>
+                                </div>
+                                <hr style="margin-top:10px;" />
+                                @foreach (var i in item.ChiTietDonHangs)
+                                {
+                                    i.ChiTietKichCo = db.ChiTietKichCoes.Single(ct => ct.MaCTKichCo.Equals(i.MaCTKichCo));
+                                    <div class="row ct_hang">
+                                        <div class="col-lg-8 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-5 hh_anh">
+                                                    <img class="w-75" src="@i.SanPham.AnhBia" />
+                                                </div>
+                                                <div class="col-lg-8 col-7 hh_nd">
+                                                    <div class="row">
+                                                        <h5 class="hh_h5">
+                                                            @i.ChiTietKichCo.ChiTietPhanLoai.SanPham.TenSP
+                                                        </h5>
+                                                        <span class="hh_loai">Loại:  @i.ChiTietKichCo.ChiTietPhanLoai.TenPhanLoai - @i.ChiTietKichCo.KichCo</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <center>
+                                                        <p>Số lượng: @i.SoLuong</p>
+
+                                                    </center>
+                                                </div>
+                                                <div class="col-6">
+                                                    <center class="hh_gia">
+                                                        @i.ChiTietKichCo.ChiTietPhanLoai.Gia <span>đ</span>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <center><hr class="hr" /></center>
+                                }
+                                <div class="row">
+                                    <div class="col-7">
+                                        <a href="@Url.Action("XemChiTietDonHang","TaiKhoanCaNhan",new {maDH = item.MaDonHang })" class=" dg_ml btn btn-outline-danger ">
+                                            Xem chi tiết
+                                        </a>
+                                        @if (item.TrangThai.Equals("Đã giao"))
+                                        {
+                                            <a href="#" class=" dg_ml btn btn-outline-info">
+                                                Mua lại
+                                            </a>
+                                        }
+                                    </div>
+                                    <div class="col-5">
+                                        <center>
+                                            <a href="@Url.Action("TrangCuaHang", "CuaHang", new {MaCH = item.CuaHang.MaCuaHang})" class="hh_shop">
+                                                <i class="bi bi-shop-window"></i>
+                                                @item.CuaHang.TenCuaHang
+                                            </a>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                    <div class="tab-panee">
+                        @{ List<DonHang> ChoXacNhan = Model.Where(t => t.TrangThai.Equals("Chờ xác nhận")).ToList(); }
+                        @foreach (var item in ChoXacNhan)
+                        {
+                            <div class="row itemm goi_hang">
+                                <h5 class="col-6 hh_h5">
+                                    Đơn hàng <span>@item.MaDonHang </span>
+                                </h5>
+                                <div class="col-6">
+
+                                </div>
+                                <hr style="margin-top:10px;" />
+                                @foreach (var i in item.ChiTietDonHangs)
+                                {
+                                    <div class="row ct_hang">
+                                        <div class="col-lg-8 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-5 hh_anh">
+                                                    <img class="w-75" src="@i.SanPham.AnhBia" />
+                                                </div>
+                                                <div class="col-lg-8 col-7 hh_nd">
+                                                    <div class="row">
+                                                        <h5 class="hh_h5">
+                                                            @i.ChiTietKichCo.ChiTietPhanLoai.SanPham.TenSP
+                                                        </h5>
+                                                        <span class="hh_loai">Loại:  @i.ChiTietKichCo.ChiTietPhanLoai.TenPhanLoai - @i.ChiTietKichCo.KichCo</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <center>
+                                                        <p>Số lượng: @i.SoLuong</p>
+
+                                                    </center>
+                                                </div>
+                                                <div class="col-6">
+                                                    <center class="hh_gia">
+                                                        @i.ChiTietKichCo.ChiTietPhanLoai.Gia <span>đ</span>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <center><hr class="hr" /></center>
+                                }
+                            <div class="row">
+                                <div class="col-7">
+                                    <a href="#" class=" dg_ml btn btn-outline-danger ">
+                                        Xem chi tiết
+                                    </a>
+                                </div>
+                                <div class="col-5">
+                                    <center>
+                                        <a href="#" class="hh_shop">
+                                            <i class="bi bi-shop-window"></i>
+                                            @item.CuaHang.TenCuaHang
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                            </div>
+
+                        }
+                    </div>
+                    <div class="tab-panee">
+                        @{ List<DonHang> DangXuLy = Model.Where(t => t.TrangThai.Equals("Đang xử lý")).ToList(); }
+                        @foreach (var item in DangXuLy)
+                        {
+                            <div class="row itemm goi_hang">
+                                <h5 class="col-6 hh_h5">
+                                    Đơn hàng <span>@item.MaDonHang </span>
+                                </h5>
+                                <div class="col-6">
+
+                                </div>
+                                <hr style="margin-top:10px;" />
+                                @foreach (var i in item.ChiTietDonHangs)
+                                {
+                                    <div class="row ct_hang">
+                                        <div class="col-lg-8 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-5 hh_anh">
+                                                    <img class="w-75" src="@i.SanPham.AnhBia" />
+                                                </div>
+                                                <div class="col-lg-8 col-7 hh_nd">
+                                                    <div class="row">
+                                                        <h5 class="hh_h5">
+                                                            @i.ChiTietKichCo.ChiTietPhanLoai.SanPham.TenSP
+                                                        </h5>
+                                                        <span class="hh_loai">Loại:  @i.ChiTietKichCo.ChiTietPhanLoai.TenPhanLoai - @i.ChiTietKichCo.KichCo</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <center>
+                                                        <p>Số lượng: @i.SoLuong</p>
+
+                                                    </center>
+                                                </div>
+                                                <div class="col-6">
+                                                    <center class="hh_gia">
+                                                        @i.ChiTietKichCo.ChiTietPhanLoai.Gia <span>đ</span>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <center><hr class="hr" /></center>
+                                }
+                            <div class="row">
+                                <div class="col-7">
+                                    <a href="#" class=" dg_ml btn btn-outline-danger ">
+                                        Xem chi tiết
+                                    </a>
+                                </div>
+                                <div class="col-5">
+                                    <center>
+                                        <a href="#" class="hh_shop">
+                                            <i class="bi bi-shop-window"></i>
+                                            @item.CuaHang.TenCuaHang
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                            </div>
+
+                        }
+                    </div>
+                    <div class="tab-panee">
+                        @{ List<DonHang> DangGiao = Model.Where(t => t.TrangThai.Equals("Đang giao")).ToList(); }
+                        @foreach (var item in DangGiao)
+                        {
+                            <div class="row itemm goi_hang">
+                                <h5 class="col-6 hh_h5">
+                                    Đơn hàng <span>@item.MaDonHang </span>
+                                </h5>
+                                <div class="col-6">
+
+                                </div>
+                                <hr style="margin-top:10px;" />
+                                @foreach (var i in item.ChiTietDonHangs)
+                                {
+                                    <div class="row ct_hang">
+                                        <div class="col-lg-8 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-5 hh_anh">
+                                                    <img class="w-75" src="@i.SanPham.AnhBia" />
+                                                </div>
+                                                <div class="col-lg-8 col-7 hh_nd">
+                                                    <div class="row">
+                                                        <h5 class="hh_h5">
+                                                            @i.ChiTietKichCo.ChiTietPhanLoai.SanPham.TenSP
+                                                        </h5>
+                                                        <span class="hh_loai">Loại:  @i.ChiTietKichCo.ChiTietPhanLoai.TenPhanLoai - @i.ChiTietKichCo.KichCo</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <center>
+                                                        <p>Số lượng: @i.SoLuong</p>
+
+                                                    </center>
+                                                </div>
+                                                <div class="col-6">
+                                                    <center class="hh_gia">
+                                                        @i.ChiTietKichCo.ChiTietPhanLoai.Gia <span>đ</span>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <center><hr class="hr" /></center>
+                                }
+                            <div class="row">
+                                <div class="col-7">
+                                    <a href="#" class=" dg_ml btn btn-outline-danger ">
+                                        Xem chi tiết
+                                    </a>
+                                </div>
+                                <div class="col-5">
+                                    <center>
+                                        <a href="#" class="hh_shop">
+                                            <i class="bi bi-shop-window"></i>
+                                            @item.CuaHang.TenCuaHang
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                            </div>
+
+                        }
+                    </div>
+                    <div class="tab-panee">
+                        @{ List<DonHang> DaGiap = Model.Where(t => t.TrangThai.Equals("Đã giao")).ToList(); }
+                        @foreach (var item in DaGiap)
+                        {
+                            <div class="row itemm goi_hang">
+                                <h5 class="col-6 hh_h5">
+                                    Đơn hàng <span>@item.MaDonHang </span>
+                                </h5>
+                                <div class="col-6">
+
+                                </div>
+                                <hr style="margin-top:10px;" />
+                                @foreach (var i in item.ChiTietDonHangs)
+                                {
+                                    <div class="row ct_hang">
+                                        <div class="col-lg-8 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-5 hh_anh">
+                                                    <img class="w-75" src="@i.SanPham.AnhBia" />
+                                                </div>
+                                                <div class="col-lg-8 col-7 hh_nd">
+                                                    <div class="row">
+                                                        <h5 class="hh_h5">
+                                                            @i.ChiTietKichCo.ChiTietPhanLoai.SanPham.TenSP
+                                                        </h5>
+                                                        <span class="hh_loai">Loại:  @i.ChiTietKichCo.ChiTietPhanLoai.TenPhanLoai - @i.ChiTietKichCo.KichCo</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <center>
+                                                        <p>Số lượng: @i.SoLuong</p>
+
+                                                    </center>
+                                                </div>
+                                                <div class="col-6">
+                                                    <center class="hh_gia">
+                                                        @i.ChiTietKichCo.ChiTietPhanLoai.Gia <span>đ</span>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <center><hr class="hr" /></center>
+                                }
+                            <div class="row">
+                                <div class="col-7">
+                                    <a href="#" class=" dg_ml btn btn-outline-danger ">
+                                        Xem chi tiết
+                                    </a>
+                                    <a href="#" class=" dg_ml btn btn-outline-info">
+                                        Mua lại
+                                    </a>
+                                </div>
+                                <div class="col-5">
+                                    <center>
+                                        <a href="#" class="hh_shop">
+                                            <i class="bi bi-shop-window"></i>
+                                            @item.CuaHang.TenCuaHang
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                            </div>
+
+                        }
+                    </div>
+                    <div class="tab-panee">
+                        @{ List<DonHang> DaHuy = Model.Where(t => t.TrangThai.Equals("Đã hủy")).ToList(); }
+                        @foreach (var item in DaHuy)
+                        {
+                            <div class="row itemm goi_hang">
+                                <h5 class="col-6 hh_h5">
+                                    Đơn hàng <span>@item.MaDonHang </span>
+                                </h5>
+                                <div class="col-6">
+
+                                </div>
+                                <hr style="margin-top:10px;" />
+                                @foreach (var i in item.ChiTietDonHangs)
+                                {
+                                    <div class="row ct_hang">
+                                        <div class="col-lg-8 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-5 hh_anh">
+                                                    <img class="w-75" src="@i.SanPham.AnhBia" />
+                                                </div>
+                                                <div class="col-lg-8 col-7 hh_nd">
+                                                    <div class="row">
+                                                        <h5 class="hh_h5">
+                                                            @i.ChiTietKichCo.ChiTietPhanLoai.SanPham.TenSP
+                                                        </h5>
+                                                        <span class="hh_loai">Loại: @i.ChiTietKichCo.ChiTietPhanLoai.TenPhanLoai - @i.ChiTietKichCo.KichCo</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-12">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <center>
+                                                        <p>Số lượng: @i.SoLuong</p>
+
+                                                    </center>
+                                                </div>
+                                                <div class="col-6">
+                                                    <center class="hh_gia">
+                                                        @i.ChiTietKichCo.ChiTietPhanLoai.Gia <span>đ</span>
+                                                    </center>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <center><hr class="hr" /></center>
+                                }
+                            <div class="row">
+                                <div class="col-7">                                   
+                                    <a href="#" class=" dg_ml btn btn-outline-info">
+                                        Mua lại
+                                    </a>
+                                </div>
+                                <div class="col-5">
+                                    <center>
+                                        <a href="#" class="hh_shop">
+                                            <i class="bi bi-shop-window"></i>
+                                            @item.CuaHang.TenCuaHang
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Tab_TuyBien.js"></script>

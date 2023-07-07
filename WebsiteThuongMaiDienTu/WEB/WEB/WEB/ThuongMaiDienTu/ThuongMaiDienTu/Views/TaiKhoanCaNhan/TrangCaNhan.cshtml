@@ -1,0 +1,95 @@
+﻿@using ThuongMaiDienTu.Models
+@{
+    TaiKhoan TK = Session["TaiKhoan"] as TaiKhoan;
+    ViewBag.Title = "TrangCaNhan";
+    Layout = "~/Views/Home/Layout.cshtml";
+}
+<link href="~/css/StyleSheet1.css" />
+<link href="~/Content/Sidebars.css" rel="stylesheet">
+<link href="~/Content/tcn.css" rel="stylesheet">
+
+<style>
+    .itemm {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 1px 4px 10px #AAAAAA;
+    }
+
+    .menu_tcn {
+        border-radius: 5px;
+    }
+    body {
+        background-color: #f5f5fa !important;
+    }    
+</style>
+<div class="row gd_tcn" data-bs-spy="scroll" data-bs-target="#MyScrollSpy">
+
+    <div class="flex-shrink-0 p-3 bg-white col-md-2 col-sm-12 col-12 menu_tcn " style=" z-index:7; position:fixed" id="MyScrollSpy">
+        <center>
+            <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+
+                <span class="fs-5 fw-semibold">
+                    <i class="bi bi-person-circle"></i>
+                    @TK.TenTaiKhoan
+                </span>
+            </a>
+        </center>
+        <ul class="list-unstyled ps-0 nav nav-tabs row" id="myTab" role="tablist">
+            <li class="mb-1 nav-link active col-md-12 col-sm-6 col-5" data-bs-toggle="tab" data-bs-target="#home-tab-pane">
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                    Hồ sơ
+                </button>
+                <div class="collapse" id="home-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="/TaiKhoanCaNhan/ThongTinCaNhan" class="link-dark d-inline-flex text-decoration-none active rounded">Thông tin cá nhân</a></li>
+                        <li><a href="/TaiKhoanCaNhan/SoDiaChi" id="SoDiaChi" class="link-dark d-inline-flex text-decoration-none rounded">Sổ địa chỉ</a></li>
+                        <li><a href="#list-item-3" class="link-dark d-inline-flex text-decoration-none rounded">Thanh toán</a></li>
+                        <li><a href="/TaiKhoanCaNhan/DoiMatKhau" class="link-dark d-inline-flex text-decoration-none rounded">Đổi mật khẩu</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="mb-1 nav-link col-md-12 col-sm-6 col-7" data-bs-toggle="tab" data-bs-target="#disabled-tab-pane">
+                <a href="/TaiKhoanCaNhan/QuanLyDonHang" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-target="#account-collapse" aria-expanded="false">
+                    Quản lý đơn hàng
+                </a>                
+            </li>
+            <li class="mb-1 nav-link col-md-12 col-sm-6 col-5" data-bs-toggle="tab" data-bs-target="#contact-tab-pane">
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                    Giao dịch
+                </button>
+                <div class="collapse" id="orders-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="#list-item-5" class="link-dark d-inline-flex text-decoration-none rounded">Yêu thích</a></li>
+                        <li><a href="#list-item-6" class="link-dark d-inline-flex text-decoration-none rounded">Ưu đãi của tôi</a></li>
+                        <li><a href="#list-item-7" class="link-dark d-inline-flex text-decoration-none rounded">Đổi trả</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="mb-1 nav-link col-md-12 col-sm-6 col-7" data-bs-toggle="tab" data-bs-target="#profile-tab-pane">
+                <a href="#item-9" class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                    Acout
+                </a>
+                <div class="collapse" id="dashboard-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Overview</a></li>
+                        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Weekly</a></li>
+                        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Monthly</a></li>
+                        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Annually</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="row nd">
+        <div class="col-xxl-2 col-xl-3  col-md-3 col-lg-3 col-sm-12 col-12"></div>
+        <div class="col-xxl-10 col-lg-9  col-sm-12 col-md-9 col-12">
+            <div style="margin-top:17px;">
+                @RenderBody();
+                <div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/js/sidebars.js"></script>

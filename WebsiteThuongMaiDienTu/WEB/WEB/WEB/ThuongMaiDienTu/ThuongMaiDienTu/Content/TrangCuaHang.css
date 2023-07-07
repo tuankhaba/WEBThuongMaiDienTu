@@ -1,0 +1,19 @@
+﻿@media(min-width:769px) {
+    .tk_min {
+        display:none
+    }
+    .shop {
+        border-right:1px solid #808080;
+    }
+}
+@media(max-width:768px){
+    .tk_min{
+        display:block;
+    }
+    .shop{
+        border-right:0px;
+    }
+    .tk_max {
+        display: none;
+    }
+}

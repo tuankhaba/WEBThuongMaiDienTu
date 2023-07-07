@@ -1,0 +1,9 @@
+﻿
+@media (max-width:768px) {
+    .mat{
+        display:none;
+    }
+    .tiuhao{
+        margin-top:0px;
+    }
+}

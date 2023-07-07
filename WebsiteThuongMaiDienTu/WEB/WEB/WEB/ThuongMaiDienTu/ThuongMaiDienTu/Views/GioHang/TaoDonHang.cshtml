@@ -1,0 +1,601 @@
+﻿@using ThuongMaiDienTu.Models
+@{
+    ViewBag.Title = "TaoDonHang";
+    Layout = "~/Views/Home/Layout.cshtml";
+    CuaHang CH = ViewBag.CuaHang as CuaHang;
+    long TongTien = Convert.ToInt32(ViewBag.TongTien);
+    List<ThongTinLienHe> lhs = ViewBag.TTLH as List<ThongTinLienHe>;
+    ThongTinLienHe macdinh = lhs.Find(l => l.MacDinh.Value);
+    bool chk = macdinh == null ? false : true;
+    int mdd = 0; int j = 0;
+    ThuongMaiDienTuEntities db = new ThuongMaiDienTuEntities();
+}
+@model IEnumerable<ThuongMaiDienTu.Models.ChiTietDonHangTam>
+<style>
+    .item {
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 1px 4px 7px #AAAAAA;
+        margin-bottom: 5px;
+        position: relative;
+    }
+
+    .row {
+        margin: 0px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .pad {
+        padding: 15px 20px;
+    }
+
+    .pad2 {
+        padding: 10px 10px 10px 10px;
+    }
+
+    .item.btn-info {
+        background-color: #0dcaf0;
+    }
+
+        .item.btn-info:hover {
+            box-shadow: 1px 4px 15px #0dcaf0;
+            color: white;
+        }
+
+    .bi-truck,
+    .bi-wallet2,
+    .bi-truck-front,
+    .bi-bag-check,
+    .bi-currency-exchange {
+        color: #ffa500;
+        font-size: 30px;
+        margin-top: 5px;
+    }
+
+    .item-tieude {
+        background-color: #d7f8ff;
+        border-bottom: 1px solid #AAAAAA;
+        padding: 10px !important;
+    }
+
+    .tieude {
+        font-size: 17px;
+        color: black;
+    }
+
+    .tieude_top {
+        position: absolute;
+        top: 3px;
+        left: 50px;
+    }
+
+    .pad3 {
+        border-bottom: 1px solid #AAAAAA;
+        padding: 10px 0px;
+    }
+
+    .the_ggg {
+        margin-top: 10px;
+    }
+
+    .vc {
+        padding: 20px;
+        margin: 3px;
+        min-height: 100px;
+        color: #111111;
+        border: 1px dashed #dc3545;
+    }
+
+        .vc:hover {
+            margin-top: -5px;
+            margin-bottom: 5px;
+            box-shadow: 1px 4px 10px #0dcaf0;
+        }
+
+    .hsd {
+        color: #999999;
+        font-size: 13px;
+    }
+
+    .tgg {
+        color: red;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .nd_giam {
+        font-size: 20px;
+        color: darkblue;
+    }
+
+    .shh {
+        position: absolute;
+        padding: 2px 5px;
+        top: -10px;
+        right: -10px;
+        border-radius: 0px 10px;
+        font-family: Arial;
+        text-align: center;
+        color: white;
+        font-size: 13px;
+    }
+
+    .xemngay {
+        margin-top: 25px;
+        color: black;
+    }
+
+    .MaVC {
+        font-size: 22px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .rdo_vc,
+    .rdo_diachi {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+    }
+
+    .voucher {
+        cursor: pointer;
+    }
+
+    #dchicuthe {
+        color: #999999;
+    }
+
+    .ldiachi {
+        border: 1px solid #ffa500;
+        border-radius: 5px;
+        font-size: 14px;
+        background-color: #ffa500;
+        display: block;
+        width: 80px;
+        text-align: center;
+        color: white
+    }
+</style>
+<link href="~/Content/SoDiaChi.css" rel="stylesheet" />
+<div class="modal fade" title="Bắt buộc tạo một đại chỉ để đặt hàng vì bạn chưa cập nhật địa chỉ" id="ThemDiaChi" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content" style="margin-top:100px;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="diachigiaohang">Thêm địa chỉ</h4>
+            </div>
+            @Html.Action("ThemDiaChiMoi", "TaiKhoanCaNhan")
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("TaoThanhCongDonHang", "GioHang", method: FormMethod.Post))
+{
+    <input hidden name="ThanhTien" id="TT" value="@TongTien" />
+    <input hidden name="MaCH" value="@CH.MaCuaHang" />
+    <input hidden name="MaVoucher" id="MAvovcher" />
+    <div>
+        <div class="row" style="margin-top:-7px;">
+            <div class="col-lg-8 col-12">
+                <div style="position:sticky; top:100px; ">
+                    <div class=" item">
+
+                        @if (chk)
+                        {
+                            <input hidden name="MaLH" id="MaLH" value="@macdinh.MaLH" />
+                            <div class="row pad item-tieude">
+                                <div class="col-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16" style="color:#ffa500">
+                                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                    </svg>
+                                    <b class="tieude">Địa chỉ Nhận Hàng</b>
+                                </div>
+                                <div class="col-2" style="float:right ;">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#ChonDiaChi">Thay đổi</a>
+                                </div>
+                            </div>
+                            <div class="row pad">
+                                <p style="margin-bottom:5px ;"><b id="nguoinhan">@macdinh.TenNguoiNhan</b> | <span id="sdt">@macdinh.SoDienThoai</span></p>
+                                <div style="background-color:orange; text-align:center; width: 120px; border-radius: 5px; color: #FFf;margin-left: 10px;margin-right: 10px;">
+                                    <b id="ldchi">@macdinh.LoaiDiaChi</b>
+                                </div>
+                                <div>
+                                    (<span id="dchicuthe">@macdinh.DiaChiCuThe</span>)
+                                    <span>@HoTro.LayDiaChi(macdinh.MaXP)</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="item">
+                        <div class="row pad item-tieude">
+                            <div class="col-12" style="position:relative;">
+                                <i class="bi bi-truck"></i>
+                                <b class="tieude tieude_top">Phương Thức Giao Hàng</b>
+                            </div>
+                        </div>
+                        <div class="pad">
+                            <div class="row">
+                                <div class="col-10">
+                                    <input checked class="form-check-input" type="radio" onchange="CapNhatGia(0)" name="GiaoHang" value="Tiêu chuẩn" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1"><b>Giao tiêu chuẩn</b> <i class="bi bi-truck-flatbed"></i></label>
+                                    <br> &nbsp &nbsp&nbsp Dự kiến: 6-12 ngày
+                                </div>
+                                <div class="col-2" style="color: red;">
+                                    <i class="bi bi-coin"></i> 0đ
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <input class="form-check-input" type="radio" onchange="CapNhatGia(1)" name="GiaoHang" value="Hỏa tốc" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1"><b>Hỏa tốc</b> <i class="bi bi-rocket-takeoff"></i></label>
+                                    <br> &nbsp &nbsp&nbsp Dự kiến: 2-3 ngày
+                                </div>
+                                <div class="col-2" style="color: red;">
+                                    <i class="bi bi-coin"></i> 20.000đ
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" style="background-color: #FFf;">
+                        <div class="row pad item-tieude">
+                            <div class="col-12">
+                                <i class="bi bi-wallet2"></i>
+                                <b class="tieude">Phương Thức Thanh Toán</b>
+                            </div>
+                        </div>
+                        <div class="pad">
+                            <div class="row">
+                                <div class="col-10">
+                                    <input checked class="form-check-input" type="radio" name="ThanhToan" value="Tiền mặt" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1"><b>Tiền Mặt(COD)</b><br>&nbspPhí thu hộ: Miễn Phí</label>
+                                </div>
+                                <div class="col-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z" />
+                                        <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z" />
+                                        <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z" />
+                                        <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-10">
+                                    <input class="form-check-input" type="radio" name="ThanhToan" value="Chuyển khoản" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1"><b>Chuyển khoản</b><br></label>
+                                </div>
+                                <div class="col-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-credit-card-2-back" viewBox="0 0 16 16">
+                                        <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z" />
+                                        <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" item">
+                        <div class="row pad item-tieude">
+                            <div class="col-12" style="color: #ffa500;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-bus-front-fill" viewBox="0 0 16 16">
+                                    <path d="M16 7a1 1 0 0 1-1 1v3.5c0 .818-.393 1.544-1 2v2a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5V14H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2a2.496 2.496 0 0 1-1-2V8a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1V2.64C1 1.452 1.845.408 3.064.268A43.608 43.608 0 0 1 8 0c2.1 0 3.792.136 4.936.268C14.155.408 15 1.452 15 2.64V4a1 1 0 0 1 1 1v2ZM3.552 3.22A43.306 43.306 0 0 1 8 3c1.837 0 3.353.107 4.448.22a.5.5 0 0 0 .104-.994A44.304 44.304 0 0 0 8 2c-1.876 0-3.426.109-4.552.226a.5.5 0 1 0 .104.994ZM8 4c-1.876 0-3.426.109-4.552.226A.5.5 0 0 0 3 4.723v3.554a.5.5 0 0 0 .448.497C4.574 8.891 6.124 9 8 9c1.876 0 3.426-.109 4.552-.226A.5.5 0 0 0 13 8.277V4.723a.5.5 0 0 0-.448-.497A44.304 44.304 0 0 0 8 4Zm-3 7a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm8 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-7 0a1 1 0 0 0 1 1h2a1 1 0 1 0 0-2H7a1 1 0 0 0-1 1Z" />
+                                </svg> <b class="tieude"> Thông tin đơn hàng</b>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-9">
+                                <p>Tổng Tiền (@Model.Sum(s=>s.SoLuong) sản phẩm)</p>
+                                <p>Phí Giao Hàng</p>
+                                <p>Giảm giá</p>
+                            </div>
+                            <div class="col-3">
+                                <p><b style="float:right;" id="TongTien" title="@TongTien">@string.Format("{0:0,0}", TongTien)đ</b></p><br />
+                                <p><b style="float:right;"><span id="PhiGiao">0</span>đ</b></p><br />
+                                <p><b style="float:right;">- <span id="GiamGia">0</span>đ</b></p><br />
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-6" style="padding:0; font-size:20px;">
+                                    <p><b>Thành tiền</b></p>
+                                </div>
+                                <div class="col-6" style="color: crimson; padding:0; font-size:23px;">
+                                    <b style="float:right"><span id="ThanhTien">@string.Format("{0:0,0}", TongTien)</span> đ</b>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pad" style=" margin-top:-25px;">
+                            <button type="submit" class="btn btn-info w-100 item" style="height:60px; font-size:25px;">Xác nhận</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="item" style="margin-bottom:10px;">
+                    <div class="row pad item-tieude">
+                        <div class="col-12">
+                            <i class="bi bi-bag-check"></i>
+                            <b class="tieude">Thông tin đơn hàng</b>
+                        </div>
+                    </div>
+                    <div class="row pad2">
+                        <div class="col-12">
+                            Được bán bởi Shop: <a> <b> Crustea</b></a>
+                        </div>
+                    </div>
+                    <div class="pad">
+                        @foreach (var item in Model)
+                        {
+                            <div class="row pad3">
+                                <div class="col-3">
+                                    <img class="w-100" style="margin-top:10px;" src="@(db.SanPhams.Single(s=>s.MaSP.Equals(item.MaSP)).AnhBia)">
+                                </div>
+                                <div class="col-9">
+                                    <p style="margin-bottom: 0px;">@item.TenSP<br /><span style="font-size:13px; color:#AAAAAA;">(@(item.TenPhanLoai+"-"+item.KichCo))</span></p>
+                                    <span style="color: red;"><span>@string.Format("{0:0,0}", item.Gia)đ</span><span style="margin-left:10px; color:red;"></span></span>
+                                    <span style="float:right">x @item.SoLuong</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div style="position:sticky;bottom:0; background-color:white">
+                        <div class="pad item-tieude">
+                            <div class="row">
+                                <div class="col-6">
+                                    <i class="bi bi-currency-exchange"></i> Ưu đãi của shop
+                                </div>
+                                <div class="col-6">
+                                    <a class=" btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#ChonVoucher">Chọn/Nhập mã</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pad">
+                            <div class="col-12">
+                                <textarea name="LoiNhan" maxlength="70" style="min-height:100px; max-height:200px; width:100%; padding:5px;" rows="3" placeholder="Ghi Chú Cho Shop"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ChonVoucher" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Chọn Voucher</h1>
+                    <button type="button" class="btn-close" onclick="RecheckVoucher()" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="height:500px;">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Mã  vourcher:</label>
+                            <input type="text" style="position:sticky; height:40px; top:-17px; z-index:10;" id="TimKiemVoucher" maxlength="70" placeholder="Nhập mã Voucher hoặc tên chương trình khuyến mãi" class="form-control item">
+                            <div>
+                                @foreach (var item in CH.KhuyenMais.Where(i => i.NgayKetThuc > DateTime.Now && i.LuotSuDung > 0))
+                                {
+                                    <div class="voucher">
+                                        <div class="item pad item-tieude w-100" onclick="Click_Voucher('@item.MaGiamGia')" style="margin-top:10px;">
+                                            <div class="row" style="position: relative">
+                                                <div class="col-6" style="border-right:1px dashed #999999;">
+                                                    <span class="nd_giam">@item.TenKhuyenMai</span><br />
+                                                    <a class="tgg">Giảm <span class="TyLe">@(item.TyLeGiamGia*100)</span>%, tối đa <span class="MucToiDa">@HoTro.XuatGiaTheoK(item.MucGiamToiDa.Value)</span> cho đơn hàng từ @HoTro.XuatGiaTheoK(item.DonHangToiThieu)</a><br />
+                                                    <span class="hsd">Còn: 4</span>
+                                                </div>
+                                                <div class="col-6" style="align-items:center; position:relative;">
+                                                    <div class=" bg-danger shh">
+                                                        @string.Format("{0:dd/MM/yyyy}", item.NgayBatDau)-@string.Format("{0:dd/MM/yyyy}", item.NgayKetThuc)
+                                                    </div>
+                                                    <div class="MaVC">
+                                                        @item.MaVoucher
+                                                    </div>
+                                                    <input class="form-check-input rdo_vc" id="@item.MaGiamGia" type="radio" name="rdo_voucher" value="@item.MaVoucher">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (TongTien < item.DonHangToiThieu)
+                                        {
+                                            <div style="color: red; background-color:#f6dbe0; text-align:center; border-bottom-left-radius:5px; border-bottom-right-radius:5px; font-size: 14px; padding: 3px; margin-top:-8px; border-left: 1px solid crimson; border-right: 1px solid crimson; border-bottom: 1px solid crimson ">
+                                                Mua thêm @(HoTro.XuatGiaTheoK(item.DonHangToiThieu-TongTien)) nữa để có thể sử dụng đc Voucher này!!
+                                            </div>
+                                        }
+                                    </div>
+                                    if (item.NgayBatDau > DateTime.Now || item.NgayKetThuc < DateTime.Now || TongTien < item.DonHangToiThieu)
+                                    {
+                                        <script>
+                                        let nut = document.getElementById('@item.MaGiamGia')
+                                        nut.setAttribute("disabled", "true")
+                                        let ongnoi = nut.parentElement.parentElement.parentElement
+                                        ongnoi.title = "Chưa đủ điều kiện"
+                                        ongnoi.style.backgroundColor ='#c2dade'
+                                        </script>
+                                    }
+                                }
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-secondary" onclick="RecheckVoucher()" id="close_vc" data-bs-dismiss="modal">Đóng</a>
+                    <a onclick="checkVoucher()" class="btn btn-warning" data-bs-dismiss="modal">Áp dụng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ChonDiaChi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Địa chỉ của tôi</h1>
+                    <button type="button" class="btn-close" onclick="ReCheckDiaChi()" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="height:500px;">
+                    <form>
+                        <div class="mb-3">
+                            <div>
+                                @foreach (var item in lhs)
+                                {
+                                    <div class="voucher">
+                                        <div class="item pad item-tieude w-100" onclick="Click_Voucher('@item.MaLH')" style="margin-top:5px;">
+                                            <div class="row" style="position: relative">
+                                                <div class="col-11">
+                                                    <span class="nd_giam tennguoinhan">@item.TenNguoiNhan</span> | <span class="sdt">@item.SoDienThoai</span><br />
+                                                    <a style="float:left; position:absolute; left:100px;" href="@Url.Action("SuaDiaChi", "TaiKhoanCaNhan", new { MaLH = item.MaLH, url = Request.Url.ToString()})">Cập nhật</a>
+                                                    <div class="ldiachi">
+                                                        @item.LoaiDiaChi
+                                                    </div>
+                                                    <span style="color:#999999" class="dcct">@item.DiaChiCuThe</span><br />
+                                                    <span class="dchi">@HoTro.LayDiaChi(item.MaXP) </span>
+                                                </div>
+                                                <div class="col-1">
+
+                                                    @if (item.MacDinh.Value)
+                                                    {
+                                                        mdd = j;
+                                                        <div class=" bg-danger shh">
+                                                            Mặc định
+                                                        </div>
+                                                        <input class="form-check-input rdo_diachi" checked id="@item.MaLH" type="radio" name="dro_dc" value="@item.MaLH">
+                                                    }
+                                                    else
+                                                    {
+                                                        <input class="form-check-input rdo_diachi" id="@item.MaLH" type="radio" name="dro_dc" value="@item.MaLH">
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    j++;
+                                }
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-outline-info itemm btn_dc" id="themDC" data-bs-toggle="modal" data-bs-target="#ThemDiaChi" style="position:absolute; left:5px; margin: 10px; height: 40px; font-size: 18px;">
+                        <svg style="margin-bottom:4px;" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-square-dotted" viewBox="0 0 16 16">
+                            <path d="M2.5 0c-.166 0-.33.016-.487.048l.194.98A1.51 1.51 0 0 1 2.5 1h.458V0H2.5zm2.292 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zm1.833 0h-.916v1h.916V0zm1.834 0h-.917v1h.917V0zm1.833 0h-.917v1h.917V0zM13.5 0h-.458v1h.458c.1 0 .199.01.293.029l.194-.981A2.51 2.51 0 0 0 13.5 0zm2.079 1.11a2.511 2.511 0 0 0-.69-.689l-.556.831c.164.11.305.251.415.415l.83-.556zM1.11.421a2.511 2.511 0 0 0-.689.69l.831.556c.11-.164.251-.305.415-.415L1.11.422zM16 2.5c0-.166-.016-.33-.048-.487l-.98.194c.018.094.028.192.028.293v.458h1V2.5zM.048 2.013A2.51 2.51 0 0 0 0 2.5v.458h1V2.5c0-.1.01-.199.029-.293l-.981-.194zM0 3.875v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 5.708v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zM0 7.542v.916h1v-.916H0zm15 .916h1v-.916h-1v.916zM0 9.375v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .916v.917h1v-.917H0zm16 .917v-.917h-1v.917h1zm-16 .917v.458c0 .166.016.33.048.487l.98-.194A1.51 1.51 0 0 1 1 13.5v-.458H0zm16 .458v-.458h-1v.458c0 .1-.01.199-.029.293l.981.194c.032-.158.048-.32.048-.487zM.421 14.89c.183.272.417.506.69.689l.556-.831a1.51 1.51 0 0 1-.415-.415l-.83.556zm14.469.689c.272-.183.506-.417.689-.69l-.831-.556c-.11.164-.251.305-.415.415l.556.83zm-12.877.373c.158.032.32.048.487.048h.458v-1H2.5c-.1 0-.199-.01-.293-.029l-.194.981zM13.5 16c.166 0 .33-.016.487-.048l-.194-.98A1.51 1.51 0 0 1 13.5 15h-.458v1h.458zm-9.625 0h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zm1.834-1v1h.916v-1h-.916zm1.833 1h.917v-1h-.917v1zm1.833 0h.917v-1h-.917v1zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                        </svg>
+                        Thêm đại chỉ
+                    </a>
+                    <a class="btn btn-secondary" onclick="ReCheckDiaChi()" id="close_vc" data-bs-dismiss="modal">Đóng</a>
+                    <a onclick="chechDiaChi()" class="btn btn-warning" data-bs-dismiss="modal">Xác nhận</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@if (!chk)
+{
+
+    <script>
+        HuyLuuDiaChi.disabled = true
+        const tdh = document.getElementById("themDC");
+        tdh.click();
+        console.log()
+
+        console.log("thêm đại chỉ");
+        document.getElementById('diachigiaohang').innerText = "Vui lòng cập nhật địa chỉ giao hàng!!!";
+    </script>
+}
+
+<script src="~/js/XuLyDonHang.js"></script>
+<script>
+    const id_ldchi = document.getElementById('ldchi')
+    const id_nguoinhan = document.getElementById('nguoinhan')
+    const id_sdt = document.getElementById('sdt')
+    const id_dchicuthe = document.getElementById('dchicuthe')
+    const dcct = document.querySelectorAll('.dcct')
+    const rdo_diachi = document.querySelectorAll('.rdo_diachi')
+    const ldiachi = document.querySelectorAll('.ldiachi')
+    const tennguoinhan = document.querySelectorAll('.tennguoinhan')
+    const sdt = document.querySelectorAll('.sdt')
+    const MAvovcher = document.getElementById('MAvovcher')
+    const MaLH = document.getElementById('MaLH')
+    let dc_truoc = rdo_diachi[@mdd]
+    function chechDiaChi() {
+        for (var i = 0; i < rdo_diachi.length; i++) {
+            if (rdo_diachi[i].checked == true) {
+                id_ldchi.innerText = ldiachi[i].innerText;
+                id_nguoinhan.innerText = tennguoinhan[i].innerText;
+                id_sdt.innerText = sdt[i].innerText;
+                id_dchicuthe.innerText = dcct[i].innerText;
+                dc_truoc = rdo_diachi[i]
+                MaLH.value = rdo_diachi[i].value
+            }
+        }
+    }
+    function ReCheckDiaChi() {
+            dc_truoc.checked = true
+    }
+
+</script>
+<script>
+    const TyLes = document.querySelectorAll('.TyLe')
+    const MucToiDas = document.querySelectorAll('.MucToiDa')
+    const close_vc = document.getElementById('close_vc')
+    const GiamGia = document.getElementById('GiamGia')
+    const PhiGiao = document.getElementById('PhiGiao')
+    const ThanhTien = document.getElementById('ThanhTien')
+    const TT = document.getElementById('TT')
+    const TongTien = parseInt(document.getElementById('TongTien').title)
+    let TongThanhTien = @TongTien ;
+    let phigiaohang = 0;
+    let truoc = null
+    let mucgiam = 0;
+    function Click_Voucher(magg) {
+        document.getElementById(magg).click();
+    }
+    function checkVoucher() {
+        for (var i = 0; i < rdo_vc.length;i++) {
+            if (rdo_vc[i].checked == true) {
+                let giam = TongTien * parseInt(TyLes[i].innerText) / 100;
+                let toida = parseInt(MucToiDas[i].innerText)
+                mucgiam = giam > toida ? toida : giam;
+                GiamGia.innerText = mucgiam;
+                TongThanhTien = TongTien - mucgiam + phigiaohang
+                ThanhTien.innerText = TongThanhTien.toLocaleString('de-DE');
+                truoc = rdo_vc[i]
+                MAvovcher.value = rdo_vc[i].value
+                TT.value = TongThanhTien
+                return;
+            }
+        }
+    }
+    function CapNhatGia(k) {
+        if (k == 1) {
+            phigiaohang = 20000
+            PhiGiao.innerText = "20.000"
+            TongThanhTien += phigiaohang
+            ThanhTien.innerText = TongThanhTien.toLocaleString('de-DE');
+            TT.value = TongThanhTien
+        }
+        else {
+            phigiaohang = 0;
+            PhiGiao.innerText = "0"
+            TongThanhTien -= 20000
+            ThanhTien.innerText = TongThanhTien.toLocaleString('de-DE');
+            TT.value = TongThanhTien
+        }
+    }
+    function RecheckVoucher() {
+        if (truoc != null)
+            truoc.checked = true
+        else
+            rdo_vc.forEach(item => item.checked = false)
+    }
+</script>
+
